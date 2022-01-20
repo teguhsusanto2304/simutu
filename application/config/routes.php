@@ -57,13 +57,7 @@ $route['default_controller']	=	'home';
 $route['404_override']			=	'ErrorPage/pageNotFound';
 $route['translate_uri_dashes'] 	=	FALSE;
 
-$route[adminControllers()]		=	adminControllers().'/dashboard';
+$route[adminControllers()]		=	adminControllers('dashboard');
 
-$route[adminControllers('hero/edit/(:any)')]        =   adminControllers('hero/add/$1');
-$route[adminControllers('konten/edit/(:any)')]      =   adminControllers('konten/add/$1');
-$route[adminControllers('kontenItem/edit/(:any)')]  =   adminControllers('kontenItem/add/$1');
-
-$route[adminControllers('konten/editItem/(:any)/(:any)')]  =   adminControllers('konten/addItem/$1/$2');
-
-//Web
-$route['keranjang'] =   'home/keranjang';
+$route[adminControllers('spmi/standart/edit/(:any)')]      =   adminControllers('spmi/standart/add/$1');
+$route[adminControllers('spmi/substandart/edit/(:any)')]      =   adminControllers('spmi/substandart/add/$1');

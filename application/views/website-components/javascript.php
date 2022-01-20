@@ -16,6 +16,19 @@
 <script src="<?=base_url('assets/consult/js/jquery.magnific-popup.min.js')?>"></script>
 <script src="<?=base_url('assets/consult/js/main.js')?>"></script>
 
+<script language='Javascript'>
+    function googleTranslateElementInit(){
+        let _options    =   {
+            pageLanguage    :   'id',
+            layout          :   google.translate.TranslateElement.InlineLayout.SIMPLE,
+            includedLanguages   :   'ar,en,zh-CN,ja,ko,id'
+        };
+        new google.translate.TranslateElement(_options, 'google_translate_element');
+    }
+</script>
+<script src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+
+
 <?php 
     if(isset($morePackages)){
         if(is_array($morePackages)){

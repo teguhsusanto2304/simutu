@@ -170,7 +170,10 @@
                 ];
 
                 if(!is_null($idAdmin)){
-                    $dataAdmin['updatedAt']   =   date('Y-m-d H:i:s');
+                    $dataAdmin['updatedBy']     =   $this->isLogin();
+                    $dataAdmin['updatedAt']     =   date('Y-m-d H:i:s');
+                }else{
+                    $dataAdmin['createdBy']     =   $this->isLogin();   
                 }
             }
 
@@ -184,9 +187,9 @@
                 $isUpdate   =   true;
             }
 
-            if(isset($_FILES['foto'])){
-                $foto   =   $_FILES['foto'];
-                if($foto !== false){
+            if(isset($_FILES['img'])){
+                $img   =   $_FILES['img'];
+                if($img !== false){
                     $uploadGambarAdmin     =   $this->path->uploadGambarAdmin;
 
                     if($isUpdate){
@@ -207,26 +210,29 @@
 
                     $this->load->library('Unggah');
 
-                    $fileType       =   $foto['type'];
+                    $fileType       =   $img['type'];
                     $fileTypeArray  =   explode('/', $fileType);
                     $ekstensiFile   =   $fileTypeArray[1];
 
                     $fileName   =   'Admin_'.$idAdmin.'_'.date('Ymd').'_'.date('His').'.'.$ekstensiFile;
 
-                    $maxWidth   =   1024*3;
-                    $maxHeight  =   1024*3;
-                    $maxSize    =   2048;
+                    $maxWidth   =   1024*5;
+                    $maxHeight  =   1024*5;
+                    $maxSize    =   1024*5;
 
                     $config     =   $this->unggah->configUnggah($uploadGambarAdmin, $maxWidth, $maxHeight, $maxSize, 'jpg|jpeg|png', $fileName);
                     $this->load->library('upload', $config);
-                    if($this->upload->do_upload('foto')){
+                    if($this->upload->do_upload('img')){
                         
                         $this->db->where('id', $idAdmin);
                         $ubahGambarAdmin   =   $this->db->update($tabelAdmin, ['foto' => $fileName]);
 
                         $sourceImage    =   $uploadGambarAdmin.'/'.$fileName;
                         $destination    =   $uploadGambarAdmin.'/compress/'.$fileName;
-                        $this->unggah->resizeImage($sourceImage, $destination, 200, 100);
+
+                        list($width, $height)   =   getimagesize($sourceImage);
+
+                        $this->unggah->resizeImage($sourceImage, $destination, $width/2, $height/2);
                     }
                 }
             }
@@ -245,6 +251,20 @@
             }
 
             return $statusDelete;
+        }
+        public function entityHasBeenUsedByAnotherAdmin($idAdmin, $entity = null){
+            $tabelAdmin     =   $this->tabel->admin;
+
+            if(!is_null($entity)){
+                if(is_array($entity)){
+                    $this->db->where('id !=', $idAdmin);
+                    $this->db->where($entity);
+                    $get    =   $this->db->get($tabelAdmin);
+
+                    return ($get->num_rows() >= 1);
+                }
+            }
+            return false;
         }
 	}
 ?>

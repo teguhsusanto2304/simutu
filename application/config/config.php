@@ -23,9 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/tempequ/';
-// $config['base_url'] = 'https://tempequ.com/';
-
+$config['base_url'] = 'http://localhost/simutu/';
 /*
 |--------------------------------------------------------------------------
 | Index File

@@ -23,9 +23,17 @@ class Home extends CI_Controller {
 
 		$listKonten 	=	$this->konten->getKonten();
 
+		$blogOptions    =   [
+	        'select'    =>  'permalink, title, foto, createdAt',
+	        'limit'     =>  5
+	    ];
+	    $newestBlogs    =   $this->blog->getBlog(null, $blogOptions);
+
 		$dataPage 	=	[
 			'listHero'		=>	$listHero,
-			'listKonten'	=>	$listKonten
+			'listKonten'	=>	$listKonten,
+			'newestBlogs'	=>	$newestBlogs,
+			'path'			=>	$this->path	
 		];
         $this->load->view('index', $dataPage);
 	}
@@ -45,5 +53,46 @@ class Home extends CI_Controller {
 			'cartCode'		=>	$cartCode
 		];
 		$this->load->view('keranjang', $dataPage);
+	}
+	public function resizeImageGaleri(){
+		$this->load->model('GaleriModel', 'galeri');
+		$this->load->library('Unggah');
+		$this->load->library('Path');
+
+		$uploadGambarGaleri 	=	$this->path->uploadGambarGaleri;
+
+		$allGaleri 	=	$this->galeri->getGaleri(null, ['select' => 'foto']);
+		foreach($allGaleri as $galeri){
+			$fileName 		=	$galeri['foto'];
+
+            $sourceImage    =   $uploadGambarGaleri.'/'.$fileName;
+			$imageSize 		=	getimagesize($sourceImage);
+
+			list($width, $height) 	=	$imageSize;
+
+            $destination    =   $uploadGambarGaleri.'/compress/'.$fileName;
+            $this->unggah->resizeImage($sourceImage, $destination, $width / 2, $height / 2);
+		}
+	}
+
+	public function resizeImageBlog(){
+		$this->load->model('BlogModel', 'blog');
+		$this->load->library('Unggah');
+		$this->load->library('Path');
+
+		$uploadGambarBlog 	=	$this->path->uploadGambarBlog;
+
+		$allBlog 	=	$this->blog->getBlog(null, ['select' => 'foto']);
+		foreach($allBlog as $blog){
+			$fileName 		=	$blog['foto'];
+
+            $sourceImage    =   $uploadGambarBlog.'/'.$fileName;
+			$imageSize 		=	getimagesize($sourceImage);
+
+			list($width, $height) 	=	$imageSize;
+
+            $destination    =   $uploadGambarBlog.'/compress/'.$fileName;
+            $this->unggah->resizeImage($sourceImage, $destination, $width / 2, $height / 2);
+		}
 	}
 }

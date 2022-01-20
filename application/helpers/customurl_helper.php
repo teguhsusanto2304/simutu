@@ -31,4 +31,12 @@
 
 		return $websiteComponentsPath;
 	}
+	function userViews($path = null){
+		$userViewsPath 	=	'user';
+		if(!is_null($path) && !empty($path)){
+			$userViewsPath 	=	$userViewsPath.'/'.$path;
+		}
+
+		return $userViewsPath;
+	}
 ?>

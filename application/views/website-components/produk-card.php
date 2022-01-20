@@ -12,7 +12,7 @@
              class='d-inline-block <?=(strtolower($kontenItem['foto']) !== $this->defaultimage->kontenItem)? 'shadow' : ''?>' />
         <?php 
             if($isAnyDiskon){
-                $persentaseDiskon   =   $diskon / $hargaBersih * 100;
+                $persentaseDiskon   =   $diskon / $harga * 100;
         ?>
             <span class="badge badge-warning badge-diskon shadow">FREE <?=number_format($persentaseDiskon, 2)?>%</span>
         <?php } ?>

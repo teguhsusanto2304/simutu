@@ -2,7 +2,12 @@
 <html lang="en">
     <?php 
         $headOptions    =   [
-            'pageTitle' =>  'Dashboard'
+            'pageTitle'     =>  'Dashboard',
+            'morePackages'  =>  [
+                'css'   =>  [
+                    base_url('assets/consult/css/LineIcons.css')
+                ]
+            ]  
         ];
         $this->load->view(adminComponents('head'), $headOptions); 
     ?>
@@ -28,8 +33,32 @@
                                 </ol>
                             </div>
                         </div>
+
                     </div>
                 </div>
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php foreach($dashboardSmallBox as $box){ ?>
+                                <div class="col-lg-3 col-6">
+                                    <div class="small-box <?=$box['bg']?>">
+                                        <div class="inner">
+                                            <h3><?=$box['numberOfData']?></h3>
+
+                                            <p><?=$box['nameOfData']?></p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="<?=$box['icon']?>"></i>
+                                        </div>
+                                        <a href="<?=$box['seeMoreURL']?>" class="small-box-footer">
+                                            Lihat <i class="fas fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </section>
             </div>
             <!-- /.content-wrapper -->
 

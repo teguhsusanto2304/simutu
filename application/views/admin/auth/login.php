@@ -41,7 +41,7 @@
                 background-attachment: fixed;
             }
             .login-overlay{
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
                 bottom: 0;
@@ -59,14 +59,17 @@
              <div class="card card-outline card-primary">
                 <div class="card-header text-center">
                     <a href="<?=base_url('assets/')?>index2.html" class="h1">
-                        <b>Portal</b> Login
+                        <b>SIMUTU</b>
                     </a>
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">
-                        <img src="<?=base_url('assets/img/icon.png')?>" alt="Logo Aplikasi Magang" />
+                        <img src="<?=base_url('assets/img/icon.png')?>" alt="SIMUTU"
+                            style='width:100px;' />
+                        <h5 class="text-center">POLITEKNIK NEGERI MEDAN</h5>
+                        <h6 class="text-center">SELAMAT DATANG</h6>
                     </p>
-                    <form id='formLogin'>
+                    <form id='formLogin' class='pt-3'>
                         <div class="input-group mb-3">
                             <?=$this->cF->textField($usernameOptions, 'Username atau Email')?>
                         </div>
@@ -84,14 +87,14 @@
                             </div>
                         </div>
                         <div class="social-auth-links text-center mt-2 mb-3">
-                            <button class="btn btn-block btn-primary" type='submit'>
+                            <button class="btn btn-block btn-primary" type='submit' id='btnSubmit'>
                                 Sign In
                             </button>
                         </div>
                     </form>
 
                     <p class="mb-1 text-center">
-                        <a href="forgot-password.html">Lupa Password</a>
+                        <a href="<?=site_url(adminControllers('auth/lupaPassword'))?>">Lupa Password</a>
                     </p>
                 </div>
             </div>
@@ -128,6 +131,12 @@
 
     $('#formLogin').on('submit', function(e){
         e.preventDefault();
+
+        let _btnSubmit      =   $('#btnSubmit');
+        let _btnSubmitText  =   _btnSubmit.text();
+
+        _btnSubmit.prop('disabled', true).text('Processing ...');
+
         let _dataLogin  =   $(this).serialize();
         
         $.ajax({
@@ -135,6 +144,8 @@
             type    :   'POST',
             data    :   _dataLogin,
             success     :   function(rFS){
+                 _btnSubmit.prop('disabled', false).text(_btnSubmitText);
+                 
                 let _statusLogin    =   rFS.statusLogin;
 
                 let _htmlMessage, _type;

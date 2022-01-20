@@ -1,5 +1,5 @@
 <?php 
-    $uploadGambarAdmin   =   $this->path->uploadGambarAdmin;
+    $uploadGambarUser   =   $this->path->uploadGambarUser;
 ?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light pr-4">
@@ -13,51 +13,22 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown mr-2">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header text-left">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">
-                    See All Notifications
-                </a>
-            </div>
-        </li>
         <li class="nav-item dropdown d-flex align-items-center ml-2">
             <a href='#' data-toggle='dropdown'>
-                <img src="<?=base_url($uploadGambarAdmin.'/compress/'.$detailAdmin['foto'])?>" class="img-circle mr-2" 
+                <img src="<?=base_url($uploadGambarUser.'/compress/'.$detailUser['imageProfile'])?>" class="img-circle mr-2" 
                     alt="User Image" style='width:35px; height:35px;' />
-                <span class="text-sm"><?=strtoupper($detailAdmin['nama'])?></span>
+                <span class="text-sm"><?=strtoupper($detailUser['firstName'])?> <?=strtoupper($detailUser['lastName'])?></span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header text-left">Your Menu</span>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <span class='fa fa-user-alt mr-2'></span>
+                <a href="<?=site_url(adminControllers('admin/profil'))?>" class="dropdown-item">
+                    <span class='fa fa-user-alt mr-2 text-muted'></span>
                     Profile
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="<?=site_url(adminControllers('auth/logout'))?>" class="dropdown-item">
-                    <span class='fa fa-power-off text-danger mr-2'></span>
+                    <span class='fa fa-power-off text-muted mr-2'></span>
                     Sign Out
                 </a>
             </div>

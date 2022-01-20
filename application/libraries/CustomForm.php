@@ -44,6 +44,21 @@
                         $labelHTML  =   '<label>'.$textFieldLabel.'</label>';
                     }
     
+                    $dataAttribute  =   '';
+                    if(isset($data)){
+                        if(is_array($data)){
+                            if(count($data) >= 1){
+                                foreach($data as $dataItem){
+                                    if(is_array($dataItem)){
+                                        if(array_key_exists('name', $dataItem) && array_key_exists('value', $dataItem)){
+                                            $dataAttribute  .=  ' data-'.$dataItem['name'].'="'.$dataItem['value'].'"';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     $html   =   $labelHTML.'
                         <div class="input-group input-parent '.$inputGroupClass.'">
                             '.((!is_null($leadingIcon))? '<div class="input-group-prepend">
@@ -53,7 +68,7 @@
                             </div>' : '').'
                             <input type="'.$type.'" placeholder="'.$placeholder.'" '.(($disabled)? "disabled=".$disabled : '').'
                                 '.((!is_null($maxLength))? 'maxLength="'.$maxLength.'"' : '').' 
-                                class="form-control input-field '.$inputFieldClass.'" name="'.$name.'"
+                                class="form-control input-field '.$inputFieldClass.'" '.$dataAttribute.' name="'.$name.'"
                                 '.((!is_null($id))? 'id="'.$id.'"' : '').' '.(isset($value)? ' value="'.$value.'"' : '').' />
                             '.$trailingIconHTML.'
                         </div>

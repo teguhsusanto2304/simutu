@@ -16,7 +16,7 @@
     <body>
         <?php $this->load->view(websiteComp('preloader')); ?>
         
-        <header class="header-area">
+        <header class="header-area" id='headerArea'>
             <?php $this->load->view(websiteComp('navbar')); ?>
             <div id="home" class="header-hero bg_cover owl-carousel owl-theme" style='height:100vh;'>
                 <?php foreach($listHero as $hero){ ?>
@@ -42,7 +42,49 @@
                 <?php } ?>
             </div>
         </header>
-
+        <?php if(count($newestBlogs) >= 1){ ?>
+        <section id="blog" class="service-area pt-105">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="section-title wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                            <h6 class="sub-title">Blog Terbaru Kami</h6>
+                            <h4 class="title">
+                                <span>Beberapa</span> berita hangat yang sudah kami sajikan untuk anda <span>antara lain</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-4 text-right">
+                        <a class="btn btn-link" href='<?=site_url('blog')?>'>Lihat Semua</a>
+                    </div>
+                </div> <!-- row -->
+                <hr />
+                <div class="row pt-4">
+                    <div class="newest-blogs owl-carousel owl-theme px-3">
+                        <?php 
+                            foreach($newestBlogs as $blogItem){
+                                ?>
+                                    <div class="blog-item mb-5">
+                                        <a href="<?=site_url('read/'.$blogItem['permalink'])?>" target='_blank' class='w-100'>
+                                            <img src="<?=base_url($path->uploadGambarBlog.'/compress/'.$blogItem['foto'])?>" alt='<?=$blogItem['title']?>'
+                                                class='w-100 d-block m-auto img-blog' />
+                                        </a>
+                                        <br />
+                                        <a href="<?=site_url('read/'.$blogItem['permalink'])?>" target='_blank' class='w-100'>
+                                            <h4 class='text-black mt-3'><?=$blogItem['title']?></h4>
+                                        </a>
+                                        <p class="text-sm text-muted mb-0">
+                                            Posted <?=date('D, d M Y', strtotime($blogItem['createdAt']))?>
+                                        </p>
+                                    </div>
+                                <?php
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <?php } ?>
         <section id="service" class="service-area pt-105 pb-105">
             <div class="container">
                 <div class="row">
@@ -212,6 +254,24 @@
         autoplay:true,
         autoplaySpeed: 1000
     });
+    $('.newest-blogs').owlCarousel({
+        loop:false,
+        margin:10,
+        responsive : {
+            0 : {
+                items   :   1
+            },
+            480 : {
+                items   :   2
+            },
+            768 : {
+                items   :   3
+            },
+            992 : {
+                items   :   4
+            }
+        }
+    });
     $('.konten-produk').owlCarousel({
         loop:true,
         margin:10,
@@ -296,5 +356,18 @@
                 }
             }
         });
+    });
+
+    $(window).on('scroll', function(){  
+        let _scrollTop          =   $(window).scrollTop();
+        let _headerAreaHeight   =   $('#headerArea').height();
+
+        let _topNavbar  =   $('#topNavbar');
+
+        if(_scrollTop >= (_headerAreaHeight)){
+            _topNavbar.removeClass('bg-transparent');
+        }else{
+            _topNavbar.addClass('bg-transparent');
+        }
     });
 </script>
