@@ -88,7 +88,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?=site_url(adminControllers('programstudi'))?>" class="nav-link">
                         <i class="nav-icon far fa-user"></i>
                         <p>Program Studi</p>
                     </a>

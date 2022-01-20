@@ -16,5 +16,10 @@
         var $standart      =   'standarspmi';
         var $subStandart      =   'substandar';
         var $pernyataan      =   'pernyataan';
+        var $programStudi      =   'programStudi';
+        var $indikatorDokumen      =   'indikatorDokumen';
+        var $periode      =   'periode';
+        var $penetapan      =   'penetapanstandarspmi';
+        var $penetapanDetail      =   'penetapandetailspmi';
     }
 ?>
