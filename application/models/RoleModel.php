@@ -1,21 +1,18 @@
 <?php
-	class ProgramStudiModel extends CI_Model{
-        var $loadedFrom_programStudi    =   'programStudi';
-        var $loadedFrom_penetapan       =   'penetapan';
-        
+	class RoleModel extends CI_Model{
 		public function __construct(){
 			$this->load->library('Tabel');
 		}
         public function getNumberOfData(){
-            $tabelProgramStudi        =   $this->tabel->programStudi;
+            $tabelRole        =   $this->tabel->role;
 
-            $this->db->select('idprogramstudi');
-            $allData    =   $this->db->get($tabelProgramStudi);
+            $this->db->select('userid');
+            $allData    =   $this->db->get($tabelRole);
 
             return $allData->num_rows();
         }
-		public function getProgramStudi($idProgramStudi = null, $options = null){
-            $tabelProgramStudi        =   $this->tabel->programStudi;
+		public function getRole($idRole = null, $options = null){
+            $tabelRole        =   $this->tabel->role;
 
             $orderByOptions     =   false;
             $useSingleRow 		=	false;
@@ -136,111 +133,59 @@
                     }
                 }
             }
-            if(!is_null($idProgramStudi)){
-                $this->db->where('pT.idprogramstudi', $idProgramStudi);
+            if(!is_null($idRole)){
+                $this->db->where('pT.userid', $idRole);
             }
 
             if($orderByOptions === false){
-                $this->db->order_by('pT.idprogramstudi', 'desc');
+                $this->db->order_by('pT.userid', 'desc');
             }
-            $getProgramStudi    =    $this->db->get($tabelProgramStudi.' pT'); //pT = primary table (tabel utama)
+            $getRole    =    $this->db->get($tabelRole.' pT'); //pT = primary table (tabel utama)
 
-            if(!is_null($idProgramStudi)){
-                $programStudi  =   ($getProgramStudi->num_rows() >= 1)? $getProgramStudi->row_array() : false;
+            if(!is_null($idRole)){
+                $role  =   ($getRole->num_rows() >= 1)? $getRole->row_array() : false;
             }else{
-                $programStudi  =   ($getProgramStudi->num_rows() >= 1)? $getProgramStudi->result_array() : [];
+                $role  =   ($getRole->num_rows() >= 1)? $getRole->result_array() : [];
                 
                 if($useSingleRow){
-                    if(count($programStudi) >= 1){
-                        $programStudi  =   $programStudi[0];
+                    if(count($role) >= 1){
+                        $role  =   $role[0];
                     }else{
-                        $programStudi  =   false;
+                        $role  =   false;
                     }
                 }
             }
 
-            return $programStudi;
+            return $role;
         }
-        public function saveProgramStudi($idProgramStudi = null, $dataProgramStudi = null){
-            $tabelProgramStudi    =   $this->tabel->programStudi;
+        public function saveRole($idRole = null, $dataRole = null){
+            $tabelRole    =   $this->tabel->role;
                 
-            if(is_null($dataProgramStudi)){
-                extract($_POST);
-
-                $this->load->model('UserModel', 'user');
-            
-                $dataProgramStudi   =   [
-                    'idprogramstudi'    =>  $idprogramstudi,
-                    'programStudiCode'  =>  $programStudiCode,
-                    'jurusanKode'   =>  $jurusanKode,
-                    'namaProgramStudi'  =>  $namaProgramStudi,
-                    'tglBerdiri'    =>  $tglBerdiri,
-                    'numberSK'  =>  $numberSK,
-                    'jenjang'   =>  $jenjang,
-                    'peringkatAkreditasi'   =>  $peringkatAkreditasi,
-                    'noSKBANPT' =>  $noSKBANPT,
-                    'tglexp'    =>  $tglexp,
-                    'userid'    =>  $this->user->isLogin(),
-                    'createdDate'   =>  now()
-                ];
-            }
-
-            if(is_null($idProgramStudi)){
-                $saveProgramStudi  =   $this->db->insert($tabelProgramStudi, $dataProgramStudi);
-                $idProgramStudi    =   $this->db->insert_id();
+            if(is_null($idRole)){
+                $saveRole  =   $this->db->insert($tabelRole, $dataRole);
+                $idRole    =   $this->db->insert_id();
 
                 $isUpdate   =   false;
             }else{
-                $this->db->where('idprogramstudi', $idProgramStudi);
-                $saveProgramStudi  =   $this->db->update($tabelProgramStudi, $dataProgramStudi);
+                $this->db->where('userid', $idRole);
+                $saveRole  =   $this->db->update($tabelRole, $dataRole);
                 $isUpdate   =   true;
             }
 
-            return ($saveProgramStudi)? $idProgramStudi : false;
+            return ($saveRole)? $idRole : false;
         }
-        public function deleteProgramStudi($idProgramStudi = null){
+        public function deleteRole($idRole = null){
             $statusDelete   =   false;
-            $messageDelete  =   null;
+            $tabelRole     =   $this->tabel->role;
 
-            $tabelProgramStudi     =   $this->tabel->programStudi;
+            if(!is_null($idRole)){
+                $this->db->where('id', $idRole);
+                $deleteRole  =   $this->db->delete($tabelRole);
 
-            //cek ke indikator
-            // if(!is_null($idProgramStudi)){
-            //     $options        =   [
-            //         'select'        =>  'kodeSubStandar',
-            //         'useSingleRow'  =>  true
-            //     ];
-            //     $detailSubStandart =   $this->getProgramStudi($idProgramStudi, $options);
+                $statusDelete   =   ($deleteRole)? true : false;
+            }
 
-            //     if($detailSubStandart !== false){
-            //         $kodeSubStandar    =   $detailSubStandart['kodeSubStandar'];
-
-            //         $this->load->model('SubStandartModel', 'subStandart');
-
-            //         $options        =   [
-            //             'select'    =>  'idprogramstudi',
-            //             'where'     =>  [
-            //                 'kodeSubStandar'   =>  $kodeSubStandar
-            //             ]
-            //         ];
-            //         $programStudi    =   $this->subStandart->getProgramStudi(null, $options);
-
-            //         if(count($programStudi) <= 0){
-            //             $this->db->where('standarId', $idProgramStudi);
-            //             $deleteStandart  =   $this->db->delete($tabelProgramStudi);
-
-            //             $statusDelete   =   ($deleteStandart)? true : false;
-            //         }else{
-            //             $messageDelete  =   'Maaf, data sudah memiliki relasi!';
-            //         }
-            //     }else{
-            //         $messageDelete  =   'Data Standart tidak ditemukan!';
-            //     }
-            // }else{
-            //     $messageDelete  =   'ID Standart tidak ada!';
-            // }
-
-            return ['statusDelete' => $statusDelete, 'messageDelete' => $messageDelete];
+            return $statusDelete;
         }
 	}
 ?>

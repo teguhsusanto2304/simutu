@@ -176,9 +176,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                            <a href="<?=site_url(adminControllers('penetapan'))?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Penetapan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=site_url(adminControllers('penetapan/auditor'))?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Penetapan Auditor</p>
                             </a>
                         </li>
                     </ul>

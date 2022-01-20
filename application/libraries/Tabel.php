@@ -21,5 +21,7 @@
         var $periode      =   'periode';
         var $penetapan      =   'penetapanstandarspmi';
         var $penetapanDetail      =   'penetapandetailspmi';
+        var $role   =   'role';
+        var $audit   =   'audit';
     }
 ?>

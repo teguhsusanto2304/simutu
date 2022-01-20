@@ -80,6 +80,7 @@ class ProgramStudi extends CI_Controller {
     public function index(){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
+            $this->load->model('ProgramStudiModel', 'prodi');
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
@@ -90,8 +91,11 @@ class ProgramStudi extends CI_Controller {
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
             $dataPage   =   [
-                'pageTitle'    =>  'Program Studi',
-                'detailUser'   =>  $detailUser
+                'pageTitle'                 =>  'Program Studi',
+                'detailUser'                =>  $detailUser,
+                'loadedFrom'                =>  $this->prodi->loadedFrom_programStudi,
+                'loadedFrom_programStudi'   =>  $this->prodi->loadedFrom_programStudi,
+                'loadedFrom_penetapan'      =>  $this->prodi->loadedFrom_penetapan
             ];
             $this->load->view(adminViews('programStudi/index'), $dataPage);
         }else{

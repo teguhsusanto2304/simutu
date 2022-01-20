@@ -2,7 +2,7 @@
 <html lang="en">
     <?php 
         $headOptions    =   [
-            'pageTitle'     =>  'List Program Studi',
+            'pageTitle'     =>  $pageTitle,
             'morePackages'  =>  [
                 'css'   =>  [
                     base_url('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'),
@@ -22,7 +22,7 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <?php 
-                    $contentHeaderOptions   =   ['pageName' => 'Program Studi'];
+                    $contentHeaderOptions   =   ['pageName' => $pageTitle];
                     $this->load->view(adminComponents('content-header'), $contentHeaderOptions); 
                 ?>
                 <section class="content">
@@ -33,7 +33,7 @@
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-lg-4">
-                                                <h5>Program Studi</h5>
+                                                <h5><?=$pageTitle?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
                                                 <a href="<?=site_url(adminControllers('programstudi/add'))?>">
@@ -85,6 +85,10 @@
     let _siteURL                    =   `<?=site_url()?>`;
     let _adminControllers           =   `<?=adminControllers()?>`;
 
+    let _loadedFrom                 =   `<?=$loadedFrom?>`;
+    let _loadedFrom_programStudi    =   `<?=$loadedFrom_programStudi?>`;
+    let _loadedFrom_penetapan       =   `<?=$loadedFrom_penetapan  ?>`;
+
     let _dataTableOptions   =  {
         processing  :   true,
         serverSide  :   true,
@@ -93,9 +97,7 @@
             dataSrc     :   'listProgramStudi'
         },
         
-        columns     :   [
-        //pT.programStudiCode, pT.namaProgramStudi, pT.numberSK, pT.peringkatAkreditasi, pT.noSKBANPT
-          
+        columns     :   [          
             {data : null, render : function(data, type, row, metaData){
                 return  `<p class='text-bold text-center'>
                             ${metaData.row + 1}.
@@ -130,17 +132,24 @@
                 let _idProdi          =   data.idprogramstudi;
                 let _namaProdiUC      =   data.namaProgramStudi.toUpperCase();
 
+                let _actionHTML;
+                if(_loadedFrom === _loadedFrom_programStudi){
+                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/programstudi/edit/${_idProdi}'>
+                                                <span class='fa fa-edit text-warning cp' data-toggle='tooltip' data-placement='top'
+                                                    title='Edit Data Program Studi ${_namaProdiUC}'></span>
+                                            </a>
+                                            <span class='fa fa-trash text-danger cp mx-3' data-toggle='tooltip' data-placement='top'
+                                                title='Hapus Data Program Studi ${_namaProdiUC}' onClick='hapusProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>`;
+                }
+                if(_loadedFrom === _loadedFrom_penetapan){
+                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/programstudi/penetapan/${_idProdi}'>
+                                            <span class='fa fa-arrow-right text-success cp' data-toggle='tooltip' data-placement='top'
+                                                title='Penetapan Program Studi ${_namaProdiUC}' onClick='penetapanProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>
+                                        </a>`;
+                }
+
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/programstudi/edit/${_idProdi}'>
-                                <span class='fa fa-edit text-warning cp' data-toggle='tooltip' data-placement='top'
-                                    title='Edit Data Program Studi ${_namaProdiUC}'></span>
-                            </a>
-                            <span class='fa fa-trash text-danger cp mx-3' data-toggle='tooltip' data-placement='top'
-                                title='Hapus Data Program Studi ${_namaProdiUC}' onClick='hapusProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>
-                            <a href='${_siteURL}${_adminControllers}/programstudi/penetapan/${_idProdi}'>
-                                <span class='fa fa-check text-success cp' data-toggle='tooltip' data-placement='top'
-                                    title='Penetapan Program Studi ${_namaProdiUC}' onClick='penetapanProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>
-                            </a>
+                            ${_actionHTML}
                         </div>`;
             }}
         ]
