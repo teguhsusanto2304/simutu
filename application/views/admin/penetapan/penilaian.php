@@ -5,7 +5,9 @@
             'pageTitle'     =>  $pageTitle,
             'morePackages'  =>  [
                 'css'   =>  [
-                    base_url('assets/plugins/sweetalert2/sweetalert2.min.css')
+                    base_url('assets/plugins/sweetalert2/sweetalert2.min.css'),
+                    base_url('assets/plugins/select2/css/select2.min.css'),
+                    base_url('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.css')
                 ]
             ]
         ];
@@ -43,7 +45,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
-                                        <form id="formPelaksanaan">
+                                        <form id="formPenilaian">
                                             <h5 class='mb-3'>Item (Detail) Penetapan</h5>
                                             <?php 
                                                 if(count($listItemPenetapan) >= 1){
@@ -54,8 +56,9 @@
                                                             <tr>
                                                                 <th class='text-center' width='5%;'>No.</th>
                                                                 <th>Indikator Dokumen</th>
-                                                                <th>Link Prodi</th>
-                                                                <th>Catatan</th>
+                                                                <th>Catatan & Link </th>
+                                                                <th>Penilaian</th>
+                                                                <th>Keterangan</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -68,15 +71,23 @@
                                                                         <h6 class='mb-1'><?=$penetapan['namaIndikatorDokumen']?></h6>
                                                                         <span class='text-sm text-muted'><?=$penetapan['kodeIndikator']?></span>
                                                                     </td>
+                                                                    <td>
+                                                                        <h6 class='mb-1'><?=$penetapan['catatan']?></h6>
+                                                                        <span class='text-sm text-muted'><?=$penetapan['linkProdi']?></span>
+                                                                    </td>
                                                                     <td class='vam'>
                                                                         <input type="hidden" name="idPenetapanDetail[]" class='idPenetapanDetail form-control'
                                                                             value='<?=$penetapan['penetapanDetailId']?>' />
-                                                                        <input type="text" name="linkProdi[]" class='linkProdi form-control'
-                                                                            placeholder='Link Prodi' />
+                                                                        <select name="penilaian[]" class='penilaian form-control'>
+                                                                            <option value=''>Pilih Penilaian</option>
+                                                                            <?php foreach($listPenilaian as $penilaian){ ?>
+                                                                                <option value='<?=$penilaian['idPenilaian']?>'><?=$penilaian['namaPenilaian']?></option>
+                                                                            <?php } ?>
+                                                                        </select>
                                                                     </td>
                                                                     <td class='vam'>
-                                                                        <textarea name="catatan[]" class='catatan form-control'
-                                                                            placeholder='Catatan'></textarea>
+                                                                        <textarea name="keterangan[]" class='keterangan form-control'
+                                                                            placeholder='Keterangan'></textarea>
                                                                     </td>
                                                                 </tr>
                                                             <?php
@@ -110,7 +121,8 @@
             $jsOptions  =   [
                 'morePackages'  =>  [
                     'js'    =>  [
-                        base_url('assets/plugins/sweetalert2/sweetalert2.min.js')
+                        base_url('assets/plugins/sweetalert2/sweetalert2.min.js'),
+                        base_url('assets/plugins/select2/js/select2.min.js')
                     ]
                 ]
             ];
@@ -123,20 +135,24 @@
     let _siteURL                    =   `<?=site_url()?>`;
     let _adminControllers           =   `<?=adminControllers()?>`;
 
-    $('#formPelaksanaan').on('submit', function(e){
+    let _idPenetapan    =   `<?=$detailPenetapan['penetapanid']?>`;
+
+    $('.penilaian').select2({theme : 'bootstrap4'});
+
+    $('#formPenilaian').on('submit', function(e){
         e.preventDefault();
 
-        let _catatan            =   $('.catatan').serialize();
-        let _linkProdi          =   $('.linkProdi').serialize();
+        let _penilaian          =   $('.penilaian').serialize();
+        let _keterangan         =   $('.keterangan').serialize();
         let _idPenetapanDetail  =   $('.idPenetapanDetail').serialize();
-        let _data       =   `${_idPenetapanDetail}&${_catatan}&${_linkProdi}`;
+        let _data       =   `${_idPenetapanDetail}&${_penilaian}&${_keterangan}&idPenetapan=${_idPenetapan}`;
 
         let _btnSubmit      =   $('#btnSubmit');
         let _btnSubmitText  =   _btnSubmit.text();
         
         _btnSubmit.prop('disabled', true).text('Processing ...');
         $.ajax({
-            url     :   `<?=site_url(adminControllers('penetapan/process_setPelaksanaan'))?>`,
+            url     :   `<?=site_url(adminControllers('penetapan/process_setPenilaian'))?>`,
             type    :   'POST',
             data    :   _data,
             success     : function(decodedRFS){
@@ -144,14 +160,14 @@
 
                 let _statusSave   =   decodedRFS.statusSave;
 
-                let _title  =   `Pelaksanaan`;
+                let _title  =   `Penilaian`;
                 let _html, _type;
                 if(_statusSave){
-                    _html   =   `<span class='text-success'>Berhasil melakukan pelaksanaan!</span>`;
+                    _html   =   `<span class='text-success'>Berhasil melakukan penilaian!</span>`;
                     _type   =   'success';
                 }else{
                     let _messageSave   =  decodedRFS.messageSave;
-                    _html   =   `<span class='text-danger'>Gagal melakukan pelaksanaan! ${_messageSave}</span>`;
+                    _html   =   `<span class='text-danger'>Gagal melakukan penilaian! ${_messageSave}</span>`;
                     _type   =   'error';
                 }
 

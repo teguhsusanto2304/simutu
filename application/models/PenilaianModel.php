@@ -1,21 +1,18 @@
 <?php
-	class LanggananModel extends CI_Model{
-        var $exportToExcel      =   'excel';
-        var $exportScopeAll     =   'all';
-
+	class PenilaianModel extends CI_Model{
 		public function __construct(){
-            $this->load->library('Tabel');
+			$this->load->library('Tabel');
 		}
         public function getNumberOfData(){
-            $tabelLangganan     =   $this->tabel->langganan;
+            $tabelPenilaian        =   $this->tabel->penilaian;
 
-            $this->db->select('id');
-            $getNumberOfData    =   $this->db->get($tabelLangganan);
+            $this->db->select('idPenilaian');
+            $allData    =   $this->db->get($tabelPenilaian);
 
-            return $getNumberOfData->num_rows();
+            return $allData->num_rows();
         }
-        public function getLangganan($id = null, $options = null){
-            $tabelLangganan     =   $this->tabel->langganan;
+		public function getPenilaian($idPenilaian = null, $options = null){
+            $tabelPenilaian        =   $this->tabel->penilaian;
 
             $orderByOptions     =   false;
             $useSingleRow 		=	false;
@@ -28,6 +25,23 @@
                     if(array_key_exists('where', $options)){
                         $where  =   $options['where'];
                         $this->db->where($where);
+                    }
+                    if(array_key_exists('join', $options)){
+                        $join   =   $options['join'];
+
+                        if(is_array($join)){
+                            if(count($join) >= 1){
+                                foreach($join as $joinItem){
+                                    if(array_key_exists('table', $joinItem) && array_key_exists('condition', $joinItem)){
+                                        $tableToJoin    =   $joinItem['table'];
+                                        $condition      =   $joinItem['condition'];
+                                        $type           =   (array_key_exists('type', $joinItem))? $joinItem['type'] : 'left';
+            
+                                        $this->db->join($tableToJoin, $condition, $type);
+                                    }
+                                }
+                            }
+                        }
                     }
                     if(array_key_exists('whereGroup', $options)){
                         $whereGroup     =   $options['whereGroup'];
@@ -119,76 +133,60 @@
                     }
                 }
             }
-
-            if(!is_null($id)){
-                $this->db->where('id', $id);
+            if(!is_null($idPenilaian)){
+                $this->db->where('pT.idPenilaian', $idPenilaian);
             }
-            
+
             if($orderByOptions === false){
-                $this->db->order_by('id', 'desc');
+                $this->db->order_by('pT.idPenilaian', 'desc');
             }
-            $getLangganan   =   $this->db->get($tabelLangganan);
+            $getPenilaian    =    $this->db->get($tabelPenilaian.' pT'); //pT = primary table (tabel utama)
 
-            if(!is_null($id)){
-                $langganan  =   ($getLangganan->num_rows() >= 1)? $getLangganan->row_array() : false;
+            if(!is_null($idPenilaian)){
+                $penilaian  =   ($getPenilaian->num_rows() >= 1)? $getPenilaian->row_array() : false;
             }else{
-                $langganan  =   ($getLangganan->num_rows() >= 1)? $getLangganan->result_array() : [];
-                
+                $penilaian  =   ($getPenilaian->num_rows() >= 1)? $getPenilaian->result_array() : [];
+               
                 if($useSingleRow){
-                    if(count($langganan) >= 1){
-	                   $langganan 	=	$langganan[0];
-                    }else{
-                        $langganan    =   false;
-                    }
-	            }
+                    if(count($penilaian) >= 1){
+                        $penilaian  =  $penilaian[0];
+                    }else
+                        $penilaian  =   false;
+                    
+                }
             }
 
-            return $langganan;
+            return $penilaian;
         }
-        public function saveLangganan($idLangganan = null, $dataLangganan = null){
-            $tabelLangganan    =   $this->tabel->langganan;
+        
+        public function savePenilaian($idPenilaian = null, $dataRole = null){
+            $tabelPenilaian    =   $this->tabel->penilaian;
                 
-            if(is_null($dataLangganan)){
-                extract($_POST);
-                
-                $dataLangganan	=	[
-                	'nama'		=>	$nama,
-                	'telepon'	=>	$telepon,
-                	'email'	   =>	$email
-                ];
-            }
-            
-            if(is_null($idLangganan)){
-                $saveLangganan       =   $this->db->insert($tabelLangganan, $dataLangganan);
-                $idLangganan         =   $this->db->insert_id();
+            if(is_null($idPenilaian)){
+                $savePenilaian  =   $this->db->insert($tabelPenilaian, $dataRole);
+                $idPenilaian    =   $this->db->insert_id();
 
-                $isUpdate       =   false;
+                $isUpdate   =   false;
             }else{
-                $this->db->where('id', $idLangganan);
-                $saveLangganan   =   $this->db->update($tabelLangganan, $dataLangganan);
-
+                $this->db->where('idPenilaian', $idPenilaian);
+                $savePenilaian  =   $this->db->update($tabelPenilaian, $dataRole);
                 $isUpdate   =   true;
             }
 
-            return ($saveLangganan)? $idLangganan : false;
+            return ($savePenilaian)? $idPenilaian : false;
         }
-        public function deleteLangganan($idLangganan = null){
-            $tabelLangganan    =   $this->tabel->langganan;
+        public function deletePenilaian($idPenilaian = null){
+            $statusDelete   =   false;
+            $tabelPenilaian     =   $this->tabel->penilaian;
 
-        	$statusDeleteLangganan	=	false;
+            if(!is_null($idPenilaian)){
+                $this->db->where('id', $idPenilaian);
+                $deletePenilaian  =   $this->db->delete($tabelPenilaian);
 
-        	if(!is_null($idLangganan)){
-                $detailLangganan     =   $this->getLangganan($idLangganan, ['select' => 'id']);
+                $statusDelete   =   ($deletePenilaian)? true : false;
+            }
 
-                if($detailLangganan !== false){
-    	            $this->db->where('id', $idLangganan);
-    	            $deleteLangganan     =   $this->db->delete($tabelLangganan);
-
-    	            $statusDeleteLangganan 	=	($deleteLangganan)? true : false;
-                }
-			}
-
-            return $statusDeleteLangganan;
+            return $statusDelete;
         }
 	}
 ?>

@@ -238,7 +238,11 @@ class Penetapan extends CI_Controller {
                 $this->load->model('PenetapanModel', 'penetapan');
                 $this->load->model('PenetapanDetailModel', 'penetapanDetail');
 
+                $detailActiveUser       =   $this->user->getUser($this->isUserLoggedIn, ['select' => 'idprogramstudi']);
+                $idProgramStudiUser     =   $detailActiveUser['idprogramstudi'];     
+
                 $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
+                $tabelPenetapan      =   $this->tabel->penetapan;
 
                 $detailUserOptions  =   [
                     'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
@@ -249,22 +253,16 @@ class Penetapan extends CI_Controller {
                 $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
                 $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
-
-                $userOptions        =   [
-                    'select'    =>  'userid, concat_ws(" ", firstName, lastName) as fullName, nip',
-                    'where'     =>  [
-                        'role'  =>  3
-                    ]
-                ];
-                $listAuditor        =   $this->user->getUser(null, $userOptions);
-
+   
                 $penetapanDetailOptions     =   [
                     'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen',
                     'join'      =>  [
-                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen']
+                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen'],
+                        ['table' => $tabelPenetapan.' p', 'condition' => 'p.penetapanid=pT.penetapanId']
                     ],
                     'where'     =>  [
-                        'penetapanId'   =>  $idPenetapan
+                        'pT.penetapanId'       =>  $idPenetapan,
+                        'p.idprogramstudi'  =>  $idProgramStudiUser
                     ]
                 ];
                 $listItemPenetapan          =   $this->penetapanDetail->getPenetapanDetail(null, $penetapanDetailOptions);
@@ -319,6 +317,120 @@ class Penetapan extends CI_Controller {
                                     $save       =   $this->penetapanDetail->savePenetapanDetail($idData, $dataPenetapanDetail);
                                 }
 
+                                $statusSave   =   true;
+                            }else{
+                                $messageSave  =   'Tidak ada link prodi yang ditentukan!';
+                            }
+                        }
+                    }
+                }
+            }else{
+                $messageSave    =   $validationMessage;
+            }
+
+            $response   =   [
+                'statusSave'    =>  $statusSave,
+                'messageSave'   =>  $messageSave
+            ];
+
+            header('Content-Type:application/json');
+            echo json_encode($response);
+        }
+    }
+    public function penilaian($idPenetapan = null){
+        if($this->isUserLoggedIn){
+           if(!is_null($idPenetapan)){
+                $this->load->library('Path');
+                $this->load->library('Tabel');
+                $this->load->model('PenetapanModel', 'penetapan');
+                $this->load->model('PenetapanDetailModel', 'penetapanDetail');
+                $this->load->model('PenilaianModel', 'penilaian');
+
+                $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
+
+                $detailUserOptions  =   [
+                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                    'join'      =>  [
+                        ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                    ]
+                ];
+                $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
+
+                $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
+
+                $penetapanDetailOptions     =   [
+                    'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen',
+                    'join'      =>  [
+                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen']
+                    ],
+                    'where'     =>  [
+                        'penetapanId'   =>  $idPenetapan
+                    ]
+                ];
+                $listItemPenetapan          =   $this->penetapanDetail->getPenetapanDetail(null, $penetapanDetailOptions);
+
+                $penilaianOptions   =   [
+                    'select'    =>  'idPenilaian, namaPenilaian'
+                ];
+                $listPenilaian  =   $this->penilaian->getPenilaian(null, $penilaianOptions);
+
+                $dataPage   =   [
+                    'pageTitle'         =>  'Penilaian',
+                    'detailUser'        =>  $detailUser,
+                    'detailPenetapan'   =>  $detailPenetapan,
+                    'listItemPenetapan' =>  $listItemPenetapan,
+                    'listPenilaian'     =>  $listPenilaian
+                ];
+                $this->load->view(adminViews('penetapan/penilaian'), $dataPage);
+           }
+        }else{
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('penetapan/setAuditor/'.$idPenetapan))));
+        }
+    }
+    public function process_setPenilaian(){
+        $statusSave     =   false;
+        $messageSave    =   null;
+
+        if($this->isUserLoggedIn){
+            $this->load->library('CustomValidation', null, 'cV');
+
+            $validationRules    =   [
+                ['name' => 'idPenetapanDetail[]', 'label' => 'ID Penetapan Detail', 'rule' => 'required|trim|numeric', 'field' => null],
+                ['name' => 'penilaian[]', 'label' => 'Penilaian', 'rule' => 'required|trim', 'field' => null],
+                ['name' => 'keterangan[]', 'label' => 'Keterangan', 'rule' => 'required|trim', 'field' => null],
+                ['name' => 'idPenetapan', 'label' => 'ID Penetapan', 'rule' => 'required|trim', 'field' => null]
+            ];
+
+            $validation         =   $this->cV->validation($validationRules);
+            $validationStatus   =   $validation['status'];
+            $validationMessage  =   $validation['message'];
+
+            if($validationStatus){      
+                $idPenetapanDetail  =   $this->input->post('idPenetapanDetail');
+                $penilaian          =   $this->input->post('penilaian');
+                $keterangan            =   $this->input->post('keterangan');
+
+                if(!is_null($penilaian)){
+                    if(!empty($penilaian)){
+                        if(is_array($penilaian)){
+
+                            if(count($penilaian) >= 1){
+                                $idPenetapan    =   $this->input->post('idPenetapan');
+                                
+                                $this->load->model('PenetapanDetailModel', 'penetapanDetail');
+                                $this->load->model('PenetapanModel', 'penetapan');
+
+                                foreach($penilaian as $indexData => $penilaianItem){
+                                    $dataPenetapanDetail    =   [
+                                        'keterangan'   =>  $keterangan[$indexData],
+                                        'penilaian'     =>  $penilaian[$indexData]
+                                    ];
+
+                                    $idData     =   $idPenetapanDetail[$indexData];
+                                    $save       =   $this->penetapanDetail->savePenetapanDetail($idData, $dataPenetapanDetail);
+                                }
+
+                                $savePenetapan  =   $this->penetapan->savePenetapan($idPenetapan, ['idAuditor' => $this->isUserLoggedIn]);
                                 $statusSave   =   true;
                             }else{
                                 $messageSave  =   'Tidak ada link prodi yang ditentukan!';

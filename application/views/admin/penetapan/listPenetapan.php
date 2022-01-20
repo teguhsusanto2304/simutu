@@ -128,6 +128,14 @@
                                             </a>
                                         </div>`;
                 }
+                if(_loadedFrom === _loadedFrom_penilaian){
+                    _actionHTML     =   `<div class='text-center'>
+                                            <a href='${_siteURL}${_adminControllers}/penetapan/penilaian/${_idPenetapan}'
+                                                data-toggle='tooltip' title='Set Penilaian' data-placement='top'>
+                                                <span class='fa fa-edit text-success'></a>
+                                            </a>
+                                        </div>`;
+                }
 
                 return `<div class='text-center'>
                             ${_actionHTML}

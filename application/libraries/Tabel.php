@@ -23,5 +23,6 @@
         var $penetapanDetail      =   'penetapandetailspmi';
         var $role   =   'role';
         var $audit   =   'audit';
+        var $penilaian   =   'penilaian';
     }
 ?>

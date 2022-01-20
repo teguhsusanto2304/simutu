@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pelaksanaan extends CI_Controller {
+class Penilaian extends CI_Controller {
     var $isUserLoggedIn	=	false;
 
 	public function __construct(){
@@ -25,15 +25,15 @@ class Pelaksanaan extends CI_Controller {
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
             $dataPage   =   [
-                'pageTitle'                 =>  'Pelaksanaan',
+                'pageTitle'                 =>  'Penilaian',
                 'detailUser'                =>  $detailUser,
-                'loadedFrom'                =>  $this->penetapan->loadedFrom_pelaksanaan,
+                'loadedFrom'                =>  $this->penetapan->loadedFrom_penilaian,
                 'loadedFrom_pelaksanaan'    =>  $this->penetapan->loadedFrom_pelaksanaan,
                 'loadedFrom_penilaian'      =>  $this->penetapan->loadedFrom_penilaian
             ];
             $this->load->view(adminViews('penetapan/listPenetapan'), $dataPage);
         }else{
-            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('penetapan'))));
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('penilaian'))));
         }
     }
 }
