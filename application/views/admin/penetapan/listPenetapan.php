@@ -35,11 +35,6 @@
                                             <div class="col-lg-4">
                                                 <h5><?=$pageTitle?></h5>
                                             </div>
-                                            <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('programstudi/add'))?>">
-                                                    <button class="btn btn-link btn-sm">Standart Baru</button>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
@@ -83,12 +78,15 @@
     let _siteURL                    =   `<?=site_url()?>`;
     let _adminControllers           =   `<?=adminControllers()?>`;
 
+    let _loadedFrom                 =   `<?=$loadedFrom?>`;
+    let _loadedFrom_pelaksanaan     =   `<?=$loadedFrom_pelaksanaan?>`;
+    let _loadedFrom_penilaian       =   `<?=$loadedFrom_penilaian?>`;
 
     let _dataTableOptions   =  {
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true&loadedFrom='.$loadedFrom))?>${location.search}`,
             dataSrc     :   'listPenetapan'
         },
         
@@ -114,11 +112,22 @@
             {data : null, render : function(data, type, row, metaData){
                 let _idPenetapan      =   data.penetapanid;
 
+                //default _actionHTML adalah pengesetan/penetapan auditor
                 let _actionHTML =   `<div class='text-center'>
-                                        <a href='${_siteURL}/${_adminControllers}/penetapan/setAuditor/${_idPenetapan}'>
+                                        <a href='${_siteURL}${_adminControllers}/penetapan/setAuditor/${_idPenetapan}'
+                                            data-toggle='tooltip' title='Set Auditor' data-placement='top'>
                                             <span class='fa fa-user text-warning'></a>
                                         </a>
                                     </div>`;
+
+                if(_loadedFrom === _loadedFrom_pelaksanaan){
+                    _actionHTML     =   `<div class='text-center'>
+                                            <a href='${_siteURL}${_adminControllers}/penetapan/pelaksanaan/${_idPenetapan}'
+                                                data-toggle='tooltip' title='Set Pelaksanaan' data-placement='top'>
+                                                <span class='fa fa-edit text-warning'></a>
+                                            </a>
+                                        </div>`;
+                }
 
                 return `<div class='text-center'>
                             ${_actionHTML}

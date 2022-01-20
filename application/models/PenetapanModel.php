@@ -1,5 +1,9 @@
 <?php
 	class PenetapanModel extends CI_Model{
+        var $loadedFrom_pelaksanaan    =   'pelaksanaan';
+        var $loadedFrom_penilaian      =   'penilaian';
+        var $loadedFrom_penetapan      =   'penetapan';
+
 		public function __construct(){
 			$this->load->library('Tabel');
 		}

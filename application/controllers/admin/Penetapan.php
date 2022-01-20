@@ -114,6 +114,7 @@ class Penetapan extends CI_Controller {
     public function auditor(){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
+            $this->load->model('PenetapanModel', 'penetapan');
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
@@ -124,8 +125,11 @@ class Penetapan extends CI_Controller {
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
             $dataPage   =   [
-                'pageTitle'     =>  'Penetapan Auditor (List Penetapan)',
-                'detailUser'    =>  $detailUser
+                'pageTitle'                 =>  'Penetapan Auditor (List Penetapan)',
+                'detailUser'                =>  $detailUser,
+                'loadedFrom'                =>  $this->penetapan->loadedFrom_penetapan,
+                'loadedFrom_pelaksanaan'    =>  $this->penetapan->loadedFrom_pelaksanaan,
+                'loadedFrom_penilaian'      =>  $this->penetapan->loadedFrom_penilaian
             ];
             $this->load->view(adminViews('penetapan/listPenetapan'), $dataPage);
         }else{
@@ -220,6 +224,115 @@ class Penetapan extends CI_Controller {
             $response   =   [
                 'statusSetAuditor'    =>  $statusSetAuditor,
                 'messageSetAuditor'   =>  $messageSetAuditor
+            ];
+
+            header('Content-Type:application/json');
+            echo json_encode($response);
+        }
+    }
+    public function pelaksanaan($idPenetapan = null){
+        if($this->isUserLoggedIn){
+           if(!is_null($idPenetapan)){
+                $this->load->library('Path');
+                $this->load->library('Tabel');
+                $this->load->model('PenetapanModel', 'penetapan');
+                $this->load->model('PenetapanDetailModel', 'penetapanDetail');
+
+                $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
+
+                $detailUserOptions  =   [
+                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                    'join'      =>  [
+                        ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                    ]
+                ];
+                $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
+
+                $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
+
+                $userOptions        =   [
+                    'select'    =>  'userid, concat_ws(" ", firstName, lastName) as fullName, nip',
+                    'where'     =>  [
+                        'role'  =>  3
+                    ]
+                ];
+                $listAuditor        =   $this->user->getUser(null, $userOptions);
+
+                $penetapanDetailOptions     =   [
+                    'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen',
+                    'join'      =>  [
+                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen']
+                    ],
+                    'where'     =>  [
+                        'penetapanId'   =>  $idPenetapan
+                    ]
+                ];
+                $listItemPenetapan          =   $this->penetapanDetail->getPenetapanDetail(null, $penetapanDetailOptions);
+
+                $dataPage   =   [
+                    'pageTitle'         =>  'Pelaksanaan',
+                    'detailUser'        =>  $detailUser,
+                    'detailPenetapan'   =>  $detailPenetapan,
+                    'listItemPenetapan' =>  $listItemPenetapan
+                ];
+                $this->load->view(adminViews('penetapan/pelaksanaan'), $dataPage);
+           }
+        }else{
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('penetapan/setAuditor/'.$idPenetapan))));
+        }
+    }
+    public function process_setPelaksanaan(){
+        $statusSave     =   false;
+        $messageSave    =   null;
+
+        if($this->isUserLoggedIn){
+            $this->load->library('CustomValidation', null, 'cV');
+
+            $validationRules    =   [
+                ['name' => 'idPenetapanDetail[]', 'label' => 'ID Penetapan', 'rule' => 'required|trim|numeric', 'field' => null],
+                ['name' => 'linkProdi[]', 'label' => 'Link Prodi', 'rule' => 'required|trim', 'field' => null],
+                ['name' => 'catatan[]', 'label' => 'Catatan', 'rule' => 'required|trim', 'field' => null]
+            ];
+
+            $validation         =   $this->cV->validation($validationRules);
+            $validationStatus   =   $validation['status'];
+            $validationMessage  =   $validation['message'];
+
+            if($validationStatus){      
+                $idPenetapanDetail  =   $this->input->post('idPenetapanDetail');
+                $linkProdi          =   $this->input->post('linkProdi');
+                $catatan            =   $this->input->post('catatan');
+
+                if(!is_null($linkProdi)){
+                    if(!empty($linkProdi)){
+                        if(is_array($linkProdi)){
+                            if(count($linkProdi) >= 1){
+                                $this->load->model('PenetapanDetailModel', 'penetapanDetail');
+
+                                foreach($linkProdi as $indexData => $linkProdiItem){
+                                    $dataPenetapanDetail    =   [
+                                        'catatan'   =>  $catatan[$indexData],
+                                        'linkProdi' =>  $linkProdi[$indexData]
+                                    ];
+
+                                    $idData     =   $idPenetapanDetail[$indexData];
+                                    $save       =   $this->penetapanDetail->savePenetapanDetail($idData, $dataPenetapanDetail);
+                                }
+
+                                $statusSave   =   true;
+                            }else{
+                                $messageSave  =   'Tidak ada link prodi yang ditentukan!';
+                            }
+                        }
+                    }
+                }
+            }else{
+                $messageSave    =   $validationMessage;
+            }
+
+            $response   =   [
+                'statusSave'    =>  $statusSave,
+                'messageSave'   =>  $messageSave
             ];
 
             header('Content-Type:application/json');
