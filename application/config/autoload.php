@@ -134,5 +134,6 @@ $autoload['language'] = array();
 */
 $autoload['model'] = [
     'AdminModel'    =>  'admin',
-    'UserModel'     =>  'user'
+    'UserModel'     =>  'user',
+    'RoleModel'     =>  'role'
 ];

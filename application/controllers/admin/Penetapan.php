@@ -92,7 +92,7 @@ class Penetapan extends CI_Controller {
             $this->load->model('ProgramStudiModel', 'prodi');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
@@ -117,7 +117,7 @@ class Penetapan extends CI_Controller {
             $this->load->model('PenetapanModel', 'penetapan');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
@@ -143,7 +143,7 @@ class Penetapan extends CI_Controller {
                 $this->load->model('PenetapanModel', 'penetapan');
 
                 $detailUserOptions  =   [
-                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                     'join'      =>  [
                         ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                     ]
@@ -245,7 +245,7 @@ class Penetapan extends CI_Controller {
                 $tabelPenetapan      =   $this->tabel->penetapan;
 
                 $detailUserOptions  =   [
-                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                     'join'      =>  [
                         ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                     ]
@@ -349,7 +349,7 @@ class Penetapan extends CI_Controller {
                 $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
 
                 $detailUserOptions  =   [
-                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                    'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                     'join'      =>  [
                         ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                     ]

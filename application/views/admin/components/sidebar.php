@@ -1,5 +1,9 @@
 <?php
     $uploadGambarUser  =   $this->path->uploadGambarUser;
+
+    $idRole     =   $detailUser['role'];
+
+    $detailRole     =   $this->role->getRole($idRole);
 ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -55,204 +59,226 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Laporan <i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Standart SPMI</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Standart Program Studi</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Institusi</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Jurusan/Bagian</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=site_url(adminControllers('programstudi'))?>" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Program Studi</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=site_url(adminControllers('pelaksanaan'))?>" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Pelaksanaan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?=site_url(adminControllers('penilaian'))?>" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Penilaian</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Dosen</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Pemeriksaan</p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Auditor</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penilaian</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Standart SPMI<i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('spmi/standart'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Standart</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('spmi/substandart'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Sub Standart</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penyataan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('spmi/indikator'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Indikator</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('spmi/indikatordokumen'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Indikator Dokumen</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Pemberlakuan Indikator <i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penjadwalan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('penetapan'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penetapan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('penetapan/auditor'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penetapan Auditor</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Setting <i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List User</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Enrollment</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>Master Data <i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penilaian</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Tingkatan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Penetapan Institusi</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Jenjang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Bentuk Institusi</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <?php if($detailRole['laporan'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Laporan <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Standart SPMI</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Standart Program Studi</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['profileInstitusi'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Institusi</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['departemen'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Jurusan/Bagian</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['unit'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="<?=site_url(adminControllers('programstudi'))?>" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Program Studi</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['pelaksanaan'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="<?=site_url(adminControllers('pelaksanaan'))?>" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Pelaksanaan</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['dosen'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="<?=site_url(adminControllers('penilaian'))?>" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Penilaian</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['dosen'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Dosen</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['pemeriksaan'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Pemeriksaan</p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Auditor</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penilaian</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['standarSpmi'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Standart SPMI<i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('spmi/standart'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Standart</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('spmi/substandart'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Sub Standart</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penyataan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('spmi/indikator'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Indikator</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('spmi/indikatordokumen'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Indikator Dokumen</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Pemberlakuan Indikator <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penjadwalan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('penetapan'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penetapan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('penetapan/auditor'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penetapan Auditor</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php if($detailRole['setting'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Setting <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List User</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Enrollment</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
+                <?php if($detailRole['masterdata'] == 1){ ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>Master Data <i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penilaian</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tingkatan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penetapan Institusi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Jenjang</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Bentuk Institusi</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

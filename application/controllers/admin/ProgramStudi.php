@@ -83,7 +83,7 @@ class ProgramStudi extends CI_Controller {
             $this->load->model('ProgramStudiModel', 'prodi');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
@@ -144,7 +144,7 @@ class ProgramStudi extends CI_Controller {
             $this->load->model('ProgramStudiModel', 'prodi');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
@@ -230,7 +230,7 @@ class ProgramStudi extends CI_Controller {
             $this->load->model('PeriodeModel', 'periode');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]

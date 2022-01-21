@@ -82,7 +82,7 @@ class Standart extends CI_Controller {
             $this->load->library('Path');
 
             $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
@@ -140,7 +140,7 @@ class Standart extends CI_Controller {
             $this->load->library('CustomForm', null, 'cF');
             
            $detailUserOptions  =   [
-                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName',
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
                     ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
                 ]
