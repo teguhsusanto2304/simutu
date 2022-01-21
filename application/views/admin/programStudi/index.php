@@ -35,11 +35,13 @@
                                             <div class="col-lg-4">
                                                 <h5><?=$pageTitle?></h5>
                                             </div>
-                                            <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('programstudi/add'))?>">
-                                                    <button class="btn btn-link btn-sm">Standart Baru</button>
-                                                </a>
-                                            </div>
+                                            <?php if($loadedFrom == $loadedFrom_programStudi){ ?>
+                                                <div class="col-lg-8 text-right">
+                                                    <a href="<?=site_url(adminControllers('programstudi/add'))?>">
+                                                        <button class="btn btn-link btn-sm">Prodi Baru</button>
+                                                    </a>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">

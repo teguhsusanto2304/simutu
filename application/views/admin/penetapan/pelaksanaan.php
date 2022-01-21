@@ -91,7 +91,7 @@
                                             <hr />
                                             <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
                                             <a href="<?=site_url(adminControllers('penetapan'))?>">
-                                                <button class="ml-2 btn btn-default">List Penetapan</button>
+                                                <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
                                             </a>
                                         </form>
                                     </div>
