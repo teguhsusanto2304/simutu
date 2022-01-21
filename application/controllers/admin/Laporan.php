@@ -32,7 +32,19 @@ class Laporan extends CI_Controller {
     }
     public function prodi(){
         if($this->isUserLoggedIn){
-            
+            $detailUserOptions  =   [
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
+                'join'      =>  [
+                    ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                ]
+            ];
+            $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
+
+            $dataPage   =   [
+                'pageTitle'     =>  'Laporan Prodi',
+                'detailUser'    =>  $detailUser
+            ];
+            $this->load->view(adminViews('laporan/prodi'), $dataPage);
         }else{
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('laporan/prodi'))));
         }
@@ -95,6 +107,74 @@ class Laporan extends CI_Controller {
 
             $response   =   [
                 'listSPMI'          =>  $listSPMI, 
+                'draw'              =>  $draw,
+                'recordsFiltered'   =>  $recordsTotal,
+                'recordsTotal'      =>  $recordsTotal
+            ];
+
+            header('Content-Type:application/json');
+            echo json_encode($response);
+        }
+    } 
+    public function listProdi(){
+        if($this->isUserLoggedIn){
+            $this->load->model('PenetapanModel', 'penetapan');
+
+            $draw       =   $this->input->get('draw');
+
+            $select     =   'p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName, iD.namaIndikatorDokumen, pStudy.namaProgramStudi, pStudy.programStudiCode';
+            
+            $selectQS   =   $this->input->get('select');
+            if(!is_null($selectQS) && !empty($selectQS)){
+                $select     =   trim($selectQS);
+            }
+
+            $start      =   $this->input->get('start');
+            $start      =   (!is_null($start))? $start : 0;
+
+            $length     =   $this->input->get('length');
+            $length     =   (!is_null($length))? $length : 10;
+
+            $search         =   $this->input->get('search');
+
+            $options        =   [
+                'select'            =>  $select,
+                'limit'             =>  $length,
+                'limitStartFrom'    =>  $start
+            ];
+            
+            if(!is_null($search)){
+                if(is_array($search)){
+                    $searchValue        =   $search['value'];
+                    $options['like']    =   [
+                        'column'    =>  ['p.namaPeriode', 'p.tahunPeriode', 'iD.namaIndikatorDokumen'],
+                        'value'     =>  $searchValue
+                    ];
+                }
+            }
+            
+            $whereQS    =   $this->input->get('where');
+            if(!is_null($whereQS) && !empty($whereQS)){
+                $where          =   trim($whereQS);
+                $whereArray     =   json_decode($where, true);
+
+                $options['where']   =   $whereArray;
+            }
+
+            $options['join']    =   [
+                ['table' => 'periode p', 'condition' => 'p.idPeriode=pT.periode'],
+                ['table' => 'user u', 'condition' => 'u.userid=pT.idAuditor'],
+                ['table' => 'penetapandetailspmi pD', 'condition' => 'pD.penetapanId=pT.penetapanid'],
+                ['table' => 'indikatordokumen iD', 'condition' => 'iD.indikatorDokumenId=pD.indikatorDokumen'],
+                ['table' => 'programstudi pStudy', 'condition' => 'pStudy.idprogramstudi=pT.idprogramstudi']
+            ];
+
+            $listProdi    =   $this->penetapan->getPenetapan(null, $options);
+
+            $recordsTotal   =   $this->penetapan->getNumberOfData();
+
+            $response   =   [
+                'listProdi'         =>  $listProdi, 
                 'draw'              =>  $draw,
                 'recordsFiltered'   =>  $recordsTotal,
                 'recordsTotal'      =>  $recordsTotal

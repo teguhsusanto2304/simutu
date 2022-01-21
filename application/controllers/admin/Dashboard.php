@@ -13,10 +13,6 @@
 		}
 		public function index(){
 			if($this->isAdminLoggedIn){
-				$this->load->model('BlogModel', 'blog');
-				$this->load->model('GaleriModel', 'galeri');
-				$this->load->model('LanggananModel', 'langganan');
-
 				$detailUserOptions	=	[
 					'select' 	=>	'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
 					'join'		=>	[
