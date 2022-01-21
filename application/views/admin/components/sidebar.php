@@ -67,13 +67,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('admin'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('laporan/spmi'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Laporan Standart SPMI</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('admin/add'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('laporan/prodi'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Laporan Standart Program Studi</p>
                                 </a>
