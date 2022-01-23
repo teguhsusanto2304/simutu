@@ -41,6 +41,7 @@
                                         <table class="table table-sm" id='tabelPenetapan'>
                                             <thead>
                                                 <th class='border-top-0 text-center text-bold'>No.</th>
+                                                <th class='border-top-0 text-left text-bold'>Pelaksana/Penilai</th>
                                                 <th class='border-top-0 text-left text-bold'>Standart/Sub/Perny.</th>
                                                 <th class='border-top-0 text-left text-bold'>Ind./Ind. Dok.</th>
                                                 <th class='border-top-0 text-left text-bold'>Prodi</th>
@@ -99,15 +100,39 @@
                 return  `<p class='text-bold text-center'>
                             ${metaData.row + 1}.
                         </p>`;
+            }},        
+            {data : null, render : function(data, type, row, metaData){
+                let _pelaksanaHTML  =   '';
+
+                if(data.pelaksanaan !== null){
+                    let _pelaksanaan  =   data.pelaksanaan;
+                    _pelaksanaHTML  =   `<h6 class='text-bold mb-0'>
+                                            ${_pelaksanaan.namaPelaksana}
+                                        </h6>
+                                        <span class='text-muted text-sm'>Pada <b>${convertDateTime(data.waktuPelaksanaan)}</b></span>`;
+                }
+
+                let _penilaiHTML    =   '';
+                if(data.penilaian !== null){
+                    let _penilaian    =   data.penilaian;
+                    _penilaiHTML    =   `<br />
+                                        <br />
+                                        <h6 class='text-bold mb-0'>
+                                            ${_penilaian.namaPenilai}
+                                        </h6>
+                                        <p class='text-muted text-sm mb-0'>Kode Sub <b>${convertDateTime(data.waktuPenilaian)}</b></p>`;
+                }
+
+                return  `${_pelaksanaHTML}${_penilaiHTML}`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaStandar}
                         </h6>
-                        <span class='text-muted text-sm'>Kode Standar <b>${data.kodeStandar}</b></span>
+                        <span class='text-muted text-sm'>Pada <b>${data.kodeStandar}</b></span>
                         <br />
                         <br />
-                        <h6 class='text-primary text-bold mb-0'>
+                        <h6 class='text-bold mb-0'>
                             ${data.namaSubStandar}
                         </h6>
                         <p class='text-muted text-sm mb-0'>Kode Sub <b>${data.kodeSubStandar}</b></p>
@@ -116,30 +141,30 @@
                         </span>
                         <br />
                         <br />
-                        <h6 class='text-primary text-bold mb-0'>
+                        <h6 class='text-bold mb-0'>
                             ${data.namaPernyataan}
                         </h6>
                         <span class='text-muted text-sm'>Kode Perny. <b>${data.kodePernyataan}</b></span>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaIndikator}
                         </h6>
                         <span class='text-muted text-sm'>Kode Ind. <b>${data.kodeIndikator}</b></span>
                         <br />
                         <br />
-                        <h6 class='text-primary text-bold mb-0'>
+                        <h6 class='text-bold mb-0'>
                             ${data.namaIndikatorDokumen}
                         </h6>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaProgramStudi}
                         </h6>
                         <span class='text-muted text-sm'>${data.programStudiCode}</span>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaPeriode}
                         </h6>
                         <span class='text-muted text-sm'>${convertDate(data.mulaiPelaksanaan, ' ', true)} s/d ${convertDate(data.akhirPelaksanaan, ' ', true)}</span>

@@ -16,7 +16,7 @@ class Penetapan extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select     =   'pT.penetapanId, pS.namaProgramStudi, pS.programStudiCode, per.namaPeriode, per.tahunPeriode, per.mulaiPelaksanaan, per.akhirPelaksanaan, s.namaStandar, s.kodeStandar, sS.namaSubStandar, sS.kodeSubStandar, sS.linkStandarSPMI, perny.namaPernyataan, perny.kodePernyataan, i.namaIndikator, i.kodeIndikator, iD.namaIndikatorDokumen';
+        $select     =   'pT.penetapanId, pen.pelaksana, pen.waktuPelaksanaan, pen.idAuditor, pen.waktuPenilaian, pS.namaProgramStudi, pS.programStudiCode, per.namaPeriode, per.tahunPeriode, per.mulaiPelaksanaan, per.akhirPelaksanaan, s.namaStandar, s.kodeStandar, sS.namaSubStandar, sS.kodeSubStandar, sS.linkStandarSPMI, perny.namaPernyataan, perny.kodePernyataan, i.namaIndikator, i.kodeIndikator, iD.namaIndikatorDokumen';
         
         $selectQS   =   $this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){
@@ -40,8 +40,11 @@ class Penetapan extends CI_Controller {
         if(!is_null($search)){
             if(is_array($search)){
                 $searchValue        =   $search['value'];
+
+                $columns            =   explode(',', $select);
+
                 $options['like']    =   [
-                    'column'    =>  ['pS.programStudiCode', 'pS.namaProgramStudi'],
+                    'column'    =>  $columns,
                     'value'     =>  $searchValue
                 ];
             }
@@ -78,10 +81,10 @@ class Penetapan extends CI_Controller {
                     $tabelPenetapan     =   $tabel->penetapan;
                     $tabelProgramStudi  =   $tabel->programStudi;
 
-                    $tabelStandart      =   $tabel->standart;
-                    $tabelSubStandart   =   $tabel->subStandart;
-                    $tabelPernyataan    =   $tabel->pernyataan;
-                    $tabelIndikator     =   $tabel->indikator;
+                    $tabelStandart          =   $tabel->standart;
+                    $tabelSubStandart       =   $tabel->subStandart;
+                    $tabelPernyataan        =   $tabel->pernyataan;
+                    $tabelIndikator         =   $tabel->indikator;
                     $tabelIndikatorDokumen  =   $tabel->indikatorDokumen;
 
                     $options['join']    =   [
@@ -99,6 +102,19 @@ class Penetapan extends CI_Controller {
         }
 
         $listPenetapan  =   $this->penetapanDetail->getPenetapanDetail(null, $options);
+
+        if(count($listPenetapan) >= 1){
+            foreach($listPenetapan as $indexData => $penetapan){
+                if(array_key_exists('pelaksana', $penetapan)){
+                    $detailPelaksana    =   $this->user->getUser($penetapan['pelaksana'], ['select' => 'concat_ws(" ", firstName, lastName) as namaPelaksana']);
+                    $listPenetapan[$indexData]['pelaksanaan'] =   $detailPelaksana;
+                }
+                if(array_key_exists('idAuditor', $penetapan)){
+                    $detailPenilai      =   $this->user->getUser($penetapan['idAuditor'], ['select' => 'concat_ws(" ", firstName, lastName) as namaPenilai']);
+                    $listPenetapan[$indexData]['penilaian'] =   $detailPenilai;
+                }
+            }
+        }
 
         $recordsTotal   =   $this->penetapanDetail->getNumberOfData();
 
@@ -333,7 +349,8 @@ class Penetapan extends CI_Controller {
 
             $validationRules    =   [
                 ['name' => 'idPenetapanDetail[]', 'label' => 'ID Penetapan', 'rule' => 'required|trim|numeric', 'field' => null],
-                ['name' => 'linkProdi[]', 'label' => 'Link Prodi', 'rule' => 'required|trim', 'field' => null]
+                ['name' => 'linkProdi[]', 'label' => 'Link Prodi', 'rule' => 'required|trim', 'field' => null],
+                ['name' => 'idPenetapan', 'label' => 'ID Penetapan', 'rule' => 'required|trim|numeric', 'field' => null]
             ];
 
             $validation         =   $this->cV->validation($validationRules);
@@ -341,6 +358,7 @@ class Penetapan extends CI_Controller {
             $validationMessage  =   $validation['message'];
 
             if($validationStatus){      
+                $idPenetapan        =   $this->input->post('idPenetapan');
                 $idPenetapanDetail  =   $this->input->post('idPenetapanDetail');
                 $linkProdi          =   $this->input->post('linkProdi');
                 $catatan            =   $this->input->post('catatan');
@@ -350,12 +368,19 @@ class Penetapan extends CI_Controller {
                         if(is_array($linkProdi)){
                             if(count($linkProdi) >= 1){
                                 $this->load->model('PenetapanDetailModel', 'penetapanDetail');
+                                $this->load->model('PenetapanModel', 'penetapan');
 
                                 foreach($linkProdi as $indexData => $linkProdiItem){
                                     $dataPenetapanDetail    =   [
                                         'catatan'   =>  $catatan[$indexData],
                                         'linkProdi' =>  $linkProdi[$indexData]
                                     ];
+
+                                    $dataPenetapan  =   [
+                                        'pelaksana'         =>  $this->isUserLoggedIn,
+                                        'waktuPelaksanaan'  =>  now()
+                                    ];
+                                    $savePenetapan  =   $this->penetapan->savePenetapan($idPenetapan, $dataPenetapan);
 
                                     $idData     =   $idPenetapanDetail[$indexData];
                                     $save       =   $this->penetapanDetail->savePenetapanDetail($idData, $dataPenetapanDetail);
@@ -485,7 +510,11 @@ class Penetapan extends CI_Controller {
                                     $save       =   $this->penetapanDetail->savePenetapanDetail($idData, $dataPenetapanDetail);
                                 }
 
-                                $savePenetapan  =   $this->penetapan->savePenetapan($idPenetapan, ['idAuditor' => $this->isUserLoggedIn]);
+                                $dataPenetapan  =   [
+                                    'idAuditor'         =>  $this->isUserLoggedIn,
+                                    'waktuPenilaian'    =>  now()
+                                ];
+                                $savePenetapan  =   $this->penetapan->savePenetapan($idPenetapan, $dataPenetapan);
                                 $statusSave   =   true;
                             }else{
                                 $messageSave  =   'Tidak ada link prodi yang ditentukan!';

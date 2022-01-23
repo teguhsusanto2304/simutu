@@ -139,13 +139,15 @@
     let _siteURL                    =   `<?=site_url()?>`;
     let _adminControllers           =   `<?=adminControllers()?>`;
 
+    let _idPenetapan    =   `<?=$detailPenetapan['penetapanid']?>`;
+
     $('#formPelaksanaan').on('submit', function(e){
         e.preventDefault();
 
         let _catatan            =   $('.catatan').serialize();
         let _linkProdi          =   $('.linkProdi').serialize();
         let _idPenetapanDetail  =   $('.idPenetapanDetail').serialize();
-        let _data       =   `${_idPenetapanDetail}&${_catatan}&${_linkProdi}`;
+        let _data       =   `idPenetapan=${_idPenetapan}&${_idPenetapanDetail}&${_catatan}&${_linkProdi}`;
 
         let _btnSubmit      =   $('#btnSubmit');
         let _btnSubmitText  =   _btnSubmit.text();
