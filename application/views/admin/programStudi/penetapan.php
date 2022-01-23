@@ -34,7 +34,8 @@
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-lg-4">
-                                                <h5>Penetapan</h5>
+                                                <h5 class='mb-1'>Penetapan</h5>
+                                                <span class="text-muted text-sm">Prodi <b><?=$detailProdi['namaProgramStudi']?></b></span>
                                             </div>
                                             <div class="col-lg-8 text-right">
                                                 <a href="<?=site_url(adminControllers('programstudi'))?>">
@@ -47,9 +48,10 @@
                                         <form id="formPenetapan">
                                             <div class="row">
                                                 <div class="col-lg-12">
+                                                    <h5>Detail Prodi</h5>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <table class="table table-sm">
+                                                            <table class="table table-sm no-border">
                                                                 <tr>
                                                                     <td>Nama Program Studi</td>
                                                                     <td><?=$detailProdi['namaProgramStudi']?></td>
@@ -69,7 +71,7 @@
                                                             </table>
                                                         </div>
                                                         <div class="col-6">
-                                                            <table class="table table-sm">
+                                                            <table class="table table-sm no-border">
                                                                 <tr>
                                                                     <td>Peringkat Akreditasi</td>
                                                                     <td><?=$detailProdi['peringkatAkreditasi']?></td>
@@ -100,24 +102,96 @@
                                                         ?>
                                                     </select>
                                                     <hr class='mb-4' />
-                                                    <h5>Dokumen</h5>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class='mb-1'>Dokumen</h5>
+                                                            <span class='text-muted text-sm'>Pilih Dokumen</span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <select id='subStandart' name='subStandart' class='form-control'
+                                                                onChange='subStandartChanged(this)'>
+                                                                <option value=''>Semua Sub Standart</option>
+                                                                <?php 
+                                                                    if(count($listSubStandart) >= 1){ 
+                                                                        foreach($listSubStandart as $subStandart){
+                                                                            $isSelected     =   false;
+
+                                                                            if(!is_null($subStandarIdQS)){
+                                                                                if(!empty($subStandarIdQS)){
+                                                                                    $subStandarIdQS    =   trim($subStandarIdQS);
+                                                                                    $isSelected         =   ($subStandarIdQS == $subStandart['subStandarId']);
+                                                                                }
+                                                                            }        
+
+                                                                            $selected   =   ($isSelected)? 'selected' : '';                                                                    
+                                                                            ?>
+                                                                            <option value='<?=$subStandart['subStandarId']?>'
+                                                                                <?=$selected?>><?=$subStandart['namaSubStandar']?></option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type='text' class='form-control' placeholder='Pencarian'
+                                                                id='pencarian' />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
                                                     <?php 
                                                         if(count($indikatorDokumen) >= 1){
                                                     ?>
                                                         <div class="table-responsive">
-                                                            <table class="table table-sm">
-                                                                <?php foreach($indikatorDokumen as $indikator){ ?>
+                                                            <table class="table table-sm" id='tabelIndikatorDokumen'>
+                                                                <thead>
                                                                     <tr>
+                                                                        <th></th>
+                                                                        <th>Standart</th>
+                                                                        <th>Sub Standart</th>
+                                                                        <th>Pernyataan</th>
+                                                                        <th>Indikator</th>
+                                                                        <th>Indikator Dokumen</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php foreach($indikatorDokumen as $indikator){ ?>
+                                                                    <tr class='indikator-dokumen'>
                                                                         <td>
                                                                             <input type="checkbox" name="indikatorDokumen[]" 
                                                                                 value='<?=$indikator['indikatorDokumenId']?>' class='indikatorDokumen' />
                                                                         </td>
-                                                                        <td><?=$indikator['namaIndikatorDokumen']?></td>
+                                                                        <td>
+                                                                            <h6 class='namaStandar'><?=$indikator['namaStandar']?></h6>
+                                                                            <span class='text-sm text-muted kodeStandar'>Kode <b><?=$indikator['kodeStandar']?></b></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h6 class='namaSubStandar'><?=$indikator['namaSubStandar']?></h6>
+                                                                            <span class='text-sm text-muted kodeSubStandar'>Kode <b><?=$indikator['kodeSubStandar']?></b></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h6 class='namaPernyataan'><?=$indikator['namaPernyataan']?></h6>
+                                                                            <span class='text-sm text-muted kodePernyataan'>Kode <b><?=$indikator['kodePernyataan']?></b></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h6 class='namaIndikator'><?=$indikator['namaIndikator']?></h6>
+                                                                            <span class='text-sm text-muted kodeIndikator'>Kode <b><?=$indikator['kodeIndikator']?></b></span>
+                                                                        </td>
+                                                                        <td class='namaIndikatorDokumen'><?=$indikator['namaIndikatorDokumen']?></td>
                                                                     </tr>
                                                                 <?php } ?>
+                                                                </tbody>
                                                             </table>
                                                         </div>
                                                     <?php
+                                                        }else{
+                                                            ?>
+                                                                <div class="text-center pt-3 pb-5">
+                                                                    <img src="<?=base_url(assetsImg('empty.png'))?>" style='width:150px;' />
+                                                                    <h5>Indikator Dokumen</h5>
+                                                                    <p class='text-sm text-muted mb-0'>Tidak ada data indikator dokumen</p>
+                                                                </div>
+                                                            <?php
                                                         }
                                                     ?>
                                                     <button class="btn btn-success mr-1" type='submit'
@@ -160,7 +234,7 @@
     let imgPreview  =   false;
     let imgData     =   false;
 
-    $('#periode').select2({
+    $('#periode, #subStandart').select2({
         theme    : "bootstrap4", 
     });
 
@@ -209,5 +283,53 @@
                 });
             }
         });
+    });
+
+    function subStandartChanged(thisContext){
+        let _el     =   $(thisContext);
+
+        let _subStandarId  =  _el.val();   
+        let _newURL     =   `${_urlAwal}?subStandarId=${_subStandarId}`;
+
+        location.href   =   _newURL;
+    }
+
+    let _urlAwal    =   `<?=site_url(adminControllers('programstudi/penetapan/'))?><?=$detailProdi['idprogramstudi']?>`;
+
+    $('#pencarian').on('keyup', function(){
+        let _el     =   $(this);
+
+        let _value              =   _el.val();
+        let _valueLC            =   _value.toLowerCase();
+        let _indikatorDokumen   =   $('.indikator-dokumen');
+
+        for(_i = 0; _i < _indikatorDokumen.length; _i++){
+            let _iD             =   $(_indikatorDokumen[_i]);
+            
+            let _namaStandar    =   _iD.find('.namaStandar').text();
+            let _kodeStandar    =   _iD.find('.kodeStandar').text();
+
+            let _namaSubStandar    =   _iD.find('.namaSubStandar').text();
+            let _kodeSubStandar    =   _iD.find('.kodeSubStandar').text();
+
+            let _namaPernyataan    =   _iD.find('.namaPernyataan').text();
+            let _kodePernyataan    =   _iD.find('.kodePernyataan').text();
+
+            let _namaIndikator    =   _iD.find('.namaIndikator').text();
+            let _kodeIndikator    =   _iD.find('.kodeIndikator').text();
+
+            let _namaIndikatorDokumen    =   _iD.find('.namaIndikatorDokumen').text();
+            let _kodeIndikatorDokumen    =   _iD.find('.kodeIndikatorDokumen').text();
+
+            if(_namaStandar.toLowerCase().indexOf(_valueLC) >= 0 || _kodeStandar.toLowerCase().indexOf(_valueLC) >= 0
+                || _namaSubStandar.toLowerCase().indexOf(_valueLC) >= 0 || _kodeSubStandar.toLowerCase().indexOf(_valueLC) >= 0
+                || _namaPernyataan.toLowerCase().indexOf(_valueLC) >= 0 || _kodePernyataan.toLowerCase().indexOf(_valueLC) >= 0
+                || _namaIndikator.toLowerCase().indexOf(_valueLC) >= 0 || _kodeIndikator.toLowerCase().indexOf(_valueLC) >= 0
+                || _namaIndikatorDokumen.toLowerCase().indexOf(_valueLC) >= 0 || _kodeIndikatorDokumen.toLowerCase().indexOf(_valueLC) >= 0){
+                _iD.show();
+            }else{
+                _iD.hide();
+            }
+        }
     });
 </script>

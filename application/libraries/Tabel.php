@@ -17,6 +17,7 @@
         var $subStandart      =   'substandar';
         var $pernyataan      =   'pernyataan';
         var $programStudi      =   'programStudi';
+        var $indikator      =   'indikator';
         var $indikatorDokumen      =   'indikatorDokumen';
         var $periode      =   'periode';
         var $penetapan      =   'penetapanstandarspmi';

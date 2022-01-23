@@ -39,4 +39,12 @@
 
 		return $userViewsPath;
 	}
+	function assetsImg($path = null){
+		$assetsImgPath 	=	'assets/img';
+		if(!is_null($path) && !empty($path)){
+			$assetsImgPath 	=	$assetsImgPath.'/'.$path;
+		}
+
+		return $assetsImgPath;
+	}
 ?>

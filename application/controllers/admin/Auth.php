@@ -21,6 +21,7 @@
 		public function doLogin(){
 			$statusLogin 	=	false;
 			$message 		=	null;
+			$userData 		=	null;
 
 			if(!$this->isAdminLoggedIn){
 				$this->load->library('form_validation', null, 'fV');
@@ -34,7 +35,7 @@
 					$password 	=	$this->input->post('password');
 					
 					$userOptions 	=	[
-						'select'	=>	'userid',
+						'select'	=>	'userid, role',
 						'where'		=>	[
 							'password'	=>	md5($password)
 						],
@@ -52,6 +53,8 @@
 						$this->load->library('session');
 						$this->session->set_userdata('id', $idUser);
 
+						$userData 	=	$getUser;
+
 						$statusLogin	=	true;
 
 					}else{
@@ -65,7 +68,7 @@
 			}
 
 			header('Content-Type:application/json');
-			echo json_encode(['statusLogin' => $statusLogin, 'message' => $message]);
+			echo json_encode(['statusLogin' => $statusLogin, 'message' => $message, 'userData' => $userData]);
 		}
 		public function logout(){
 			$this->load->library('session');

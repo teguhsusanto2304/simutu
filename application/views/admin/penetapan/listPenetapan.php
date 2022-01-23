@@ -41,6 +41,7 @@
                                         <table class="table table-sm" id='tabelPenetapan'>
                                             <thead>
                                                 <th class='border-top-0 text-center text-bold'>No.</th>
+                                                <th class='border-top-0 text-left text-bold'>Sub Standart</th>
                                                 <th class='border-top-0 text-left text-bold'>Prodi</th>
                                                 <th class='border-top-0 text-left text-bold'>Periode</th>
                                                 <th class='border-top-0 text-center text-bold'>Action</th>
@@ -95,6 +96,12 @@
                 return  `<p class='text-bold text-center'>
                             ${metaData.row + 1}.
                         </p>`;
+            }},
+            {data : null, render : function(data, type, row, metaData){
+                return  `<h6 class='text-primary text-bold mb-0'>
+                            ${data.namaSubStandar}
+                        </h6>
+                        <span class='text-muted text-sm'>${data.linkStandarSPMI}</span>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-primary text-bold mb-0'>

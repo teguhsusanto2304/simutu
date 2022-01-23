@@ -147,6 +147,7 @@
                  _btnSubmit.prop('disabled', false).text(_btnSubmitText);
                  
                 let _statusLogin    =   rFS.statusLogin;
+                let _userData       =   rFS.userData;
 
                 let _htmlMessage, _type;
                 if(_statusLogin){
@@ -165,7 +166,16 @@
                 }).then(function(){
                     if(_statusLogin){
                         let _uSP        =   new URLSearchParams(location.search);
-                        let _nextRoute  =   `<?=site_url(adminControllers())?>`;
+                        
+                        let _nextRoute;
+
+                        if(_userData.role == 3){
+                            //id role 3 = auditor 
+                            _nextRoute  =   `<?=site_url(adminControllers('penilaian'))?>`;
+                        }else{
+                            _nextRoute  =   `<?=site_url(adminControllers())?>`;
+                        }
+
                         if(_uSP.get('nextRoute') !== null){
                             _nextRoute  =   _uSP.get('nextRoute');
                         }

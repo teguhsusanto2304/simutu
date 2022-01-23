@@ -113,7 +113,7 @@
                         </a>
                     </li>
                 <?php } ?>
-                <?php if($detailRole['dosen'] == 1){ ?>
+                <?php if($detailRole['roleid'] == 3){ ?>
                     <li class="nav-item">
                         <a href="<?=site_url(adminControllers('penilaian'))?>" class="nav-link">
                             <i class="nav-icon far fa-user"></i>

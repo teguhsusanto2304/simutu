@@ -224,10 +224,18 @@ class ProgramStudi extends CI_Controller {
     public function penetapan($idProgramStudi = null){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
+            $this->load->library('Tabel');
             $this->load->library('CustomForm', null, 'cF');
             $this->load->model('ProgramStudiModel', 'prodi');
             $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
             $this->load->model('PeriodeModel', 'periode');
+            $this->load->model('SubStandartModel', 'subStandart');
+
+            $tabel  =   $this->tabel;
+            $tabelStandart      =   $tabel->standart;
+            $tabelSubStandart   =   $tabel->subStandart;
+            $tabelPernyataan    =   $tabel->pernyataan;
+            $tabelIndikator     =   $tabel->indikator;
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -240,9 +248,24 @@ class ProgramStudi extends CI_Controller {
             $detailProdi    =   $this->prodi->getProgramStudi($idProgramStudi);
             $pageTitle      =   'Edit Data Prodi | '.strtoupper($detailProdi['namaProgramStudi']);
 
+            $subStandarIdQS             =   $this->input->get('subStandarId');
             $indikatorDokumenOptions    =   [
-                'select'    =>  'namaIndikatorDokumen, indikatorDokumenId'
+                'select'    =>  'pT.namaIndikatorDokumen, pT.indikatorDokumenId, s.namaStandar, s.kodeStandar, sS.kodeSubStandar, sS.namaSubStandar, p.namaPernyataan, p.kodePernyataan, i.namaIndikator, i.kodeIndikator',
+                'join'      =>  [
+                    ['table' => $tabelIndikator.' i', 'condition' => 'i.kodeIndikator=pT.kodeIndikator'],
+                    ['table' => $tabelPernyataan.' p', 'condition' => 'p.kodePernyataan=i.kodePernyataan'],
+                    ['table' => $tabelSubStandart.' sS', 'condition' => 'sS.kodeSubStandar=p.kodeSubStandar'],
+                    ['table' => $tabelStandart.' s', 'condition' => 's.kodeStandar=sS.kodeStandar']
+                ]
             ];
+            if(!is_null($subStandarIdQS)){
+                if(!empty($subStandarIdQS)){
+                    $subStandarId   =   trim($subStandarIdQS);
+
+                    $indikatorDokumenOptions['where']    =   ['sS.subStandarId' => $subStandarId];
+                }
+            }
+
             $indikatorDokumen   =   $this->indikatorDokumen->getIndikatorDokumen(null, $indikatorDokumenOptions);
 
             $periodeOptions    =   [
@@ -250,13 +273,21 @@ class ProgramStudi extends CI_Controller {
             ];
             $listPeriode   =   $this->periode->getPeriode(null, $periodeOptions);
 
+            $listSubStandartOptions =   [
+                'select'    =>  'namaSubStandar, subStandarId'
+            ];
+
+            $listSubStandart        =   $this->subStandart->getSubStandart(null, $listSubStandartOptions);
+
             $dataPage   =   [
-                'detailProdi'   =>  $detailProdi,
-                'pageTitle'     =>  $pageTitle,
-                'detailUser'    =>  $detailUser,
-                'path'          =>  $this->path,
+                'detailProdi'       =>  $detailProdi,
+                'pageTitle'         =>  $pageTitle,
+                'detailUser'        =>  $detailUser,
+                'path'              =>  $this->path,
                 'indikatorDokumen'  =>  $indikatorDokumen,
-                'listPeriode'   =>  $listPeriode
+                'listPeriode'       =>  $listPeriode,
+                'listSubStandart'   =>  $listSubStandart,
+                'subStandarIdQS'    =>  $subStandarIdQS
             ];
 
             $this->load->view(adminViews('programStudi/penetapan'), $dataPage);

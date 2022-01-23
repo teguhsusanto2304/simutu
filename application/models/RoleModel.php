@@ -6,7 +6,7 @@
         public function getNumberOfData(){
             $tabelRole        =   $this->tabel->role;
 
-            $this->db->select('userid');
+            $this->db->select('roleid');
             $allData    =   $this->db->get($tabelRole);
 
             return $allData->num_rows();
@@ -134,11 +134,11 @@
                 }
             }
             if(!is_null($idRole)){
-                $this->db->where('pT.userid', $idRole);
+                $this->db->where('pT.roleid', $idRole);
             }
 
             if($orderByOptions === false){
-                $this->db->order_by('pT.userid', 'desc');
+                $this->db->order_by('pT.roleid', 'desc');
             }
             $getRole    =    $this->db->get($tabelRole.' pT'); //pT = primary table (tabel utama)
 
@@ -167,7 +167,7 @@
 
                 $isUpdate   =   false;
             }else{
-                $this->db->where('userid', $idRole);
+                $this->db->where('roleid', $idRole);
                 $saveRole  =   $this->db->update($tabelRole, $dataRole);
                 $isUpdate   =   true;
             }

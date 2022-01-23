@@ -14,7 +14,7 @@
 	            <button class="btn btn-secondary">Back to Home</button>
 	        </a>
 			<p class="mb-0 mt-5 text-muted text-sm">
-				&copy;2021 TempeQu
+				&copy;2021
 			</p>
 		<!-- /.card -->
 		</div>
