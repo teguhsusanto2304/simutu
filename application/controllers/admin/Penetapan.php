@@ -59,13 +59,26 @@ class Penetapan extends CI_Controller {
         }
 
         $auditorQS  =   $this->input->get('auditor');
-        if(!is_null($auditorQS)){
-            if(!empty($auditorQS)){
-                $auditorID      =   trim($auditorQS);
-                $detailAuditor  =   $this->user->getUser($auditorID, ['select' => 'idprogramstudi']);
-                $prodiAuditor   =   $detailAuditor['idprogramstudi'];
+        $kpsQS      =   $this->input->get('kps');
+        if(!is_null($auditorQS) || !is_null($kpsQS)){
+            if(!empty($auditorQS) || !empty($kpsQS)){
+                if(!is_null($auditorQS)){
+                    if(!empty($auditorQS)){
+                        $auditorID  =   trim($auditorQS);
+                        $idUser     =   $auditorID;
+                    }
+                }
+                if(!is_null($kpsQS)){
+                    if(!empty($kpsQS)){
+                        $kpsID  =   trim($kpsQS);
+                        $idUser     =   $kpsID;
+                    }
+                }
 
-                $options['where']['pS.idprogramstudi']  =   $prodiAuditor;
+                $detailUser  =   $this->user->getUser($idUser, ['select' => 'idprogramstudi']);
+                $prodiUser   =   $detailUser['idprogramstudi'];
+
+                $options['where']['pS.idprogramstudi']  =   $prodiUser;
             }
         }
 

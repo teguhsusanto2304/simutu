@@ -85,13 +85,14 @@
     let _loadedFrom_pelaksanaan     =   `<?=$loadedFrom_pelaksanaan?>`;
     let _loadedFrom_penilaian       =   `<?=$loadedFrom_penilaian?>`;
 
-    let _auditorQS  =   `<?=($detailUser['role'] == 3)? '&auditor='.$this->isUserLoggedIn : ''?>`;   
+    let _pelaksanaQS    =   `<?=($detailUser['role'] == 9)? '&kps='.$this->isUserLoggedIn : ''?>`;   
+    let _auditorQS      =   `<?=($detailUser['role'] == 3)? '&auditor='.$this->isUserLoggedIn : ''?>`;   
 
     let _dataTableOptions   =  {
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true&loadedFrom='.$loadedFrom))?>${_auditorQS}${location.search}`,
+            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true&loadedFrom='.$loadedFrom))?>${_auditorQS}${_pelaksanaQS}${location.search}`,
             dataSrc     :   'listPenetapan'
         },
         
@@ -109,7 +110,7 @@
                     _pelaksanaHTML  =   `<h6 class='text-bold mb-0'>
                                             ${_pelaksanaan.namaPelaksana}
                                         </h6>
-                                        <span class='text-muted text-sm'>Pada <b>${convertDateTime(data.waktuPelaksanaan)}</b></span>`;
+                                        <span class='text-muted text-sm'>Dilaksanakan pada <b>${convertDateTime(data.waktuPelaksanaan)}</b></span>`;
                 }
 
                 let _penilaiHTML    =   '';
@@ -120,7 +121,7 @@
                                         <h6 class='text-bold mb-0'>
                                             ${_penilaian.namaPenilai}
                                         </h6>
-                                        <p class='text-muted text-sm mb-0'>Kode Sub <b>${convertDateTime(data.waktuPenilaian)}</b></p>`;
+                                        <p class='text-muted text-sm mb-0'>Dinilai pada <b>${convertDateTime(data.waktuPenilaian)}</b></p>`;
                 }
 
                 return  `${_pelaksanaHTML}${_penilaiHTML}`;
