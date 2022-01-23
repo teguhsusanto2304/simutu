@@ -98,17 +98,22 @@
                         </p>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaStandar}
                         </h6>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                let _link   =   data.linkStandarSPMI;
+
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaSubStandar}
-                        </h6>`;
+                        </h6>
+                        <a href='${_link}' target='_blank'>
+                            <span class='fa fa-link'></span>
+                        </a>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.namaPernyataan}
                         </h6>`;
             }},

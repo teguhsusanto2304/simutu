@@ -16,7 +16,7 @@ class Pernyataan extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'pT.kodeSubStandar, pT.namaPernyataan, pT.kodePernyataan, sS.namaSubStandar, s.namaStandar';
+        $select 	=	'pT.kodeSubStandar, pT.namaPernyataan, pT.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){

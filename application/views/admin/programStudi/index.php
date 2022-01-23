@@ -106,29 +106,19 @@
                         </p>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.programStudiCode}
-                        </h6>`;
+                return  `${data.programStudiCode}`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.namaProgramStudi}
-                        </h6>`;
+                return  `${data.namaProgramStudi}`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.numberSK}
-                        </h6>`;
+                return  `${data.numberSK}`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.peringkatAkreditasi}
-                        </h6>`;
+                return  `${data.peringkatAkreditasi}`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.noSKBANPT}
-                        </h6>`;
+                return  `${data.noSKBANPT}`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 let _idProdi          =   data.idprogramstudi;

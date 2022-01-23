@@ -48,7 +48,6 @@
                                                 <th class='border-top-0 text-center text-bold'>No.</th>
                                                 <th class='border-top-0 text-left text-bold'>Kode</th>
                                                 <th class='border-top-0 text-left text-bold'>Nama</th>
-                                                <th class='border-top-0 text-left text-bold'>Link</th>
                                                 <th class='border-top-0 text-center text-bold'>Action</th>
                                             </thead>
                                         </table>
@@ -98,20 +97,19 @@
                         </p>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
+                return  `<h6 class='text-bold mb-0'>
                             ${data.kodeSubStandar}
                         </h6>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.namaSubStandar}
-                        </h6>`;
-            }},
-            {data : null, render : function(data, type, row, metaData){
                 let _link   =   data.linkStandarSPMI;
-                return  `<h6 class='text-primary text-bold mb-0'>
-                            <a href='${_link}' target='_blank'>${_link}</a>
-                        </h6>`;
+
+                return  `<h6 class='text-bold mb-0'>
+                            ${data.namaSubStandar}
+                        </h6>
+                        <a href='${_link}' target='_blank'>
+                            <span class='fa fa-link'></span>
+                        </a>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 let _idSubStandart         =   data.subStandarId;

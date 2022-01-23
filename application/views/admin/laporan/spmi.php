@@ -105,7 +105,11 @@
                             ${data.namaSubStandar}
                         </h6>
                         <span class='text-muted text-sm'>${data.kodeSubStandar}</span>
-                        <p class='text-sm mb-0 mt-1 text-primary'>${data.linkStandarSPMI}</p>`;
+                        <p class='text-sm mb-0 mt-1 text-primary'>
+                            <a href='${data.linkStandarSPMI}' target='_blank'>
+                                <span class='fa fa-link'></span>
+                            </a>
+                        </p>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-bold mb-0'>
