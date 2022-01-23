@@ -390,7 +390,13 @@ class Penetapan extends CI_Controller {
                 $this->load->model('PenetapanDetailModel', 'penetapanDetail');
                 $this->load->model('PenilaianModel', 'penilaian');
 
-                $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
+                $tabel  =   $this->tabel;
+                $tabelIndikatorDokumen      =   $tabel->indikatorDokumen;
+                $tabelIndikator             =   $tabel->indikator;
+                $tabelPenetapan             =   $tabel->penetapan;
+                $tabelPernyataan            =   $tabel->pernyataan;
+                $tabelSubStandart           =   $tabel->subStandart;
+                $tabelStandart              =   $tabel->standart;
 
                 $detailUserOptions  =   [
                     'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -403,18 +409,23 @@ class Penetapan extends CI_Controller {
                 $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
 
                 $penetapanDetailOptions     =   [
-                    'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen',
+                    'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen, s.namaStandar, s.kodeStandar, sS.namaSubStandar, sS.kodeSubStandar, sS.linkStandarSPMI, pe.namaPernyataan, pe.kodePernyataan, i.namaIndikator, i.kodeIndikator',
                     'join'      =>  [
-                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen']
+                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen'],
+                        ['table' => $tabelPenetapan.' p', 'condition' => 'p.penetapanid=pT.penetapanId'],
+                        ['table' => $tabelIndikator.' i', 'condition' => 'i.kodeIndikator=iD.kodeIndikator'],
+                        ['table' => $tabelPernyataan.' pe', 'condition' => 'pe.kodePernyataan=i.kodePernyataan'],
+                        ['table' => $tabelSubStandart.' sS', 'condition' => 'sS.kodeSubStandar=pe.kodeSubStandar'],
+                        ['table' => $tabelStandart.' s', 'condition' => 's.kodeStandar=sS.kodeStandar']
                     ],
                     'where'     =>  [
-                        'penetapanId'   =>  $idPenetapan
+                        'pT.penetapanId'   =>  $idPenetapan
                     ]
                 ];
                 $listItemPenetapan          =   $this->penetapanDetail->getPenetapanDetail(null, $penetapanDetailOptions);
 
                 $penilaianOptions   =   [
-                    'select'    =>  'idPenilaian, namaPenilaian'
+                    'select'    =>  'idPenilaian, namaPenilaian, warna, bobot'
                 ];
                 $listPenilaian  =   $this->penilaian->getPenilaian(null, $penilaianOptions);
 
