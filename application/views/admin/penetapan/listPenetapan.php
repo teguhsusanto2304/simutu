@@ -84,11 +84,13 @@
     let _loadedFrom_pelaksanaan     =   `<?=$loadedFrom_pelaksanaan?>`;
     let _loadedFrom_penilaian       =   `<?=$loadedFrom_penilaian?>`;
 
+    let _auditorQS  =   `<?=($detailUser['role'] == 3)? '&auditor='.$this->isUserLoggedIn : ''?>`;   
+
     let _dataTableOptions   =  {
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true&loadedFrom='.$loadedFrom))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('penetapan/listPenetapan?joinWithProdiAndPeriode=true&loadedFrom='.$loadedFrom))?>${_auditorQS}${location.search}`,
             dataSrc     :   'listPenetapan'
         },
         

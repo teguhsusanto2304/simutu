@@ -55,6 +55,17 @@ class Penetapan extends CI_Controller {
             $options['where']   =   $whereArray;
         }
 
+        $auditorQS  =   $this->input->get('auditor');
+        if(!is_null($auditorQS)){
+            if(!empty($auditorQS)){
+                $auditorID      =   trim($auditorQS);
+                $detailAuditor  =   $this->user->getUser($auditorID, ['select' => 'idprogramstudi']);
+                $prodiAuditor   =   $detailAuditor['idprogramstudi'];
+
+                $options['where']['pS.idprogramstudi']  =   $prodiAuditor;
+            }
+        }
+
         $joinWithProdiAndPeriodeQS    =   $this->input->get('joinWithProdiAndPeriode');
         if(!is_null($joinWithProdiAndPeriodeQS)){
             if(!empty($joinWithProdiAndPeriodeQS)){
