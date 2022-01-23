@@ -105,9 +105,9 @@
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-primary text-bold mb-0'>
-                            ${data.programStudiCode}
+                            ${data.namaProgramStudi}
                         </h6>
-                        <span class='text-muted text-sm'>${data.namaProgramStudi}</span>`;
+                        <span class='text-muted text-sm'>${data.programStudiCode}</span>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-primary text-bold mb-0'>

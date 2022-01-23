@@ -242,7 +242,11 @@ class Penetapan extends CI_Controller {
                 $idProgramStudiUser     =   $detailActiveUser['idprogramstudi'];     
 
                 $tabelIndikatorDokumen      =   $this->tabel->indikatorDokumen;
-                $tabelPenetapan      =   $this->tabel->penetapan;
+                $tabelIndikator     =   $this->tabel->indikator;
+                $tabelPenetapan     =   $this->tabel->penetapan;
+                $tabelPernyataan    =   $this->tabel->pernyataan;
+                $tabelSubStandart   =   $this->tabel->subStandart;
+                $tabelStandart      =   $this->tabel->standart;
 
                 $detailUserOptions  =   [
                     'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -255,10 +259,14 @@ class Penetapan extends CI_Controller {
                 $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
    
                 $penetapanDetailOptions     =   [
-                    'select'    =>  'pT.*, iD.kodeIndikator, iD.namaIndikatorDokumen',
+                    'select'    =>  'pT.*, i.namaIndikator, iD.kodeIndikator, iD.namaIndikatorDokumen, s.namaStandar, s.kodeStandar, sS.namaSubStandar, sS.kodeSubStandar, sS.linkStandarSPMI, pe.namaPernyataan, pe.kodePernyataan, i.namaIndikator, i.kodeIndikator',
                     'join'      =>  [
                         ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen'],
-                        ['table' => $tabelPenetapan.' p', 'condition' => 'p.penetapanid=pT.penetapanId']
+                        ['table' => $tabelPenetapan.' p', 'condition' => 'p.penetapanid=pT.penetapanId'],
+                        ['table' => $tabelIndikator.' i', 'condition' => 'i.kodeIndikator=iD.kodeIndikator'],
+                        ['table' => $tabelPernyataan.' pe', 'condition' => 'pe.kodePernyataan=i.kodePernyataan'],
+                        ['table' => $tabelSubStandart.' sS', 'condition' => 'sS.kodeSubStandar=pe.kodeSubStandar'],
+                        ['table' => $tabelStandart.' s', 'condition' => 's.kodeStandar=sS.kodeStandar']
                     ],
                     'where'     =>  [
                         'pT.penetapanId'       =>  $idPenetapan,
@@ -288,8 +296,7 @@ class Penetapan extends CI_Controller {
 
             $validationRules    =   [
                 ['name' => 'idPenetapanDetail[]', 'label' => 'ID Penetapan', 'rule' => 'required|trim|numeric', 'field' => null],
-                ['name' => 'linkProdi[]', 'label' => 'Link Prodi', 'rule' => 'required|trim', 'field' => null],
-                ['name' => 'catatan[]', 'label' => 'Catatan', 'rule' => 'required|trim', 'field' => null]
+                ['name' => 'linkProdi[]', 'label' => 'Link Prodi', 'rule' => 'required|trim', 'field' => null]
             ];
 
             $validation         =   $this->cV->validation($validationRules);

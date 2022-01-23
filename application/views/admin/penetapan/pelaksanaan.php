@@ -53,9 +53,10 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class='text-center' width='5%;'>No.</th>
-                                                                <th>Indikator Dokumen</th>
+                                                                <th width='25%;'>Standart/Sub/Perny.</th>
+                                                                <th width='25%'>Indikator / Indikator Dokumen</th>
                                                                 <th>Link Prodi</th>
-                                                                <th>Catatan</th>
+                                                                <th>Catatan (Opsional)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -65,8 +66,23 @@
                                                                 <tr>
                                                                     <td class='text-center'><?=$indexData+1?></td>
                                                                     <td>
-                                                                        <h6 class='mb-1'><?=$penetapan['namaIndikatorDokumen']?></h6>
-                                                                        <span class='text-sm text-muted'><?=$penetapan['kodeIndikator']?></span>
+                                                                        <h6 class='mb-2'><?=$penetapan['namaStandar']?></h6>
+                                                                        <p class='text-sm text-muted mb-0'>Kode Standar <b><?=$penetapan['kodeStandar']?></b></p>
+                                                                        <br />
+                                                                        <h6 class='mb-2'><?=$penetapan['namaSubStandar']?></h6>
+                                                                        <p class='text-sm text-muted mb-0'>Kode Sub <b><?=$penetapan['kodeSubStandar']?></b></p>
+                                                                        <p class='text-sm text-muted mb-0'>
+                                                                            Link Sub <b><a href='<?=$penetapan['linkStandarSPMI']?>' 
+                                                                                target='_blank'><?=$penetapan['linkStandarSPMI']?></a></b>
+                                                                        </p>
+                                                                        <br />
+                                                                        <h6 class='mb-2'><?=$penetapan['namaPernyataan']?></h6>
+                                                                        <p class='text-sm text-muted mb-0'>Kode <b><?=$penetapan['kodePernyataan']?></b></p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h6 class='mb-2'><?=$penetapan['namaIndikatorDokumen']?></h6>
+                                                                        <p class='text-sm text-muted mb-0'>Nama Indikator <b><?=$penetapan['namaIndikator']?></b></p>
+                                                                        <span class='text-sm text-muted'>Kode Indikator <b><?=$penetapan['kodeIndikator']?></b></span>
                                                                     </td>
                                                                     <td class='vam'>
                                                                         <input type="hidden" name="idPenetapanDetail[]" class='idPenetapanDetail form-control'
@@ -76,7 +92,7 @@
                                                                     </td>
                                                                     <td class='vam'>
                                                                         <textarea name="catatan[]" class='catatan form-control'
-                                                                            placeholder='Catatan'></textarea>
+                                                                            placeholder='Catatan (Opsional)'></textarea>
                                                                     </td>
                                                                 </tr>
                                                             <?php
