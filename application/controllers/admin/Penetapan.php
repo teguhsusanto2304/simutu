@@ -119,12 +119,20 @@ class Penetapan extends CI_Controller {
         if(count($listPenetapan) >= 1){
             foreach($listPenetapan as $indexData => $penetapan){
                 if(array_key_exists('pelaksana', $penetapan)){
-                    $detailPelaksana    =   $this->user->getUser($penetapan['pelaksana'], ['select' => 'concat_ws(" ", firstName, lastName) as namaPelaksana']);
-                    $listPenetapan[$indexData]['pelaksanaan'] =   $detailPelaksana;
+                    $idPelaksana        =   $penetapan['pelaksana'];
+
+                    if(!empty($idPelaksana)){
+                        $detailPelaksana    =   $this->user->getUser($idPelaksana, ['select' => 'concat_ws(" ", firstName, lastName) as namaPelaksana']);
+                        $listPenetapan[$indexData]['pelaksanaan'] =   $detailPelaksana;
+                    }
                 }
                 if(array_key_exists('idAuditor', $penetapan)){
-                    $detailPenilai      =   $this->user->getUser($penetapan['idAuditor'], ['select' => 'concat_ws(" ", firstName, lastName) as namaPenilai']);
-                    $listPenetapan[$indexData]['penilaian'] =   $detailPenilai;
+                    $idPenilai          =   $penetapan['idAuditor'];
+
+                    if(!empty($idPenilai)){
+                        $detailPenilai      =   $this->user->getUser($idPenilai, ['select' => 'concat_ws(" ", firstName, lastName) as namaPenilai']);
+                        $listPenetapan[$indexData]['penilaian'] =   $detailPenilai;
+                    }
                 }
             }
         }

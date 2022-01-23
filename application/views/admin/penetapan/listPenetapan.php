@@ -103,9 +103,9 @@
                         </p>`;
             }},        
             {data : null, render : function(data, type, row, metaData){
-                let _pelaksanaHTML  =   '';
+                let _pelaksanaHTML  =   `<b class='text-danger'>Belum Dilaksanakan</b>`;
 
-                if(data.pelaksanaan !== null){
+                if(data.pelaksanaan !== null && data.pelaksanaan !== undefined){
                     let _pelaksanaan  =   data.pelaksanaan;
                     _pelaksanaHTML  =   `<h6 class='text-bold mb-0'>
                                             ${_pelaksanaan.namaPelaksana}
@@ -113,8 +113,8 @@
                                         <span class='text-muted text-sm'>Dilaksanakan pada <b>${convertDateTime(data.waktuPelaksanaan)}</b></span>`;
                 }
 
-                let _penilaiHTML    =   '';
-                if(data.penilaian !== null){
+                let _penilaiHTML    =   `<p class='mt-3 mb-0'><b class='text-danger'>Belum dinilai</b></p>`;
+                if(data.penilaian !== null && data.penilaian !== undefined){
                     let _penilaian    =   data.penilaian;
                     _penilaiHTML    =   `<br />
                                         <br />
