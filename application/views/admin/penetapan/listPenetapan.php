@@ -41,7 +41,8 @@
                                         <table class="table table-sm" id='tabelPenetapan'>
                                             <thead>
                                                 <th class='border-top-0 text-center text-bold'>No.</th>
-                                                <th class='border-top-0 text-left text-bold'>Sub Standart</th>
+                                                <th class='border-top-0 text-left text-bold'>Standart/Sub/Perny.</th>
+                                                <th class='border-top-0 text-left text-bold'>Ind./Ind. Dok.</th>
                                                 <th class='border-top-0 text-left text-bold'>Prodi</th>
                                                 <th class='border-top-0 text-left text-bold'>Periode</th>
                                                 <th class='border-top-0 text-center text-bold'>Action</th>
@@ -99,9 +100,35 @@
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-primary text-bold mb-0'>
+                            ${data.namaStandar}
+                        </h6>
+                        <span class='text-muted text-sm'>Kode Standar <b>${data.kodeStandar}</b></span>
+                        <br />
+                        <br />
+                        <h6 class='text-primary text-bold mb-0'>
                             ${data.namaSubStandar}
                         </h6>
-                        <span class='text-muted text-sm'>${data.linkStandarSPMI}</span>`;
+                        <p class='text-muted text-sm mb-0'>Kode Sub <b>${data.kodeSubStandar}</b></p>
+                        <span class='text-muted text-sm'>
+                            Link Sub <b><a href='${data.linkStandarSPMI}' target='_blank'>${data.linkStandarSPMI}</a></b>
+                        </span>
+                        <br />
+                        <br />
+                        <h6 class='text-primary text-bold mb-0'>
+                            ${data.namaPernyataan}
+                        </h6>
+                        <span class='text-muted text-sm'>Kode Perny. <b>${data.kodePernyataan}</b></span>`;
+            }},
+            {data : null, render : function(data, type, row, metaData){
+                return  `<h6 class='text-primary text-bold mb-0'>
+                            ${data.namaIndikator}
+                        </h6>
+                        <span class='text-muted text-sm'>Kode Ind. <b>${data.kodeIndikator}</b></span>
+                        <br />
+                        <br />
+                        <h6 class='text-primary text-bold mb-0'>
+                            ${data.namaIndikatorDokumen}
+                        </h6>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-primary text-bold mb-0'>
@@ -117,7 +144,7 @@
                         `;
             }},
             {data : null, render : function(data, type, row, metaData){
-                let _idPenetapan      =   data.penetapanid;
+                let _idPenetapan      =   data.penetapanId;
 
                 //default _actionHTML adalah pengesetan/penetapan auditor
                 let _actionHTML =   `<div class='text-center'>

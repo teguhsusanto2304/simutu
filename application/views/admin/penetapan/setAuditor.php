@@ -43,21 +43,73 @@
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
+                                        <h5>Detail Prodi</h5>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <table class="table table-sm no-border">
+                                                    <tr>
+                                                        <td>Nama Program Studi</td>
+                                                        <td><?=$detailProdi['namaProgramStudi']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kode Jurusan</td>
+                                                        <td><?=$detailProdi['jurusanKode']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kode Program Studi</td>
+                                                        <td><?=$detailProdi['programStudiCode']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Didirikan</td>
+                                                        <td><?=$detailProdi['tglBerdiri']?></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-6">
+                                                <table class="table table-sm no-border">
+                                                    <tr>
+                                                        <td>Peringkat Akreditasi</td>
+                                                        <td><?=$detailProdi['peringkatAkreditasi']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NO SK Prodi</td>
+                                                        <td><?=$detailProdi['numberSK']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SK BAN PT</td>
+                                                        <td><?=$detailProdi['noSKBANPT']?></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr class='mb-4' />
                                         <form id="formPenetapanAuditor">
                                             <h5 class='mb-3'>Pilih Auditor</h5>
-                                            <?php 
-                                                if(count($listAuditor) >= 1){
-                                                    foreach($listAuditor as $auditor){
-                                                        ?>
-                                                            <p class='mb-1'>
-                                                                <input type='checkbox' value='<?=$auditor['userid']?>' id='<?=$auditor['userid']?>' name='auditor[]'
-                                                                    class='auditor' />
-                                                                <label for='<?=$auditor['userid']?>'><?=$auditor['fullName']?></label>
-                                                            </p>
-                                                        <?php
-                                                    }
-                                                }
-                                            ?>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <?php 
+                                                        if(count($listAuditor) >= 1){
+                                                            foreach($listAuditor as $auditor){
+                                                                ?>
+                                                                   <div class="col-lg-3">
+                                                                        <div class='row'>
+                                                                            <input type='checkbox' value='<?=$auditor['userid']?>' id='<?=$auditor['userid']?>' name='auditor[]'
+                                                                                class='auditor' style='margin-top:5px;' />
+                                                                            <div class='col mt-0 pl-3'>
+                                                                                <label for='<?=$auditor['userid']?>' class='cp'>
+                                                                                    <h5 class='mb-1'><?=$auditor['fullName']?></h5>
+                                                                                    <p class="text-sm text-muted mb-0"><?=$auditor['namaProgramStudi']?></p>
+                                                                                    <span class='text-sm text-muted'>Kode <?=$auditor['programStudiCode']?></span>       
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                   </div>
+                                                                <?php
+                                                            }
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
                                             <hr />
                                             <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
                                             <a href="<?=site_url(adminControllers('penetapan'))?>">

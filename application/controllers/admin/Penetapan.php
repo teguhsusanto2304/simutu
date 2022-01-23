@@ -12,11 +12,11 @@ class Penetapan extends CI_Controller {
 		$this->isUserLoggedIn	=	$isUserLoggedIn;
 	}
     public function listPenetapan(){
-        $this->load->model('PenetapanModel', 'penetapan');
+        $this->load->model('PenetapanDetailModel', 'penetapanDetail');
 
         $draw       =   $this->input->get('draw');
 
-        $select     =   'pT.penetapanid, pS.namaProgramStudi, pS.programStudiCode, p.namaPeriode, p.tahunPeriode, p.mulaiPelaksanaan, p.akhirPelaksanaan';
+        $select     =   'pT.penetapanId, pS.namaProgramStudi, pS.programStudiCode, per.namaPeriode, per.tahunPeriode, per.mulaiPelaksanaan, per.akhirPelaksanaan, s.namaStandar, s.kodeStandar, sS.namaSubStandar, sS.kodeSubStandar, sS.linkStandarSPMI, perny.namaPernyataan, perny.kodePernyataan, i.namaIndikator, i.kodeIndikator, iD.namaIndikatorDokumen';
         
         $selectQS   =   $this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){
@@ -61,23 +61,38 @@ class Penetapan extends CI_Controller {
                 $joinWithProdiAndPeriode    =   ($joinWithProdiAndPeriodeQS === 'true');
                 if($joinWithProdiAndPeriode){
                     $this->load->library('Tabel');
-                    $tabelPeriode       =   $this->tabel->periode;
-                    $tabelProgramStudi  =   $this->tabel->programStudi;
+                    $tabel              =   $this->tabel;
+
+                    $tabelPeriode       =   $tabel->periode;
+                    $tabelPenetapan     =   $tabel->penetapan;
+                    $tabelProgramStudi  =   $tabel->programStudi;
+
+                    $tabelStandart      =   $tabel->standart;
+                    $tabelSubStandart   =   $tabel->subStandart;
+                    $tabelPernyataan    =   $tabel->pernyataan;
+                    $tabelIndikator     =   $tabel->indikator;
+                    $tabelIndikatorDokumen  =   $tabel->indikatorDokumen;
 
                     $options['join']    =   [
-                        ['table' => $tabelPeriode.' p', 'condition' => 'p.idPeriode=pT.periode'],
-                        ['table' => $tabelProgramStudi.' pS', 'condition' => 'pS.idprogramstudi=pT.idprogramstudi']
+                        ['table' => $tabelPenetapan.' pen', 'condition' => 'pen.penetapanid=pT.penetapanId'],
+                        ['table' => $tabelPeriode.' per', 'condition' => 'per.idPeriode=pen.periode'],
+                        ['table' => $tabelProgramStudi.' pS', 'condition' => 'pS.idprogramstudi=pen.idprogramstudi'],
+                        ['table' => $tabelIndikatorDokumen.' iD', 'condition' => 'iD.indikatorDokumenId=pT.indikatorDokumen'],
+                        ['table' => $tabelIndikator.' i', 'condition' => 'i.kodeIndikator=iD.kodeIndikator'],
+                        ['table' => $tabelPernyataan.' perny', 'condition' => 'perny.kodePernyataan=i.kodePernyataan'],
+                        ['table' => $tabelSubStandart.' sS', 'condition' => 'sS.kodeSubStandar=perny.kodeSubStandar'],
+                        ['table' => $tabelStandart.' s', 'condition' => 's.kodeStandar=sS.kodeStandar']
                     ];
                 }
             }
         }
 
-        $listPenetapan    =   $this->penetapan->getPenetapan(null, $options);
+        $listPenetapan  =   $this->penetapanDetail->getPenetapanDetail(null, $options);
 
-        $recordsTotal   =   $this->penetapan->getNumberOfData();
+        $recordsTotal   =   $this->penetapanDetail->getNumberOfData();
 
         $response   =   [
-            'listPenetapan'    =>  $listPenetapan, 
+            'listPenetapan'     =>  $listPenetapan, 
             'draw'              =>  $draw,
             'recordsFiltered'   =>  $recordsTotal,
             'recordsTotal'      =>  $recordsTotal
@@ -139,8 +154,13 @@ class Penetapan extends CI_Controller {
     public function setAuditor($idPenetapan = null){
         if($this->isUserLoggedIn){
            if(!is_null($idPenetapan)){
-                 $this->load->library('Path');
+                $this->load->library('Path');
+                $this->load->library('Tabel');
                 $this->load->model('PenetapanModel', 'penetapan');
+                $this->load->model('ProgramStudiModel', 'prodi');
+
+                $tabel          =   $this->tabel;
+                $tabelProdi     =   $tabel->programStudi;
 
                 $detailUserOptions  =   [
                     'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -152,8 +172,13 @@ class Penetapan extends CI_Controller {
 
                 $detailPenetapan    =   $this->penetapan->getPenetapan($idPenetapan);
 
+                $detailProdi        =   $this->prodi->getProgramStudi($detailPenetapan['idprogramstudi']);
+
                 $userOptions        =   [
-                    'select'    =>  'userid, concat_ws(" ", firstName, lastName) as fullName, nip',
+                    'select'    =>  'pT.userid, concat_ws(" ", firstName, lastName) as fullName, pT.nip, pS.namaProgramStudi, pS.programStudiCode',
+                    'join'      =>  [
+                        ['table' => $tabelProdi.' pS', 'condition' => 'pS.idprogramstudi=pT.idprogramstudi']
+                    ],
                     'where'     =>  [
                         'role'  =>  3
                     ]
@@ -164,7 +189,8 @@ class Penetapan extends CI_Controller {
                     'pageTitle'         =>  'Penetapan Auditor (Pilih Auditor)',
                     'detailUser'        =>  $detailUser,
                     'detailPenetapan'   =>  $detailPenetapan,
-                    'listAuditor'       =>  $listAuditor
+                    'listAuditor'       =>  $listAuditor,
+                    'detailProdi'       =>  $detailProdi
                 ];
                 $this->load->view(adminViews('penetapan/setAuditor'), $dataPage);
            }

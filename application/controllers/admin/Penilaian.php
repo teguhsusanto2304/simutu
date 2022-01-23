@@ -31,6 +31,7 @@ class Penilaian extends CI_Controller {
                 'loadedFrom_pelaksanaan'    =>  $this->penetapan->loadedFrom_pelaksanaan,
                 'loadedFrom_penilaian'      =>  $this->penetapan->loadedFrom_penilaian
             ];
+
             $this->load->view(adminViews('penetapan/listPenetapan'), $dataPage);
         }else{
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('penilaian'))));
