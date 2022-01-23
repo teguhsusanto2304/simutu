@@ -108,9 +108,11 @@
                 return  `<h6 class='text-bold mb-0'>
                             ${data.namaSubStandar}
                         </h6>
-                        <a href='${_link}' target='_blank'>
-                            <span class='fa fa-link'></span>
-                        </a>`;
+                        <p class='text-sm text-muted mb-0'>
+                            <a href='${_link}' target='_blank'>
+                                <span class='fa fa-link'></span>
+                            </a>
+                        </p>`;
             }},
             {data : null, render : function(data, type, row, metaData){
                 return  `<h6 class='text-bold mb-0'>

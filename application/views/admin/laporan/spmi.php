@@ -106,6 +106,7 @@
                         </h6>
                         <span class='text-muted text-sm'>${data.kodeSubStandar}</span>
                         <p class='text-sm mb-0 mt-1 text-primary'>
+                            Link contoh 
                             <a href='${data.linkStandarSPMI}' target='_blank'>
                                 <span class='fa fa-link'></span>
                             </a>

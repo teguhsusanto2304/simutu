@@ -72,8 +72,8 @@
                                                                         <h6 class='mb-2'><?=$penetapan['namaSubStandar']?></h6>
                                                                         <p class='text-sm text-muted mb-0'>Kode Sub <b><?=$penetapan['kodeSubStandar']?></b></p>
                                                                         <p class='text-sm text-muted mb-0'>
-                                                                            Link Sub <b><a href='<?=$penetapan['linkStandarSPMI']?>' 
-                                                                                target='_blank'><?=$penetapan['linkStandarSPMI']?></a></b>
+                                                                            Link contoh <b><a href='<?=$penetapan['linkStandarSPMI']?>' 
+                                                                                target='_blank'><span class='fa fa-link'></span></a></b>
                                                                         </p>
                                                                         <br />
                                                                         <h6 class='mb-2'><?=$penetapan['namaPernyataan']?></h6>

@@ -138,7 +138,7 @@
                         </h6>
                         <p class='text-muted text-sm mb-0'>Kode Sub <b>${data.kodeSubStandar}</b></p>
                         <span class='text-muted text-sm'>
-                            Link Sub <b><a href='${data.linkStandarSPMI}' target='_blank'><span class='fa fa-link'></span></a></b>
+                            Link contoh <b><a href='${data.linkStandarSPMI}' target='_blank'><span class='fa fa-link'></span></a></b>
                         </span>
                         <br />
                         <br />

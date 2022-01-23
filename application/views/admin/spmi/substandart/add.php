@@ -98,7 +98,7 @@
                                                         <?=$cF->textField($namaParams, 'Nama Sub Standart')?>
                                                     </div>
                                                     <div class="form-group">
-                                                        <?=$cF->textField($linkParams, 'Link Sub Standart')?>
+                                                        <?=$cF->textField($linkParams, 'Contoh Link Sub Standart')?>
                                                     </div>
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'

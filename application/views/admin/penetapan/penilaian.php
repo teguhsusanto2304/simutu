@@ -81,7 +81,12 @@
                                                                         </h6>
                                                                         <p class='text-muted text-sm mb-0'>Kode Sub <b><?=$penetapan['kodeSubStandar']?></b></p>
                                                                         <span class='text-muted text-sm'>
-                                                                            Link Sub <b><a href='<?=$penetapan['linkStandarSPMI']?>' target='_blank'><?=$penetapan['linkStandarSPMI']?></a></b>
+                                                                            Link contoh 
+                                                                            <b>
+                                                                                <a href='<?=$penetapan['linkStandarSPMI']?>' target='_blank'>
+                                                                                    <span class='fa fa-link'></span>    
+                                                                                </a>
+                                                                            </b>
                                                                         </span>
                                                                         <br />
                                                                         <br />
@@ -105,7 +110,7 @@
                                                                         <h6 class='mb-1'><?=$penetapan['catatan']?></h6>
                                                                         <span class='text-sm'>
                                                                             <a href="<?=$penetapan['linkProdi']?>" target='_blank'>
-                                                                                <?=$penetapan['linkProdi']?>
+                                                                                 <span class='fa fa-link'></span>  
                                                                             </a>
                                                                         </span>
                                                                     </td>
