@@ -13,6 +13,8 @@ class Laporan extends CI_Controller {
 	}
     public function spmi(){
         if($this->isUserLoggedIn){
+            $this->load->model('LaporanModel', 'laporan');
+
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
@@ -32,6 +34,8 @@ class Laporan extends CI_Controller {
     }
     public function prodi(){
         if($this->isUserLoggedIn){
+            $this->load->model('LaporanModel', 'laporan');
+            
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
                 'join'      =>  [
@@ -183,5 +187,30 @@ class Laporan extends CI_Controller {
             header('Content-Type:application/json');
             echo json_encode($response);
         }
-    } 
+    }
+    public function formCetak($jenisLaporan = null){
+        if($this->isUserLoggedIn){
+            $this->load->model('LaporanModel', 'laporan');
+            $this->load->model('StandartModel', 'standart');
+            
+            $detailUserOptions  =   [
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
+                'join'      =>  [
+                    ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                ]
+            ];
+            $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
+
+            $listStandart   =   $this->standart->getStandart(null, ['select' => 'namaStandar, kodeStandar']);
+
+            $dataPage   =   [
+                'pageTitle'     =>  'Form Cetak Laporan Prodi',
+                'detailUser'    =>  $detailUser,
+                'listStandart'  =>  $listStandart
+            ];
+            $this->load->view(adminViews('laporan/formCetak_spmi'), $dataPage);
+        }else{
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('laporan/formCetak/'.$jenisLaporan))));
+        }
+    }
 }

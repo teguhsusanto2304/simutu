@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php 
+        $spmi   =   $this->laporan->laporan_spmi;
+
         $headOptions    =   [
             'pageTitle'     =>  $pageTitle,
             'morePackages'  =>  [
@@ -34,6 +36,9 @@
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <h5><?=$pageTitle?></h5>
+                                            </div>
+                                            <div class="col-lg-8 text-right">
+                                                <a href="<?=site_url(adminControllers('laporan/formCetak/'.$spmi))?>">Cetak PDF</a>
                                             </div>
                                         </div>
                                     </div>
