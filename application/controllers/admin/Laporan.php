@@ -213,4 +213,66 @@ class Laporan extends CI_Controller {
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('laporan/formCetak/'.$jenisLaporan))));
         }
     }
+    public function prosescetak($jenisLaporan = null){
+         if($this->isUserLoggedIn){
+            $this->load->model('LaporanModel', 'laporan');
+            $this->load->model('StandartModel', 'standart');
+            
+            $this->load->library('PDF');
+
+            $laporan        =   $this->laporan;
+            $jenis_spmi     =   $laporan->laporan_spmi;
+            if($jenisLaporan === $jenis_spmi){
+                ini_set('memory_limit', '-1');
+
+                $standar            =   $this->input->post('standar');
+                $subStandar         =   $this->input->post('subStandar');
+                $pernyataan         =   $this->input->post('pernyataan');
+                $indikator          =   $this->input->post('indikator');
+                $indikatorDokumen   =   $this->input->post('indikatorDokumen');
+
+
+                $standartOptions    =   [
+                    'select'    =>  'iD.namaIndikatorDokumen, i.kodeIndikator, i.namaIndikator, perny.kodeSubStandar, perny.namaPernyataan, perny.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, pT.namaStandar, pT.kodeStandar',
+                    'join'  =>  [
+                        ['table' => 'substandar sS', 'condition' => 'sS.kodeStandar=pT.kodeStandar'],
+                        ['table' => 'pernyataan perny', 'condition' => 'perny.kodeSubStandar=sS.kodeSubStandar'],
+                        ['table' => 'indikator i', 'condition' => 'i.kodePernyataan=perny.kodePernyataan'],
+                        ['table' => 'indikatordokumen id', 'condition' => 'iD.kodeIndikator=i.kodeIndikator']
+                    ]
+                ];
+
+                if(!empty($standar)){
+                    $standartOptions['where']['pT.kodeStandar']          =   trim($standar);
+                }
+                if(!empty($subStandar)){
+                    $standartOptions['where']['sS.kodeSubStandar']      =   trim($subStandar);
+                }
+                if(!empty($pernyataan)){
+                    $standartOptions['where']['perny.kodePernyataan']   =   trim($pernyataan);
+                }
+                if(!empty($indikator)){
+                    $standartOptions['where']['i.kodeIndikator']        =   trim($indikator);
+                }
+                if(!empty($indikatorDokumen)){
+                    $standartOptions['where']['iD.indikatorDokumenId']  =   trim($indikatorDokumen);
+                }
+                
+
+                $listStandart       =   $this->standart->getStandart(null, $standartOptions);
+
+                $pdf    =   $this->pdf;
+                $pdf->setPaper('A4', 'landscape');
+                $pdf->fileName  =   strtoupper('LaporanSPMI_'.now().'.pdf');
+
+                $pdfData    =   [
+                    'pageTitle'     =>  $pdf->fileName,
+                    'listStandart'  =>  $listStandart
+                ];
+                $pdf->loadView(adminViews('laporan/spmi_pdf'), $pdfData);
+            }
+        }else{
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('laporan/prosescetak/'.$jenisLaporan))));
+        }
+    }
 }

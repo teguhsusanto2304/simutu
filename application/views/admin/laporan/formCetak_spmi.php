@@ -40,11 +40,18 @@
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
-                                       <form id="formCetak_spmi">
+                                       <form id="formCetak_spmi" method='post' action="<?=site_url(adminControllers('laporan/prosesCetak/'.$spmi))?>">
                                             <div class="row">
                                                 <div class="form-group col-lg-2">
                                                     <label for='standar'>Standar</label>
-                                                    <select id='standar' class='form-control' name='standar'>
+                                                    <select id='standar' class='form-control' name='standar'
+                                                        data-url='<?=site_url(adminControllers('spmi/substandart/listSubStandart'))?>'
+                                                        data-select='kodeSubStandar, namaSubStandar'
+                                                        data-where-column='kodeStandar'
+                                                        data-index-data='listSubStandart'
+                                                        data-option-text='namaSubStandar'
+                                                        data-option-value='kodeSubStandar'
+                                                        onChange='_loadItem(this, "#subStandar")'>
                                                        <option value=''>Semua Standar</option>
                                                        <?php 
                                                             if(count($listStandart) >= 1){
@@ -59,21 +66,42 @@
                                                 </div>
                                                 <div class="form-group col-lg-2">
                                                     <label for='subStandar'>Sub Standar</label>
-                                                    <select id='subStandar' class='form-control' name='subStandar'>
+                                                    <select id='subStandar' class='form-control' name='subStandar'
+                                                        data-url='<?=site_url(adminControllers('spmi/pernyataan/listPernyataan'))?>'
+                                                        data-select='kodePernyataan, namaPernyataan'
+                                                        data-where-column='kodeSubStandar'
+                                                        data-index-data='listPernyataan'
+                                                        data-option-text='namaPernyataan'
+                                                        data-option-value='kodePernyataan'
+                                                        onChange='_loadItem(this, "#pernyataan")'>
                                                        <option value=''>Semua Sub Standar</option>
                                                        
                                                    </select>
                                                 </div>
                                                 <div class="form-group col-lg-2">
                                                     <label for='pernyataan'>Pernyataan</label>
-                                                    <select id='pernyataan' class='form-control' name='pernyataan'>
+                                                    <select id='pernyataan' class='form-control' name='pernyataan'
+                                                        data-url='<?=site_url(adminControllers('spmi/indikator/listIndikator'))?>'
+                                                        data-select='kodeIndikator, namaIndikator'
+                                                        data-where-column='kodePernyataan'
+                                                        data-index-data='listIndikator'
+                                                        data-option-text='namaIndikator'
+                                                        data-option-value='kodeIndikator'
+                                                        onChange='_loadItem(this, "#indikator")'>
                                                        <option value=''>Semua Pernyataan</option>
                                                        
                                                    </select>
                                                 </div>
                                                 <div class="form-group col-lg-3">
                                                     <label for='indikator'>Indikator</label>
-                                                    <select id='indikator' class='form-control' name='indikator'>
+                                                    <select id='indikator' class='form-control' name='indikator'
+                                                        data-url='<?=site_url(adminControllers('spmi/indikatordokumen/listIndikatorDokumen'))?>'
+                                                        data-select='indikatorDokumenId, namaIndikatorDokumen'
+                                                        data-where-column='kodeIndikator'
+                                                        data-index-data='listIndikatorDokumen'
+                                                        data-option-text='namaIndikatorDokumen'
+                                                        data-option-value='indikatorDokumenId'
+                                                        onChange='_loadItem(this, "#indikatorDokumen")'>
                                                        <option value=''>Semua Indikator</option>
                                                        
                                                    </select>
@@ -115,4 +143,35 @@
 </html>
 <script type="text/javascript">
     $('select').select2({theme : 'bootstrap4'});
+
+    function _loadItem(thisContext, itemElement){
+        let _el         =   $(thisContext);
+        let _itemEl     =   $(itemElement);
+
+        let _value  =   _el.val();
+
+        let _url            =   _el.data('url');
+        let _select         =   _el.data('select');
+        let _whereColumn    =   _el.data('whereColumn');
+        let _indexData      =   _el.data('indexData');
+
+        let _optionText     =   _el.data('optionText');
+        let _optionValue    =   _el.data('optionValue');
+
+        let _where  =   `{"${_whereColumn}" : "${_value}"}`;
+
+        $.ajax({
+            url     :   _url,
+            data    :   `select=${_select}&where=${_where}&noLimit=true`,
+            success     :   function(decodedRFS){
+                let _data   =   decodedRFS[_indexData];
+
+                let _html   =   `<option value=''>Semua Data</option>`;
+                _html       +=  _data.map((dataItem, indexDataItem) => {
+                    return  `<option value="${dataItem[_optionValue]}">${dataItem[_optionText]}</option>`;
+                });
+                _itemEl.html(_html);
+            } 
+        });
+    }
 </script>

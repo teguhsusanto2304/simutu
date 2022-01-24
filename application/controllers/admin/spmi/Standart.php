@@ -37,6 +37,18 @@ class Standart extends CI_Controller {
             'limitStartFrom'    =>  $start
         ];
         
+        $noLimit        =   $this->input->get('noLimit');
+        if(!is_null($noLimit)){
+            if(!empty($noLimit)){
+                $noLimit    =   trim($noLimit);
+
+                if($noLimit === 'true'){
+                    unset($options['limit']);
+                    unset($options['limitStartFrom']);
+                }
+            }
+        }
+
         if(!is_null($search)){
             if(is_array($search)){
                 $searchValue        =   $search['value'];

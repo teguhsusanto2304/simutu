@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class SubStandart extends CI_Controller {
+class IndikatorDokumen extends CI_Controller {
     var $isUserLoggedIn	=	false;
 
 	public function __construct(){
@@ -11,12 +11,12 @@ class SubStandart extends CI_Controller {
 		$isUserLoggedIn 		=	$this->admin->isLogin();
 		$this->isUserLoggedIn	=	$isUserLoggedIn;
 	}
-    public function listSubStandart(){
-        $this->load->model('SubStandartModel', 'subStandart');
+    public function listIndikatorDokumen(){
+        $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'subStandarId, kodeStandar, kodeSubStandar, namaSubStandar, linkStandarSPMI';
+        $select 	=	'pT.namaIndikatorDokumen, i.kodeIndikator, i.namaIndikator, perny.kodeSubStandar, perny.namaPernyataan, perny.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){
@@ -31,12 +31,13 @@ class SubStandart extends CI_Controller {
 
         $search         =   $this->input->get('search');
 
+
         $options        =   [
             'select'            =>  $select,
             'limit'             =>  $length,
             'limitStartFrom'    =>  $start
         ];
-        
+
         $noLimit        =   $this->input->get('noLimit');
         if(!is_null($noLimit)){
             if(!empty($noLimit)){
@@ -52,8 +53,10 @@ class SubStandart extends CI_Controller {
         if(!is_null($search)){
             if(is_array($search)){
                 $searchValue        =   $search['value'];
+
+                $selectArray        =   explode(',', $select);
                 $options['like']    =   [
-                    'column'    =>  ['kodeStandar', 'kodeSubStandar', 'namaSubStandar', 'linkStandarSPMI'],
+                    'column'    =>  $selectArray,
                     'value'     =>  $searchValue
                 ];
             }
@@ -75,20 +78,36 @@ class SubStandart extends CI_Controller {
             $options['join']	=	$joinArray;
         }
 
-        $listSubStandart    =   $this->subStandart->getSubStandart(null, $options);
+        $withStandart   =   $this->input->get('withStandart');
+        if(!is_null($withStandart) && !empty($withStandart)){
+            $withStandart           =   trim($withStandart);
 
-        $recordsTotal   =   $this->subStandart->getNumberOfData();
+            $withStandart   =   ($withStandart === 'true');
+            if($withStandart){
+                $options['join']    =   [
+                    ['table' => 'indikator i', 'condition' => 'i.kodeIndikator=pT.kodeIndikator'],
+                    ['table' => 'pernyataan perny', 'condition' => 'perny.kodePernyataan=pT.kodePernyataan'],
+                    ['table' => 'substandar sS', 'condition' => 'sS.kodeSubStandar=perny.kodeSubStandar'],
+                    ['table' => 'standarspmi s', 'condition' => 's.kodeStandar=sS.kodeStandar']
+                ];
+            }
+        }
+
+        $listIndikatorDokumen    =   $this->indikatorDokumen->getIndikatorDokumen(null, $options);
+
+        $recordsTotal   =   $this->indikatorDokumen->getNumberOfData();
 
         $response   =   [
-            'listSubStandart'       	=>  $listSubStandart, 
-            'draw'              =>  $draw,
-            'recordsFiltered'   =>  $recordsTotal,
-            'recordsTotal'      =>  $recordsTotal
+            'listIndikatorDokumen'  =>  $listIndikatorDokumen, 
+            'draw'                  =>  $draw,
+            'recordsFiltered'       =>  $recordsTotal,
+            'recordsTotal'          =>  $recordsTotal
         ];
 
         header('Content-Type:application/json');
         echo json_encode($response);
     }
+    /*
     public function index(){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
@@ -102,12 +121,12 @@ class SubStandart extends CI_Controller {
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
             $dataPage   =   [
-                'pageTitle'     =>  'Sub Standart',
+                'pageTitle'     =>  'Pernyataan',
                 'detailUser'   =>  $detailUser
             ];
-            $this->load->view(adminViews('spmi/substandart/index'), $dataPage);
+            $this->load->view(adminViews('spmi/pernyataan/index'), $dataPage);
         }else{
-            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('blog'))));
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('pernyataan'))));
         }
     }
     public function process_delete(){
@@ -117,7 +136,7 @@ class SubStandart extends CI_Controller {
         if($this->isUserLoggedIn){
             $this->load->library('CustomValidation', null, 'cV');
             $rules 	=	[
-                ['name' => 'idSubStandart', 'label' => 'ID Sub Standart', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
+                ['name' => 'idPernyataan', 'label' => 'ID Pernyataan', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
             ];
             $validation 	=	$this->cV->validation($rules);
 
@@ -125,13 +144,13 @@ class SubStandart extends CI_Controller {
             $validationMessage 	=	$validation['message'];
             
             if($validationStatus){
-                $this->load->model('SubStandartModel', 'subStandart');
+                $this->load->model('PernyataanModel', 'subStandart');
 
-                $idSubStandart 		=	$this->input->post('idSubStandart');
-                $deleteSubStandart 	=	$this->subStandart->deleteSubStandart($idSubStandart);
+                $idPernyataan 		=	$this->input->post('idPernyataan');
+                $deletePernyataan 	=	$this->pernyataan->deletePernyataan($idPernyataan);
 
-                $statusHapus	=	$deleteSubStandart['statusDelete'];
-                $messageHapus   =   $deleteSubStandart['messageDelete'];
+                $statusHapus	=	$deletePernyataan['statusDelete'];
+                $messageHapus   =   $deletePernyataan['messageDelete'];
             }else{
                 $messageHapus	=	$validationMessage;
             }
@@ -145,11 +164,11 @@ class SubStandart extends CI_Controller {
             echo json_encode($response);
         }
     }
-    public function add($subStandartId = null){
+    public function add($idPernyataan = null){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
             $this->load->library('CustomForm', null, 'cF');
-            $this->load->model('StandartModel', 'standart');
+            $this->load->model('PernyataanModel', 'pernyataan');
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -159,41 +178,38 @@ class SubStandart extends CI_Controller {
             ];
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
-            $detailSubStandart    	=   false;
-            $pageTitle      	=   'Add New Sub Standart';
+            $detailPernyataan   =   false;
+            $pageTitle      	=   'Add New Pernyataan';
             
-            if(!is_null($subStandartId)){		
-                $this->load->model('SubStandartModel', 'subStandart');
-
-                $detailSubStandart    =   $this->subStandart->getSubStandart($subStandartId);
-                $pageTitle      	=   'Edit Data Sub Standar | '.strtoupper($detailSubStandart['kodeSubStandar']);
+            if(!is_null($idPernyataan)){		
+                $detailPernyataan    =   $this->pernyataan->getPernyataan($idPernyataan);
+                $pageTitle      	=   'Edit Data Pernyataan | '.strtoupper($detailPernyataan['namaPernyataan']);
             }
 
             $dataPage   =   [
-                'detailSubStandart'   =>    $detailSubStandart,
+                'detailPernyataan'   =>    $detailPernyataan,
                 'pageTitle'		      =>   $pageTitle,
                 'detailUser'	      =>   $detailUser,
                 'path'                =>    $this->path
             ];
 
-            $this->load->view(adminViews('spmi/substandart/add'), $dataPage);
+            $this->load->view(adminViews('spmi/pernyataan/add'), $dataPage);
         }else{
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('user/add'))));
         }
     }
-    public function process_save($subStandartId = null){
+    public function process_save($idPernyataan = null){
         $statusSave 	=	false;
         $messageSave	=	null;
 
         if($this->isUserLoggedIn){
-            $this->load->model('SubStandartModel', 'subStandart');
+            $this->load->model('PernyataanModel', 'subStandart');
             $this->load->library('CustomValidation', null, 'cV');
 
             $validationRules	=	[
-                ['name' => 'kodeStandar', 'label' => 'Kode Standart', 'rule' => 'required|trim', 'field' => 'kodeStandar'],
                 ['name' => 'kodeSubStandar', 'label' => 'Kode Sub Standart', 'rule' => 'required|trim', 'field' => 'kodeSubStandar'],
-                ['name' => 'namaSubStandar', 'label' => 'Nama Standart', 'rule' => 'required|trim', 'field' => 'namaSubStandar'],
-                ['name' => 'linkSubStandar', 'label' => 'Link Standart', 'rule' => 'required|trim', 'field' => 'linkStandarSPMI']
+                ['name' => 'kodePernyataan', 'label' => 'Kode Pernyataan', 'rule' => 'required|trim', 'field' => 'kodePernyataan'],
+                ['name' => 'namaPernyataan', 'label' => 'Nama Pernyataan', 'rule' => 'required|trim', 'field' => 'namaPernyataan']
             ];
 
             $validation 		=	$this->cV->validation($validationRules);
@@ -212,13 +228,13 @@ class SubStandart extends CI_Controller {
                     }
                 }
 
-                if(is_null($subStandartId)){
+                if(is_null($idPernyataan)){
                     $dataStandart['userid']	=	$this->isUserLoggedIn;
                     $dataStandart['createdDate']    =   now();
                 }
 
-                $saveSubStandart 		=	$this->subStandart->saveSubStandart($subStandartId, $dataStandart);
-                $statusSave 	=	($saveSubStandart)? true : false;
+                $savePernyataan =	$this->pernyataan->savePernyataan($idPernyataan, $dataStandart);
+                $statusSave 	=	($savePernyataan)? true : false;
             }else{
                 $messageSave	=	$validationMessage;
             }
@@ -232,4 +248,5 @@ class SubStandart extends CI_Controller {
             echo json_encode($response);
         }
     }
+    */
 }
