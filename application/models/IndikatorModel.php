@@ -158,35 +158,35 @@
 
             return $indikator;
         }
-        /*
-        public function saveIndikatorDokumen($indikator = null, $dataIndikatorDokumen = null){
+        public function saveIndikator($idIndikator = null, $dataIndikator = null){
             $tabelIndikator    =   $this->tabel->indikator;
                 
-            if(is_null($dataIndikatorDokumen)){
+            if(is_null($dataIndikator)){
                 extract($_POST);
             
-                $dataIndikatorDokumen   =   [
-                    'indikatorId'    =>  $indikatorId,
-                    'kodeIndikator' =>  $kodeIndikator,
+                $dataIndikator   =   [
+                    'kodePernyataan'        =>  $kodePernyataan,
+                    'kodeIndikator'         =>  $kodeIndikator,
                     'namaIndikatorDokumen'  =>  $namaIndikatorDokumen,
-                    'userid'    =>  $this->user->isLogin(),
-                    'createdDate'   =>  now()
+                    'userid'                =>  $this->user->isLogin(),
+                    'createdDate'           =>  now()
                 ];
             }
 
-            if(is_null($indikator)){
-                $saveIndikatorDokumen  =   $this->db->insert($tabelIndikator, $dataIndikatorDokumen);
-                $indikator    =   $this->db->insert_id();
+            if(is_null($idIndikator)){
+                $saveIndikatorDokumen  =   $this->db->insert($tabelIndikator, $dataIndikator);
+                $idIndikator    =   $this->db->insert_id();
 
                 $isUpdate   =   false;
             }else{
-                $this->db->where('indikatorId', $indikator);
-                $saveIndikatorDokumen  =   $this->db->update($tabelIndikator, $dataIndikatorDokumen);
+                $this->db->where('indikatorId', $idIndikator);
+                $saveIndikatorDokumen  =   $this->db->update($tabelIndikator, $dataIndikator);
                 $isUpdate   =   true;
             }
 
-            return ($saveIndikatorDokumen)? $indikator : false;
+            return ($saveIndikatorDokumen)? $idIndikator : false;
         }
+        /*
         public function deleteIndikatorDokumen($indikator = null){
             $statusDelete   =   false;
             $messageDelete  =   null;
