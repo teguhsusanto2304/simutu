@@ -2,41 +2,35 @@
     $cF     =   $this->cF;
 
     $kodeParams    =   [
-        'id'    =>  'kodeSubStandar',
-        'name'  =>  'kodeSubStandar',
-        'placeholder'   =>  'Kode Standart'
+        'id'    =>  'kodePernyataan',
+        'name'  =>  'kodePernyataan',
+        'placeholder'   =>  'Kode Pernyataan'
     ];
     $namaParams    =   [
-        'id'    =>  'namaSubStandar',
-        'name'  =>  'namaSubStandar',
-        'placeholder'   =>  'Nama Standart'
-    ];
-    $linkParams    =   [
-        'id'    =>  'linkSubStandar',
-        'name'  =>  'linkSubStandar',
-        'placeholder'   =>  'Link Standart'
+        'id'    =>  'namaPernyataan',
+        'name'  =>  'namaPernyataan',
+        'placeholder'   =>  'Nama Pernyataan'
     ];
 
-    $listStandart       =   $this->standart->getStandart(null, ['select' => 'kodeStandar, namaStandar']);
+    $listSubStandart       =   $this->subStandart->getSubStandart(null, ['select' => 'kodeSubStandar, namaSubStandar']);
 
-    function listStandartItemsGenerator($standart){
-        return  ['text' => $standart['namaStandar'], 'value' => $standart['kodeStandar']];
+    function listSubStandartItemsGenerator($subStandart){
+        return  ['text' => $subStandart['namaSubStandar'], 'value' => $subStandart['kodeSubStandar']];
     }
-    $listStandartItems  =   array_map('listStandartItemsGenerator', $listStandart);
+    $listSubStandartItems  =   array_map('listSubStandartItemsGenerator', $listSubStandart);
 
-    $standartParams    =   [
-        'id'    =>  'standart',
-        'name'  =>  'standart',
-        'items' =>  $listStandartItems,
-        'defaultOptionText'     =>  'Pilihan Standart',
+    $subStandartParams    =   [
+        'id'    =>  'subStandart',
+        'name'  =>  'subStandart',
+        'items' =>  $listSubStandartItems,
+        'defaultOptionText'     =>  'Pilihan Sub Standart',
         'defaultOptionValue'    =>  ''
     ];
 
-    if($detailSubStandart !== false){
-        $kodeParams['value']   =   $detailSubStandart['kodeSubStandar'];
-        $namaParams['value']   =   $detailSubStandart['namaSubStandar'];
-        $linkParams['value']   =   $detailSubStandart['linkStandarSPMI'];
-        $standartParams['selectedValue']    =   $detailSubStandart['kodeStandar'];
+    if($detailPernyataan !== false){
+        $kodeParams['value']   =   $detailPernyataan['kodePernyataan'];
+        $namaParams['value']   =   $detailPernyataan['namaPernyataan'];
+        $subStandartParams['selectedValue']    =   $detailPernyataan['kodeSubStandar'];
     }
 ?>
 <!DOCTYPE html>
@@ -64,7 +58,7 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <?php 
-                    $contentHeaderOptions   =   ['pageName' => 'Sub Standart'];
+                    $contentHeaderOptions   =   ['pageName' => 'Penyataan'];
                     $this->load->view(adminComponents('content-header'), $contentHeaderOptions); 
                 ?>
                 <section class="content">
@@ -75,36 +69,33 @@
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-lg-4">
-                                                <h5><?=($detailSubStandart !== false)? 'Edit Sub Standart' : 'Sub Standart Baru'?></h5>
+                                                <h5><?=($detailPernyataan !== false)? 'Edit Penyataan' : 'Penyataan Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/substandart'))?>">
-                                                    <button class="btn btn-link btn-sm">List Sub Standart</button>
+                                                <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>">
+                                                    <button class="btn btn-link btn-sm">List Penyataan</button>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <form id="formStandart">
+                                        <form id="formPernyataan">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <?=$cF->textField($kodeParams, 'Kode Sub Standart')?>
+                                                        <?=$cF->selectBox($subStandartParams, 'Sub Standart')?>
                                                     </div>
                                                     <div class="form-group">
-                                                        <?=$cF->selectBox($standartParams, 'Nama Standart')?>
+                                                        <?=$cF->textField($kodeParams, 'Kode Pernyataan')?>
                                                     </div>
                                                     <div class="form-group">
-                                                        <?=$cF->textField($namaParams, 'Nama Sub Standart')?>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <?=$cF->textField($linkParams, 'Contoh Link Sub Standart')?>
+                                                        <?=$cF->textField($namaParams, 'Nama Pernyataan')?>
                                                     </div>
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
-                                                        id='btnSubmit'>Simpan <?=($detailSubStandart !== false)? 'Perubahan' : ''?> Data Sub Standart</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/substandart'))?>">
-                                                        <button class="btn btn-default ml-1" type='button'>Back to List Sub Standart</button>
+                                                        id='btnSubmit'>Simpan <?=($detailPernyataan !== false)? 'Perubahan' : ''?> Data Pernyataan</button>
+                                                    <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>">
+                                                        <button class="btn btn-default ml-1" type='button'>Back to List Pernyataan</button>
                                                     </a>
                                                 </div>
                                             </div>
@@ -141,32 +132,13 @@
     let imgPreview  =   false;
     let imgData     =   false;
 
-    let idSubStandart      =   '<?=($detailSubStandart !== false)? '/'.$detailSubStandart['subStandarId'] : ''?>';
+    let idPernyataan      =   '<?=($detailPernyataan !== false)? '/'.$detailPernyataan['pernyataanId'] : ''?>';
 
-    $('#standart').select2({
+    $('#subStandart').select2({
         theme   :   'bootstrap4'
     });    
 
-    function imgChanged(thisContext){
-        try{
-            let el          =   $(thisContext);
-            let _imgData     =   el.prop('files')[0];
-
-            let fileReader  =   new FileReader();
-            fileReader.readAsDataURL(_imgData);
-            fileReader.onload   =   (e) =>  {
-                let imgResult   =   e.target.result;
-                imgPreview    =   imgResult;
-                imgData       =   _imgData;
-
-                $('#imgPreview').attr('src', imgPreview).addClass('img-thumbnail');
-            }
-        }catch(e){
-            console.log(e);
-        }
-    }
-
-    $('#formStandart').on('submit', function(e){
+    $('#formPernyataan').on('submit', function(e){
         e.preventDefault();
 
         let _btnSubmit      =   $('#btnSubmit');
@@ -175,13 +147,12 @@
         _btnSubmit.prop('disabled', true).text('Processing ...');
 
         let _formData   =   new FormData();
-        _formData.append('kodeStandar', $('#standart').val());
-        _formData.append('kodeSubStandar', $('#kodeSubStandar').val());
-        _formData.append('namaSubStandar', $('#namaSubStandar').val());
-        _formData.append('linkSubStandar', $('#linkSubStandar').val());
+        _formData.append('kodeSubStandar', $('#subStandart').val());
+        _formData.append('kodePernyataan', $('#kodePernyataan').val());
+        _formData.append('namaPernyataan', $('#namaPernyataan').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/substandart/process_save'))?>${idSubStandart}`,
+            url     :   `<?=site_url(adminControllers('spmi/pernyataan/process_save'))?>${idPernyataan}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -195,21 +166,21 @@
                 let _swalType, _swalMessage;
 
                 if(_statusSave){
-                    _swalMessage    =   'Berhasil menyimpan data sub standart!';
+                    _swalMessage    =   'Berhasil menyimpan data Pernyataan!';
                     _swalType       =   'success';
                 }else{
                     let _messageSave    =   _decodedRFS.messageSave;
-                    _swalMessage    =   `Gagal menyimpan data sub standart! ${_messageSave}`;
+                    _swalMessage    =   `Gagal menyimpan data Pernyataan! ${_messageSave}`;
                     _swalType       =   'error';
                 }
 
                 Swal.fire({
-                    title   :   'Sub Standart',
+                    title   :   'Pernyataan',
                     html    :   _swalMessage,
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/substandart'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/pernyataan'))?>`;
                     }
                 });
             }

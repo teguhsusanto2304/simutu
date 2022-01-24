@@ -16,7 +16,7 @@ class Pernyataan extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'pT.kodeSubStandar, pT.namaPernyataan, pT.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
+        $select 	=	'pT.pernyataanId, pT.kodeSubStandar, pT.namaPernyataan, pT.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){
@@ -163,6 +163,7 @@ class Pernyataan extends CI_Controller {
             $this->load->library('Path');
             $this->load->library('CustomForm', null, 'cF');
             $this->load->model('PernyataanModel', 'pernyataan');
+            $this->load->model('SubStandartModel', 'subStandart');
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -197,7 +198,7 @@ class Pernyataan extends CI_Controller {
         $messageSave	=	null;
 
         if($this->isUserLoggedIn){
-            $this->load->model('PernyataanModel', 'subStandart');
+            $this->load->model('PernyataanModel', 'pernyataan');
             $this->load->library('CustomValidation', null, 'cV');
 
             $validationRules	=	[
@@ -211,23 +212,23 @@ class Pernyataan extends CI_Controller {
             $validationMessage	=	$validation['message'];
 
             if($validationStatus){				
-                $dataStandart 	=	[];
+                $dataPernyataan 	=	[];
                 foreach($validationRules as $rule){
                     $name 	=	$rule['name'];
                     $field 	=	$rule['field'];
 
                     if(!is_null($field)){
                         $value 	=	$this->input->post($name);
-                        $dataStandart[$field]	=	$value;
+                        $dataPernyataan[$field]	=	$value;
                     }
                 }
 
                 if(is_null($idPernyataan)){
-                    $dataStandart['userid']	=	$this->isUserLoggedIn;
-                    $dataStandart['createdDate']    =   now();
+                    $dataPernyataan['userid']	=	$this->isUserLoggedIn;
+                    $dataPernyataan['createdDate']    =   now();
                 }
 
-                $savePernyataan =	$this->pernyataan->savePernyataan($idPernyataan, $dataStandart);
+                $savePernyataan =	$this->pernyataan->savePernyataan($idPernyataan, $dataPernyataan);
                 $statusSave 	=	($savePernyataan)? true : false;
             }else{
                 $messageSave	=	$validationMessage;

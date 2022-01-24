@@ -64,3 +64,4 @@ $route[adminControllers('spmi/substandart/edit/(:any)')]      =   adminControlle
 $route[adminControllers('programstudi/edit/(:any)')]      =   adminControllers('programstudi/add/$1');
 $route[adminControllers('spmi/indikator/edit/(:any)')]      =   adminControllers('spmi/indikator/add/$1');
 $route[adminControllers('spmi/indikatordokumen/edit/(:any)')]      =   adminControllers('spmi/indikatordokumen/add/$1');
+$route[adminControllers('spmi/pernyataan/edit/(:any)')]      =   adminControllers('spmi/pernyataan/add/$1');
