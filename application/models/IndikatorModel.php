@@ -186,14 +186,13 @@
 
             return ($saveIndikatorDokumen)? $idIndikator : false;
         }
-        /*
-        public function deleteIndikatorDokumen($indikator = null){
+        public function deleteIndikator($indikator = null){
             $statusDelete   =   false;
             $messageDelete  =   null;
 
-            $tabelIndikatorDokumen     =   $this->tabel->indikator;
+            $tabelIndikator     =   $this->tabel->indikator;
 
-            //cek ke indikator
+            // cek ke indikator
             // if(!is_null($indikator)){
             //     $options        =   [
             //         'select'        =>  'kodeSubStandar',
@@ -215,10 +214,10 @@
             //         $indikator    =   $this->subStandart->getIndikator(null, $options);
 
             //         if(count($indikator) <= 0){
-            //             $this->db->where('standarId', $indikator);
-            //             $deleteStandart  =   $this->db->delete($tabelIndikatorDokumen);
+                        $this->db->where('indikatorId', $indikator);
+                        $deleteStandart  =   $this->db->delete($tabelIndikator);
 
-            //             $statusDelete   =   ($deleteStandart)? true : false;
+                        $statusDelete   =   ($deleteStandart)? true : false;
             //         }else{
             //             $messageDelete  =   'Maaf, data sudah memiliki relasi!';
             //         }
@@ -231,6 +230,5 @@
 
             return ['statusDelete' => $statusDelete, 'messageDelete' => $messageDelete];
         }
-        */
 	}
 ?>

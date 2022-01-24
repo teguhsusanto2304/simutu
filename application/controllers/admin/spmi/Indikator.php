@@ -127,7 +127,6 @@ class Indikator extends CI_Controller {
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('indikator'))));
         }
     }
-    /*
     public function process_delete(){
         $statusHapus 	=	false;
         $messageHapus	=	null;
@@ -135,7 +134,7 @@ class Indikator extends CI_Controller {
         if($this->isUserLoggedIn){
             $this->load->library('CustomValidation', null, 'cV');
             $rules 	=	[
-                ['name' => 'idPernyataan', 'label' => 'ID Pernyataan', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
+                ['name' => 'idIndikator', 'label' => 'ID Indikator', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
             ];
             $validation 	=	$this->cV->validation($rules);
 
@@ -143,13 +142,13 @@ class Indikator extends CI_Controller {
             $validationMessage 	=	$validation['message'];
             
             if($validationStatus){
-                $this->load->model('IndikatorModel', 'subStandart');
+                $this->load->model('IndikatorModel', 'indikator');
 
-                $idIndikator 		=	$this->input->post('idPernyataan');
-                $deletePernyataan 	=	$this->pernyataan->deletePernyataan($idIndikator);
+                $idIndikator 		=	$this->input->post('idIndikator');
+                $deleteIndikator 	=	$this->indikator->deleteIndikator($idIndikator);
 
-                $statusHapus	=	$deletePernyataan['statusDelete'];
-                $messageHapus   =   $deletePernyataan['messageDelete'];
+                $statusHapus	=	$deleteIndikator['statusDelete'];
+                $messageHapus   =   $deleteIndikator['messageDelete'];
             }else{
                 $messageHapus	=	$validationMessage;
             }
@@ -163,7 +162,6 @@ class Indikator extends CI_Controller {
             echo json_encode($response);
         }
     }
-    */
     public function add($idIndikator = null){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
