@@ -214,10 +214,10 @@
             //         $indikatorDokumen    =   $this->subStandart->getIndikatorDokumen(null, $options);
 
             //         if(count($indikatorDokumen) <= 0){
-            //             $this->db->where('standarId', $idIndikatorDokumen);
-            //             $deleteStandart  =   $this->db->delete($tabelIndikatorDokumen);
+                        $this->db->where('indikatorDokumenId', $idIndikatorDokumen);
+                        $deleteIndikatorDokumen  =   $this->db->delete($tabelIndikatorDokumen);
 
-            //             $statusDelete   =   ($deleteStandart)? true : false;
+                        $statusDelete   =   ($deleteIndikatorDokumen)? true : false;
             //         }else{
             //             $messageDelete  =   'Maaf, data sudah memiliki relasi!';
             //         }

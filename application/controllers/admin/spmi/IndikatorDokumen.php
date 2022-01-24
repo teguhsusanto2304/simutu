@@ -16,7 +16,7 @@ class IndikatorDokumen extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'pT.namaIndikatorDokumen, i.kodeIndikator, i.namaIndikator, perny.kodeSubStandar, perny.namaPernyataan, perny.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
+        $select 	=	'pT.indikatorDokumenId, pT.namaIndikatorDokumen, i.kodeIndikator, i.namaIndikator, perny.kodeSubStandar, perny.namaPernyataan, perny.kodePernyataan, sS.namaSubStandar, sS.linkStandarSPMI, s.namaStandar';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){
@@ -86,7 +86,7 @@ class IndikatorDokumen extends CI_Controller {
             if($withStandart){
                 $options['join']    =   [
                     ['table' => 'indikator i', 'condition' => 'i.kodeIndikator=pT.kodeIndikator'],
-                    ['table' => 'pernyataan perny', 'condition' => 'perny.kodePernyataan=pT.kodePernyataan'],
+                    ['table' => 'pernyataan perny', 'condition' => 'perny.kodePernyataan=i.kodePernyataan'],
                     ['table' => 'substandar sS', 'condition' => 'sS.kodeSubStandar=perny.kodeSubStandar'],
                     ['table' => 'standarspmi s', 'condition' => 's.kodeStandar=sS.kodeStandar']
                 ];
@@ -107,7 +107,6 @@ class IndikatorDokumen extends CI_Controller {
         header('Content-Type:application/json');
         echo json_encode($response);
     }
-    /*
     public function index(){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
@@ -121,10 +120,10 @@ class IndikatorDokumen extends CI_Controller {
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
             $dataPage   =   [
-                'pageTitle'     =>  'Pernyataan',
+                'pageTitle'     =>  'Indikator Dokumen',
                 'detailUser'   =>  $detailUser
             ];
-            $this->load->view(adminViews('spmi/pernyataan/index'), $dataPage);
+            $this->load->view(adminViews('spmi/indikatorDokumen/index'), $dataPage);
         }else{
             redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('pernyataan'))));
         }
@@ -136,7 +135,7 @@ class IndikatorDokumen extends CI_Controller {
         if($this->isUserLoggedIn){
             $this->load->library('CustomValidation', null, 'cV');
             $rules 	=	[
-                ['name' => 'idPernyataan', 'label' => 'ID Pernyataan', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
+                ['name' => 'idIndikatorDokumen', 'label' => 'ID Indikator Dokumen', 'rule' => 'required|trim|numeric|greater_than_equal_to[1]']
             ];
             $validation 	=	$this->cV->validation($rules);
 
@@ -144,13 +143,13 @@ class IndikatorDokumen extends CI_Controller {
             $validationMessage 	=	$validation['message'];
             
             if($validationStatus){
-                $this->load->model('PernyataanModel', 'subStandart');
+                $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
 
-                $idPernyataan 		=	$this->input->post('idPernyataan');
-                $deletePernyataan 	=	$this->pernyataan->deletePernyataan($idPernyataan);
+                $idIndikatorDokumen 	   =	$this->input->post('idIndikatorDokumen');
+                $deleteIndikatorDokumen    =	$this->indikatorDokumen->deleteIndikatorDokumen($idIndikatorDokumen);
 
-                $statusHapus	=	$deletePernyataan['statusDelete'];
-                $messageHapus   =   $deletePernyataan['messageDelete'];
+                $statusHapus	=	$deleteIndikatorDokumen['statusDelete'];
+                $messageHapus   =   $deleteIndikatorDokumen['messageDelete'];
             }else{
                 $messageHapus	=	$validationMessage;
             }
@@ -164,11 +163,12 @@ class IndikatorDokumen extends CI_Controller {
             echo json_encode($response);
         }
     }
-    public function add($idPernyataan = null){
+    public function add($idIndikatorDokumen = null){
         if($this->isUserLoggedIn){
             $this->load->library('Path');
             $this->load->library('CustomForm', null, 'cF');
-            $this->load->model('PernyataanModel', 'pernyataan');
+            $this->load->model('IndikatorModel', 'indikator');
+            $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -178,38 +178,37 @@ class IndikatorDokumen extends CI_Controller {
             ];
             $detailUser     =   $this->user->getUser($this->isUserLoggedIn, $detailUserOptions);
 
-            $detailPernyataan   =   false;
-            $pageTitle      	=   'Add New Pernyataan';
+            $detailIndikatorDokumen   =   false;
+            $pageTitle      	=   'Add New Indikator Dokumen';
             
-            if(!is_null($idPernyataan)){		
-                $detailPernyataan    =   $this->pernyataan->getPernyataan($idPernyataan);
-                $pageTitle      	=   'Edit Data Pernyataan | '.strtoupper($detailPernyataan['namaPernyataan']);
+            if(!is_null($idIndikatorDokumen)){		
+                $detailIndikatorDokumen    =   $this->indikatorDokumen->getIndikatorDokumen($idIndikatorDokumen);
+                $pageTitle      	=   'Edit Data Indikator Dokumen | '.strtoupper($detailIndikatorDokumen['namaIndikatorDokumen']);
             }
 
             $dataPage   =   [
-                'detailPernyataan'   =>    $detailPernyataan,
+                'detailIndikatorDokumen'   =>    $detailIndikatorDokumen,
                 'pageTitle'		      =>   $pageTitle,
                 'detailUser'	      =>   $detailUser,
                 'path'                =>    $this->path
             ];
 
-            $this->load->view(adminViews('spmi/pernyataan/add'), $dataPage);
+            $this->load->view(adminViews('spmi/indikatorDokumen/add'), $dataPage);
         }else{
-            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('user/add'))));
+            redirect(adminControllers('auth/login?nextRoute='.site_url(adminControllers('spmi/indikatordokumen/add'))));
         }
     }
-    public function process_save($idPernyataan = null){
+    public function process_save($idIndikatorDokumen = null){
         $statusSave 	=	false;
         $messageSave	=	null;
 
         if($this->isUserLoggedIn){
-            $this->load->model('PernyataanModel', 'subStandart');
+            $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
             $this->load->library('CustomValidation', null, 'cV');
 
             $validationRules	=	[
-                ['name' => 'kodeSubStandar', 'label' => 'Kode Sub Standart', 'rule' => 'required|trim', 'field' => 'kodeSubStandar'],
-                ['name' => 'kodePernyataan', 'label' => 'Kode Pernyataan', 'rule' => 'required|trim', 'field' => 'kodePernyataan'],
-                ['name' => 'namaPernyataan', 'label' => 'Nama Pernyataan', 'rule' => 'required|trim', 'field' => 'namaPernyataan']
+                ['name' => 'namaIndikatorDokumen', 'label' => 'Kode Sub Standart', 'rule' => 'required|trim', 'field' => 'namaIndikatorDokumen'],
+                ['name' => 'indikator', 'label' => 'Kode Pernyataan', 'rule' => 'required|trim', 'field' => 'kodeIndikator']
             ];
 
             $validation 		=	$this->cV->validation($validationRules);
@@ -217,24 +216,24 @@ class IndikatorDokumen extends CI_Controller {
             $validationMessage	=	$validation['message'];
 
             if($validationStatus){				
-                $dataStandart 	=	[];
+                $dataIndikatorDokumen 	=	[];
                 foreach($validationRules as $rule){
                     $name 	=	$rule['name'];
                     $field 	=	$rule['field'];
 
                     if(!is_null($field)){
                         $value 	=	$this->input->post($name);
-                        $dataStandart[$field]	=	$value;
+                        $dataIndikatorDokumen[$field]	=	$value;
                     }
                 }
 
-                if(is_null($idPernyataan)){
-                    $dataStandart['userid']	=	$this->isUserLoggedIn;
-                    $dataStandart['createdDate']    =   now();
+                if(is_null($idIndikatorDokumen)){
+                    $dataIndikatorDokumen['userid']	=	$this->isUserLoggedIn;
+                    $dataIndikatorDokumen['createdDate']    =   now();
                 }
 
-                $savePernyataan =	$this->pernyataan->savePernyataan($idPernyataan, $dataStandart);
-                $statusSave 	=	($savePernyataan)? true : false;
+                $saveIndikatorDokumen =	$this->indikatorDokumen->saveIndikatorDokumen($idIndikatorDokumen, $dataIndikatorDokumen);
+                $statusSave 	=	($saveIndikatorDokumen)? true : false;
             }else{
                 $messageSave	=	$validationMessage;
             }
@@ -248,5 +247,4 @@ class IndikatorDokumen extends CI_Controller {
             echo json_encode($response);
         }
     }
-    */
 }
