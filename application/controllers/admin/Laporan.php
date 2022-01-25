@@ -224,6 +224,7 @@ class Laporan extends CI_Controller {
             $jenis_spmi     =   $laporan->laporan_spmi;
             if($jenisLaporan === $jenis_spmi){
                 ini_set('memory_limit', '-1');
+                ini_set('max_execution_time', 300);
 
                 $standar            =   $this->input->post('standar');
                 $subStandar         =   $this->input->post('subStandar');

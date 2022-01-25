@@ -61,6 +61,7 @@ $route[adminControllers()]		=	adminControllers('dashboard');
 
 $route[adminControllers('spmi/standart/edit/(:any)')]      =   adminControllers('spmi/standart/add/$1');
 $route[adminControllers('spmi/substandart/edit/(:any)')]      =   adminControllers('spmi/substandart/add/$1');
+$route[adminControllers('spmi/penilaian/edit/(:any)')]      =   adminControllers('spmi/penilaian/add/$1');
 $route[adminControllers('programstudi/edit/(:any)')]      =   adminControllers('programstudi/add/$1');
 $route[adminControllers('spmi/indikator/edit/(:any)')]      =   adminControllers('spmi/indikator/add/$1');
 $route[adminControllers('spmi/indikatordokumen/edit/(:any)')]      =   adminControllers('spmi/indikatordokumen/add/$1');
