@@ -39,4 +39,12 @@
 
 		return $websitePath;
 	}
+	function landingPageAssets($path = null){
+		$landingPageAssets 	=	'assets/landing-page/assets';
+		if(!is_null($path) && !empty($path)){
+			$landingPageAssets 	=	$landingPageAssets.'/'.$path;
+		}
+
+		return $landingPageAssets;
+	}
 ?>
