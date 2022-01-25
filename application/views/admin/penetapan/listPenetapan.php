@@ -168,7 +168,9 @@
                 return  `<h6 class='text-bold mb-0'>
                             ${data.namaPeriode}
                         </h6>
-                        <span class='text-muted text-sm'>${convertDate(data.mulaiPelaksanaan, ' ', true)} s/d ${convertDate(data.akhirPelaksanaan, ' ', true)}</span>
+                        <span class='text-muted text-sm'>
+                            Pelaksanaan <b>${convertDate(data.mulaiPelaksanaan, ' ', true)} s/d ${convertDate(data.akhirPelaksanaan, ' ', true)}<b/>
+                        </span>
                         `;
             }},
             {data : null, render : function(data, type, row, metaData){
