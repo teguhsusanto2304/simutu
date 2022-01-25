@@ -25,5 +25,6 @@
         var $role   =   'role';
         var $audit   =   'audit';
         var $penilaian   =   'penilaian';
+        var $informasi   =   'informasi';
     }
 ?>

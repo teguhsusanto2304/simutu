@@ -47,7 +47,7 @@
                                             <thead>
                                                 <th class='border-top-0 text-center text-bold'>No.</th>
                                                 <th class='border-top-0 text-left text-bold'>Periode</th>
-                                                <th class='border-top-0 text-left text-bold'>Pelasanaan</th>
+                                                <th class='border-top-0 text-left text-bold'>Pelaksanaan</th>
                                                 <th class='border-top-0 text-left text-bold'>Penilaian</th>
                                                 <th class='border-top-0 text-center text-bold'>Action</th>
                                             </thead>

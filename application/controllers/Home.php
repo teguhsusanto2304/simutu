@@ -6,7 +6,17 @@ class Home extends CI_Controller {
 		parent::__construct();
 	}
 	public function index(){
-		$dataPage 	=	[];
+		$this->load->model('InformasiModel', 'informasi');
+
+		$options 		=	[
+			'select'	=>	'nama, link, keterangan'
+		];
+		$listInformasi 	=	$this->informasi->getInformasi(null, $options);
+
+		$dataPage 	=	[
+			'informasi'		=>	$this->informasi,
+			'listInformasi'	=>	$listInformasi
+		];
         $this->load->view(website('index'), $dataPage);
 	}
 }
