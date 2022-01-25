@@ -23,22 +23,6 @@
 
 		return $adminComponentsPath;
 	}
-	function websiteComp($path = null){
-		$websiteComponentsPath 	=	'website-components';
-		if(!is_null($path) && !empty($path)){
-			$websiteComponentsPath 	=	$websiteComponentsPath.'/'.$path;
-		}
-
-		return $websiteComponentsPath;
-	}
-	function userViews($path = null){
-		$userViewsPath 	=	'user';
-		if(!is_null($path) && !empty($path)){
-			$userViewsPath 	=	$userViewsPath.'/'.$path;
-		}
-
-		return $userViewsPath;
-	}
 	function assetsImg($path = null){
 		$assetsImgPath 	=	'assets/img';
 		if(!is_null($path) && !empty($path)){
@@ -46,5 +30,13 @@
 		}
 
 		return $assetsImgPath;
+	}
+	function website($path = null){
+		$websitePath 	=	'website';
+		if(!is_null($path) && !empty($path)){
+			$websitePath 	=	$websitePath.'/'.$path;
+		}
+
+		return $websitePath;
 	}
 ?>
