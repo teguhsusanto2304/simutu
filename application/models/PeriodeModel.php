@@ -219,10 +219,10 @@
             //         $periode    =   $this->subStandart->getPeriode(null, $options);
 
             //         if(count($periode) <= 0){
-            //             $this->db->where('standarId', $idPeriode);
-            //             $deleteStandart  =   $this->db->delete($tabelPeriode);
+                        $this->db->where('idPeriode', $idPeriode);
+                        $deletePeriode  =   $this->db->delete($tabelPeriode);
 
-            //             $statusDelete   =   ($deleteStandart)? true : false;
+                        $statusDelete   =   ($deletePeriode)? true : false;
             //         }else{
             //             $messageDelete  =   'Maaf, data sudah memiliki relasi!';
             //         }

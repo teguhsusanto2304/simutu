@@ -105,6 +105,12 @@
                         </a>
                     </li>
                 <?php } ?>
+                <li class="nav-item">
+                    <a href="<?=site_url(adminControllers('periode'))?>" class="nav-link">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Periode</p>
+                    </a>
+                </li>
                 <?php if($detailRole['pelaksanaan'] == 1){ ?>
                     <li class="nav-item">
                         <a href="<?=site_url(adminControllers('pelaksanaan'))?>" class="nav-link">
