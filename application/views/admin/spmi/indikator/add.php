@@ -72,7 +72,7 @@
                                                 <h5><?=($detailIndikator !== false)? 'Edit Indikator' : 'Indikator Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/indikator'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Indikator'))?>">
                                                     <button class="btn btn-link btn-sm">List Indikator</button>
                                                 </a>
                                             </div>
@@ -94,7 +94,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailIndikator !== false)? 'Perubahan' : ''?> Data Indikator</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/indikator'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/Indikator'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Indikator</button>
                                                     </a>
                                                 </div>
@@ -171,7 +171,7 @@
         _formData.append('pernyataan', $('#pernyataan').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/indikator/process_save'))?>${idIndikator}`,
+            url     :   `<?=site_url(adminControllers('spmi/Indikator/process_save'))?>${idIndikator}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -199,7 +199,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/indikator'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/Indikator'))?>`;
                     }
                 });
             }

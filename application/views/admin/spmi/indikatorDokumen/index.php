@@ -36,7 +36,7 @@
                                                 <h5>Indikator Dokumen</h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/indikatordokumen/add'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/IndikatorDokumen/add'))?>">
                                                     <button class="btn btn-link btn-sm">Indikator Dokumen Baru</button>
                                                 </a>
                                             </div>
@@ -89,7 +89,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('spmi/indikatordokumen/listIndikatorDokumen?withStandart=true'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('spmi/IndikatorDokumen/listIndikatorDokumen?withStandart=true'))?>${location.search}`,
             dataSrc     :   'listIndikatorDokumen'
         },
         
@@ -136,7 +136,7 @@
                 let _namaIndikatorDokumenUC    =   data.namaIndikatorDokumen.toUpperCase();
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/spmi/indikatordokumen/edit/${idIndikatorDokumen}'>
+                            <a href='${_siteURL}${_adminControllers}/spmi/IndikatorDokumen/edit/${idIndikatorDokumen}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Indikator ${_namaIndikatorDokumenUC}'></span>
                             </a>
@@ -158,7 +158,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('spmi/indikatordokumen/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('spmi/IndikatorDokumen/process_delete'))?>',
                 data    :   `idIndikatorDokumen=${idIndikatorDokumen}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {

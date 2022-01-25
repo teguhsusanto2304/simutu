@@ -38,7 +38,7 @@
                                                 <span class="text-muted text-sm">Prodi <b><?=$detailProdi['namaProgramStudi']?></b></span>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('programstudi'))?>">
+                                                <a href="<?=site_url(adminControllers('ProgramStudi'))?>">
                                                     <button class="btn btn-link btn-sm">List Prodi</button>
                                                 </a>
                                             </div>
@@ -196,7 +196,7 @@
                                                     ?>
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailProdi !== false)? 'Perubahan' : ''?> Program Studi</button>
-                                                    <a href="<?=site_url(adminControllers('programstudi'))?>">
+                                                    <a href="<?=site_url(adminControllers('ProgramStudi'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Program Studi</button>
                                                     </a>
                                                 </div>
@@ -253,7 +253,7 @@
         let _formData   =   `${_indikatorDokumen}&idProdi=${_idProdi}&periode=${_idPeriode}`;
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('programstudi/process_savePenetapan'))?>`,
+            url     :   `<?=site_url(adminControllers('ProgramStudi/process_savePenetapan'))?>`,
             type    :   'POST',
             data    :   _formData,
             success     :   function(_decodedRFS){
@@ -278,7 +278,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('programstudi'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('ProgramStudi'))?>`;
                     }
                 });
             }
@@ -294,7 +294,7 @@
         location.href   =   _newURL;
     }
 
-    let _urlAwal    =   `<?=site_url(adminControllers('programstudi/penetapan/'))?><?=$detailProdi['idprogramstudi']?>`;
+    let _urlAwal    =   `<?=site_url(adminControllers('ProgramStudi/penetapan/'))?><?=$detailProdi['idprogramstudi']?>`;
 
     $('#pencarian').on('keyup', function(){
         let _el     =   $(this);

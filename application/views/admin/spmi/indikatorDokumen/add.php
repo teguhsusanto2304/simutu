@@ -67,7 +67,7 @@
                                                 <h5><?=($detailIndikatorDokumen !== false)? 'Edit Indikator Dokumen' : 'Indikator Dokumen Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/indikatordokumen'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/IndikatorDokumen'))?>">
                                                     <button class="btn btn-link btn-sm">List Indikator Dokumen</button>
                                                 </a>
                                             </div>
@@ -86,7 +86,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailIndikatorDokumen !== false)? 'Perubahan' : ''?> Data Indikator Dokumen</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/indikatordokumen'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/IndikatorDokumen'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Indikator Dokumen</button>
                                                     </a>
                                                 </div>
@@ -140,7 +140,7 @@
         _formData.append('indikator', $('#indikator').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/indikatordokumen/process_save'))?>${idIndikator}`,
+            url     :   `<?=site_url(adminControllers('spmi/IndikatorDokumen/process_save'))?>${idIndikator}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -168,7 +168,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/indikatordokumen'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/IndikatorDokumen'))?>`;
                     }
                 });
             }

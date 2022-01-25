@@ -60,7 +60,7 @@
                                                 <h5><?=($detailPenilaian !== false)? 'Edit Penilaian' : 'Tambah Penilaian'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/penilaian'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Penilaian'))?>">
                                                     <button class="btn btn-link btn-sm">List Penilaian</button>
                                                 </a>
                                             </div>
@@ -82,7 +82,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailPenilaian !== false)? 'Perubahan' : ''?> Data Penilaian</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/penilaian'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/Penilaian'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Standart</button>
                                                     </a>
                                                 </div>
@@ -154,7 +154,7 @@
         _formData.append('bobot', $('#bobot').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/penilaian/process_save'))?>${idPenilaian}`,
+            url     :   `<?=site_url(adminControllers('spmi/Penilaian/process_save'))?>${idPenilaian}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -181,7 +181,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/penilaian'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/Penilaian'))?>`;
                     }
                 });
             }

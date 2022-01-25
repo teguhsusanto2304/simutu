@@ -72,7 +72,7 @@
                                                 <h5><?=($detailPernyataan !== false)? 'Edit Penyataan' : 'Penyataan Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Pernyataan'))?>">
                                                     <button class="btn btn-link btn-sm">List Penyataan</button>
                                                 </a>
                                             </div>
@@ -94,7 +94,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailPernyataan !== false)? 'Perubahan' : ''?> Data Pernyataan</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/Pernyataan'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Pernyataan</button>
                                                     </a>
                                                 </div>
@@ -152,7 +152,7 @@
         _formData.append('namaPernyataan', $('#namaPernyataan').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/pernyataan/process_save'))?>${idPernyataan}`,
+            url     :   `<?=site_url(adminControllers('spmi/Pernyataan/process_save'))?>${idPernyataan}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -180,7 +180,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/pernyataan'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/Pernyataan'))?>`;
                     }
                 });
             }

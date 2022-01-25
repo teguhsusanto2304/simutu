@@ -36,7 +36,7 @@
                                                 <h5>Pernyataan</h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/pernyataan/add'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Pernyataan/add'))?>">
                                                     <button class="btn btn-link btn-sm">Standart Baru</button>
                                                 </a>
                                             </div>
@@ -87,7 +87,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('spmi/pernyataan/listPernyataan?withStandart=true'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('spmi/Pernyataan/listPernyataan?withStandart=true'))?>${location.search}`,
             dataSrc     :   'listPernyataan'
         },
         
@@ -124,7 +124,7 @@
                 let _namaPernyataanUC       =   data.namaPernyataan.toUpperCase();
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/spmi/pernyataan/edit/${_idPernyataan}'>
+                            <a href='${_siteURL}${_adminControllers}/spmi/Pernyataan/edit/${_idPernyataan}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Pernyataan ${_namaPernyataanUC}'></span>
                             </a>
@@ -146,7 +146,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('spmi/pernyataan/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('spmi/Pernyataan/process_delete'))?>',
                 data    :   `_idPernyataan=${_idPernyataan}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {

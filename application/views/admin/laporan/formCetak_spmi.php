@@ -45,7 +45,7 @@
                                                 <div class="form-group col-lg-2">
                                                     <label for='standar'>Standar</label>
                                                     <select id='standar' class='form-control' name='standar'
-                                                        data-url='<?=site_url(adminControllers('spmi/substandart/listSubStandart'))?>'
+                                                        data-url='<?=site_url(adminControllers('spmi/SubStandart/listSubStandart'))?>'
                                                         data-select='kodeSubStandar, namaSubStandar'
                                                         data-where-column='kodeStandar'
                                                         data-index-data='listSubStandart'
@@ -67,7 +67,7 @@
                                                 <div class="form-group col-lg-2">
                                                     <label for='subStandar'>Sub Standar</label>
                                                     <select id='subStandar' class='form-control' name='subStandar'
-                                                        data-url='<?=site_url(adminControllers('spmi/pernyataan/listPernyataan'))?>'
+                                                        data-url='<?=site_url(adminControllers('spmi/Pernyataan/listPernyataan'))?>'
                                                         data-select='kodePernyataan, namaPernyataan'
                                                         data-where-column='kodeSubStandar'
                                                         data-index-data='listPernyataan'
@@ -81,7 +81,7 @@
                                                 <div class="form-group col-lg-2">
                                                     <label for='pernyataan'>Pernyataan</label>
                                                     <select id='pernyataan' class='form-control' name='pernyataan'
-                                                        data-url='<?=site_url(adminControllers('spmi/indikator/listIndikator'))?>'
+                                                        data-url='<?=site_url(adminControllers('spmi/Indikator/listIndikator'))?>'
                                                         data-select='kodeIndikator, namaIndikator'
                                                         data-where-column='kodePernyataan'
                                                         data-index-data='listIndikator'
@@ -95,7 +95,7 @@
                                                 <div class="form-group col-lg-3">
                                                     <label for='indikator'>Indikator</label>
                                                     <select id='indikator' class='form-control' name='indikator'
-                                                        data-url='<?=site_url(adminControllers('spmi/indikatordokumen/listIndikatorDokumen'))?>'
+                                                        data-url='<?=site_url(adminControllers('spmi/IndikatorDokumen/listIndikatorDokumen'))?>'
                                                         data-select='indikatorDokumenId, namaIndikatorDokumen'
                                                         data-where-column='kodeIndikator'
                                                         data-index-data='listIndikatorDokumen'

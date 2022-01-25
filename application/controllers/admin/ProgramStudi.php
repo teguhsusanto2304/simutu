@@ -16,7 +16,7 @@ class ProgramStudi extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'pT.programStudiCode, pT.namaProgramStudi, pT.numberSK, pT.peringkatAkreditasi, pT.noSKBANPT, pt.idprogramstudi';
+        $select 	=	'pT.programStudiCode, pT.namaProgramStudi, pT.numberSK, pT.peringkatAkreditasi, pT.noSKBANPT, pT.idprogramstudi';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){

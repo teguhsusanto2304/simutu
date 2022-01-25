@@ -99,7 +99,7 @@
                 <?php } ?>
                 <?php if($detailRole['unit'] == 1){ ?>
                     <li class="nav-item">
-                        <a href="<?=site_url(adminControllers('programstudi'))?>" class="nav-link">
+                        <a href="<?=site_url(adminControllers('ProgramStudi'))?>" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                             <p>Program Studi</p>
                         </a>
@@ -165,31 +165,31 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('spmi/standart'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('spmi/Standart'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Standart</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('spmi/substandart'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('spmi/SubStandart'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Sub Standart</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('spmi/pernyataan'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('spmi/Pernyataan'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Penyataan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('spmi/indikator'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('spmi/Indikator'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Indikator</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?=site_url(adminControllers('spmi/indikatordokumen'))?>" class="nav-link">
+                                <a href="<?=site_url(adminControllers('spmi/IndikatorDokumen'))?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Indikator Dokumen</p>
                                 </a>

@@ -36,7 +36,7 @@
                                                 <h5>Standart</h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/standart/add'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Standart/add'))?>">
                                                     <button class="btn btn-link btn-sm">Standart Baru</button>
                                                 </a>
                                             </div>
@@ -87,7 +87,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('spmi/standart/listStandart'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('spmi/Standart/listStandart'))?>${location.search}`,
             dataSrc     :   'listStandart'
         },
         
@@ -112,7 +112,7 @@
                 let _namaStandartUC    =   data.namaStandar.toUpperCase();
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/spmi/standart/edit/${_idStandart}'>
+                            <a href='${_siteURL}${_adminControllers}/spmi/Standart/edit/${_idStandart}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Standart ${_namaStandartUC}'></span>
                             </a>
@@ -134,7 +134,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('spmi/standart/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('spmi/Standart/process_delete'))?>',
                 data    :   `idStandart=${idStandart}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {

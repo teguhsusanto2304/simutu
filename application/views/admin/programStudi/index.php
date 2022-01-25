@@ -37,7 +37,7 @@
                                             </div>
                                             <?php if($loadedFrom == $loadedFrom_programStudi){ ?>
                                                 <div class="col-lg-8 text-right">
-                                                    <a href="<?=site_url(adminControllers('programstudi/add'))?>">
+                                                    <a href="<?=site_url(adminControllers('ProgramStudi/add'))?>">
                                                         <button class="btn btn-link btn-sm">Prodi Baru</button>
                                                     </a>
                                                 </div>
@@ -95,7 +95,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('programstudi/listProgramStudi'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('ProgramStudi/listProgramStudi'))?>${location.search}`,
             dataSrc     :   'listProgramStudi'
         },
         
@@ -126,7 +126,7 @@
 
                 let _actionHTML;
                 if(_loadedFrom === _loadedFrom_programStudi){
-                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/programstudi/edit/${_idProdi}'>
+                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/ProgramStudi/edit/${_idProdi}'>
                                                 <span class='fa fa-edit text-warning cp' data-toggle='tooltip' data-placement='top'
                                                     title='Edit Data Program Studi ${_namaProdiUC}'></span>
                                             </a>
@@ -134,7 +134,7 @@
                                                 title='Hapus Data Program Studi ${_namaProdiUC}' onClick='hapusProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>`;
                 }
                 if(_loadedFrom === _loadedFrom_penetapan){
-                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/programstudi/penetapan/${_idProdi}'>
+                    _actionHTML     =   `<a href='${_siteURL}${_adminControllers}/ProgramStudi/penetapan/${_idProdi}'>
                                             <span class='fa fa-arrow-right text-success cp' data-toggle='tooltip' data-placement='top'
                                                 title='Penetapan Program Studi ${_namaProdiUC}' onClick='penetapanProdi(this, "${_idProdi}", "${_namaProdiUC}")'></span>
                                         </a>`;
@@ -158,7 +158,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('programstudi/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('ProgramStudi/process_delete'))?>',
                 data    :   `idProgramStudi=${idProgramStudi}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {

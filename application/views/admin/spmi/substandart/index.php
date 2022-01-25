@@ -36,7 +36,7 @@
                                                 <h5>Sub Standart</h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/substandart/add'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/SubStandart/add'))?>">
                                                     <button class="btn btn-link btn-sm">Standart Baru</button>
                                                 </a>
                                             </div>
@@ -86,7 +86,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('spmi/substandart/listSubStandart'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('spmi/SubStandart/listSubStandart'))?>${location.search}`,
             dataSrc     :   'listSubStandart'
         },
         
@@ -116,7 +116,7 @@
                 let _namaSubStandartUC    =   data.namaSubStandar.toUpperCase();
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/spmi/substandart/edit/${_idSubStandart}'>
+                            <a href='${_siteURL}${_adminControllers}/spmi/SubStandart/edit/${_idSubStandart}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Sub Standart ${_namaSubStandartUC}'></span>
                             </a>
@@ -138,7 +138,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('spmi/substandart/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('spmi/SubStandart/process_delete'))?>',
                 data    :   `idSubStandart=${idSubStandart}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {

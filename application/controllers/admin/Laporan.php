@@ -239,7 +239,7 @@ class Laporan extends CI_Controller {
                         ['table' => 'substandar sS', 'condition' => 'sS.kodeStandar=pT.kodeStandar'],
                         ['table' => 'pernyataan perny', 'condition' => 'perny.kodeSubStandar=sS.kodeSubStandar'],
                         ['table' => 'indikator i', 'condition' => 'i.kodePernyataan=perny.kodePernyataan'],
-                        ['table' => 'indikatordokumen id', 'condition' => 'iD.kodeIndikator=i.kodeIndikator']
+                        ['table' => 'indikatordokumen iD', 'condition' => 'iD.kodeIndikator=i.kodeIndikator']
                     ]
                 ];
 

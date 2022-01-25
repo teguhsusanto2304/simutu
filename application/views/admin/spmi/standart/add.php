@@ -54,7 +54,7 @@
                                                 <h5><?=($detailStandart !== false)? 'Edit Standart' : 'Standart Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/standart'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Standart'))?>">
                                                     <button class="btn btn-link btn-sm">List Standart</button>
                                                 </a>
                                             </div>
@@ -73,7 +73,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailStandart !== false)? 'Perubahan' : ''?> Data Standart</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/standart'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/Standart'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Standart</button>
                                                     </a>
                                                 </div>
@@ -144,7 +144,7 @@
         _formData.append('namaStandar', $('#namaStandar').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/standart/process_save'))?>${idStandart}`,
+            url     :   `<?=site_url(adminControllers('spmi/Standart/process_save'))?>${idStandart}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -171,7 +171,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/standart'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/Standart'))?>`;
                     }
                 });
             }

@@ -16,7 +16,7 @@ class Periode extends CI_Controller {
 
         $draw       =   $this->input->get('draw');
 
-        $select 	=	'pT.idPeriode, pT.namaPeriode, pT.tahunPeriode, pT.mulaiPelaksanaan, pT.akhirPelaksanaan, pt.mulaiPenilaian, pT.akhirPenilaian';
+        $select 	=	'pT.idPeriode, pT.namaPeriode, pT.tahunPeriode, pT.mulaiPelaksanaan, pT.akhirPelaksanaan, pT.mulaiPenilaian, pT.akhirPenilaian';
         
         $selectQS 	=	$this->input->get('select');
         if(!is_null($selectQS) && !empty($selectQS)){

@@ -78,7 +78,7 @@
                                                 <h5><?=($detailSubStandart !== false)? 'Edit Sub Standart' : 'Sub Standart Baru'?></h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/substandart'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/SubStandart'))?>">
                                                     <button class="btn btn-link btn-sm">List Sub Standart</button>
                                                 </a>
                                             </div>
@@ -103,7 +103,7 @@
                                                     <hr class='mb-4' />
                                                     <button class="btn btn-success mr-1" type='submit'
                                                         id='btnSubmit'>Simpan <?=($detailSubStandart !== false)? 'Perubahan' : ''?> Data Sub Standart</button>
-                                                    <a href="<?=site_url(adminControllers('spmi/substandart'))?>">
+                                                    <a href="<?=site_url(adminControllers('spmi/SubStandart'))?>">
                                                         <button class="btn btn-default ml-1" type='button'>Back to List Sub Standart</button>
                                                     </a>
                                                 </div>
@@ -181,7 +181,7 @@
         _formData.append('linkSubStandar', $('#linkSubStandar').val());
 
         $.ajax({
-            url     :   `<?=site_url(adminControllers('spmi/substandart/process_save'))?>${idSubStandart}`,
+            url     :   `<?=site_url(adminControllers('spmi/SubStandart/process_save'))?>${idSubStandart}`,
             type    :   'POST',
             data    :   _formData,
             processData :   false,
@@ -209,7 +209,7 @@
                     icon    :   _swalType
                 }).then(() => {
                     if(_statusSave){
-                        location.href   =   `<?=site_url(adminControllers('spmi/substandart'))?>`;
+                        location.href   =   `<?=site_url(adminControllers('spmi/SubStandart'))?>`;
                     }
                 });
             }

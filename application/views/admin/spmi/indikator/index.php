@@ -36,7 +36,7 @@
                                                 <h5>Indikator</h5>
                                             </div>
                                             <div class="col-lg-8 text-right">
-                                                <a href="<?=site_url(adminControllers('spmi/indikator/add'))?>">
+                                                <a href="<?=site_url(adminControllers('spmi/Indikator/add'))?>">
                                                     <button class="btn btn-link btn-sm">Indikator Baru</button>
                                                 </a>
                                             </div>
@@ -88,7 +88,7 @@
         processing  :   true,
         serverSide  :   true,
         ajax    :   {
-            url         :   `<?=base_url(adminControllers('spmi/indikator/listIndikator?withStandart=true'))?>${location.search}`,
+            url         :   `<?=base_url(adminControllers('spmi/Indikator/listIndikator?withStandart=true'))?>${location.search}`,
             dataSrc     :   'listIndikator'
         },
         
@@ -130,7 +130,7 @@
                 let _namaIndikatorUC    =   data.namaIndikator.toUpperCase();
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/spmi/indikator/edit/${idIndikator}'>
+                            <a href='${_siteURL}${_adminControllers}/spmi/Indikator/edit/${idIndikator}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Indikator ${_namaIndikatorUC}'></span>
                             </a>
@@ -152,7 +152,7 @@
         
         if(_confirm){
             $.ajax({
-                url     :   '<?=site_url(adminControllers('spmi/indikator/process_delete'))?>',
+                url     :   '<?=site_url(adminControllers('spmi/Indikator/process_delete'))?>',
                 data    :   `idIndikator=${idIndikator}`,
                 type    :   'POST',
                 success :   (decodedRFS) => {
