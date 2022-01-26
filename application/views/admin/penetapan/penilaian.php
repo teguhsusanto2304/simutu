@@ -1,3 +1,17 @@
+<?php 
+    $isSudahPenilaian       =   !is_null($detailPenetapan['idAuditor']) && !is_null($detailPenetapan['waktuPenilaian']);
+
+    $tanggalPenilaian       =   date('Y-m-d', strtotime($detailPenetapan['waktuPenilaian']));
+    $today                  =   date('Y-m-d');
+    $isWaktuPenilaianToday  =   $tanggalPenilaian == $today;
+
+    $stillCanBeEdited   =   true;
+    if($isSudahPenilaian){
+        if(!$isWaktuPenilaianToday){
+            $stillCanBeEdited   =   false;
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <?php 
@@ -65,9 +79,11 @@
                                                         </thead>
                                                         <tbody>
                                                     <?php
+                                                        $totalSkor  =   0;
                                                         foreach($listItemPenetapan as $indexData => $penetapan){
+                                                            $detailPenilaian    =   $this->penilaian->getPenilaian($penetapan['penilaian'], ['select' => 'warna']);
                                                             ?>
-                                                                <tr class='tr-parent'>
+                                                                <tr class='tr-parent' <?=($isSudahPenilaian)? 'style="background-color:'.$detailPenilaian["warna"].'"' : '' ?>>
                                                                     <td class='text-center'><?=$indexData+1?></td>
                                                                     <td>
                                                                         <h6 class='text-primary text-bold mb-0'>
@@ -117,11 +133,12 @@
                                                                     <td class='vam'>
                                                                         <input type="hidden" name="idPenetapanDetail[]" class='idPenetapanDetail form-control'
                                                                             value='<?=$penetapan['penetapanDetailId']?>' />
-                                                                        <select name="penilaian[]" class='penilaian form-control'>
+                                                                        <select name="penilaian[]" class='penilaian form-control' <?=(!$stillCanBeEdited)? 'disabled' : ''?>>
                                                                             <option value=''>Pilih Penilaian</option>
                                                                             <?php foreach($listPenilaian as $penilaian){ ?>
                                                                                 <option value='<?=$penilaian['idPenilaian']?>' 
-                                                                                    data-warna='<?=$penilaian['warna']?>' data-bobot='<?=$penilaian['bobot']?>'>
+                                                                                    data-warna='<?=$penilaian['warna']?>' data-bobot='<?=$penilaian['bobot']?>'
+                                                                                    <?=($isSudahPenilaian)? ($penilaian['idPenilaian'] == $penetapan['penilaian'])? 'selected' : '' : ''?>>
                                                                                     <?=$penilaian['namaPenilaian']?>    
                                                                                 </option>
                                                                             <?php } ?>
@@ -129,13 +146,15 @@
                                                                     </td>
                                                                     <td class='vam'>
                                                                         <textarea name="keterangan[]" class='keterangan form-control'
-                                                                            placeholder='Keterangan'></textarea>
+                                                                            <?=(!$stillCanBeEdited)? 'disabled' : ''?>
+                                                                            placeholder='Keterangan'><?=($isSudahPenilaian)? $penetapan['keterangan'] : ''?></textarea>
                                                                     </td>
                                                                     <td class='vam text-center'>
-                                                                        <span class="skor text-bold">0</span>
+                                                                        <span class="skor text-bold"><?=($isSudahPenilaian)? number_format($penetapan['penilaian']) : 0?></span>
                                                                     </td>
                                                                 </tr>
                                                             <?php
+                                                            $totalSkor  +=  $penetapan['penilaian'];
                                                         }
                                                     ?>
                                                         </tbody>
@@ -145,7 +164,7 @@
                                                                     <h6>Total Nilai</h6>
                                                                 </td>
                                                                 <td id='totalSkor' class='vam text-bold text-center'>
-                                                                    0
+                                                                    <?=number_format($totalSkor)?>
                                                                 </td>
                                                             </tr>
                                                         </tfoot>
@@ -154,11 +173,13 @@
                                             <?php
                                                 }
                                             ?>
-                                            <hr />
-                                            <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
-                                            <a href="<?=site_url(adminControllers('penetapan'))?>">
-                                                <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
-                                            </a>
+                                            <?php if($stillCanBeEdited){ ?>
+                                                <hr />
+                                                <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
+                                                <a href="<?=site_url(adminControllers('penetapan'))?>">
+                                                    <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
+                                                </a>
+                                            <?php } ?>
                                         </form>
                                     </div>
                                 </div>
