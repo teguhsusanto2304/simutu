@@ -230,12 +230,22 @@ class ProgramStudi extends CI_Controller {
             $this->load->model('IndikatorDokumenModel', 'indikatorDokumen');
             $this->load->model('PeriodeModel', 'periode');
             $this->load->model('SubStandartModel', 'subStandart');
+            $this->load->model('PenetapanModel', 'penetapan');
+            $this->load->model('PenetapanDetailModel', 'penetapanDetail');
 
             $tabel  =   $this->tabel;
             $tabelStandart      =   $tabel->standart;
             $tabelSubStandart   =   $tabel->subStandart;
             $tabelPernyataan    =   $tabel->pernyataan;
             $tabelIndikator     =   $tabel->indikator;
+
+            $penetapanProdiOptions  =   [
+                'where' =>  [
+                    'idprogramstudi'    =>  $idProgramStudi
+                ],
+                'useSingleRow'  =>  true 
+            ];
+            $penetapanProdi         =   $this->penetapan->getPenetapan(null, $penetapanProdiOptions);
 
             $detailUserOptions  =   [
                 'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -262,8 +272,24 @@ class ProgramStudi extends CI_Controller {
                 if(!empty($subStandarIdQS)){
                     $subStandarId   =   trim($subStandarIdQS);
 
-                    $indikatorDokumenOptions['where']    =   ['sS.subStandarId' => $subStandarId];
+                    $indikatorDokumenOptions['where']['sS.subStandarId']    =   $subStandarId;
                 }
+            }
+            if($penetapanProdi !== false){
+                $penetapanDetailOptions         =   [
+                    'select'    =>  'indikatorDokumen',
+                    'where'     =>  ['penetapanId' => $penetapanProdi['penetapanid']]
+                ];
+                $listPenetapanDetail            =   $this->penetapanDetail->getPenetapanDetail(null, $penetapanDetailOptions);
+
+                function idIndikatorDokumenGenerator($penetapanDetail){
+                    return $penetapanDetail['indikatorDokumen'];
+                }
+                $listIDIndikatorDokumen         =   array_map('idIndikatorDokumenGenerator', $listPenetapanDetail);
+                $indikatorDokumenOptions['where_in']    =   [
+                    'column'    =>  'pT.indikatorDokumenId',
+                    'values'    =>  $listIDIndikatorDokumen
+                ];   
             }
 
             $indikatorDokumen   =   $this->indikatorDokumen->getIndikatorDokumen(null, $indikatorDokumenOptions);
@@ -287,7 +313,8 @@ class ProgramStudi extends CI_Controller {
                 'indikatorDokumen'  =>  $indikatorDokumen,
                 'listPeriode'       =>  $listPeriode,
                 'listSubStandart'   =>  $listSubStandart,
-                'subStandarIdQS'    =>  $subStandarIdQS
+                'subStandarIdQS'    =>  $subStandarIdQS,
+                'penetapanProdi'    =>  $penetapanProdi
             ];
 
             $this->load->view(adminViews('programStudi/penetapan'), $dataPage);

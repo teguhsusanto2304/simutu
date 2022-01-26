@@ -89,13 +89,20 @@
                                                     </div>
                                                     <hr class='mb-4' />
                                                     <h5>Periode</h5>
-                                                    <select id='periode' class='form-control' name='periode'>
+                                                    <select id='periode' class='form-control' name='periode' <?=($penetapanProdi !== false)? 'readonly' : ''?>>
                                                         <option value=''>Pilih Periode</option>
                                                         <?php
                                                             if(count($listPeriode) >= 1){
                                                                 foreach($listPeriode as $periode){
+                                                                    $isSelected     =   false;
+
+                                                                    if($penetapanProdi !== false){
+                                                                        $isSelected     =   $periode['idPeriode'] == $penetapanProdi['periode'];
+                                                                    }
+                                                                    $selected       =   ($isSelected)? 'selected' : '';
                                                                     ?>
-                                                                        <option value='<?=$periode['idPeriode']?>'><?=$periode['namaPeriode']?></option>
+                                                                        <option value='<?=$periode['idPeriode']?>'
+                                                                            <?=$selected?>><?=$periode['namaPeriode']?></option>
                                                                     <?php
                                                                 }
                                                             }
@@ -159,7 +166,8 @@
                                                                     <tr class='indikator-dokumen'>
                                                                         <td>
                                                                             <input type="checkbox" name="indikatorDokumen[]" 
-                                                                                value='<?=$indikator['indikatorDokumenId']?>' class='indikatorDokumen' />
+                                                                                value='<?=$indikator['indikatorDokumenId']?>' class='indikatorDokumen'
+                                                                                <?=($penetapanProdi !== false)? 'checked' : ''?> <?=($penetapanProdi !== false)? 'disabled' : ''?> />
                                                                         </td>
                                                                         <td>
                                                                             <h6 class='namaStandar'><?=$indikator['namaStandar']?></h6>
@@ -194,11 +202,13 @@
                                                             <?php
                                                         }
                                                     ?>
-                                                    <button class="btn btn-success mr-1" type='submit'
-                                                        id='btnSubmit'>Simpan <?=($detailProdi !== false)? 'Perubahan' : ''?> Program Studi</button>
-                                                    <a href="<?=site_url(adminControllers('ProgramStudi'))?>">
-                                                        <button class="btn btn-default ml-1" type='button'>Back to List Program Studi</button>
-                                                    </a>
+                                                    <?php if($penetapanProdi === false){ ?>
+                                                        <button class="btn btn-success mr-1" type='submit'
+                                                            id='btnSubmit'>Simpan <?=($detailProdi !== false)? 'Perubahan' : ''?> Program Studi</button>
+                                                        <a href="<?=site_url(adminControllers('ProgramStudi'))?>">
+                                                            <button class="btn btn-default ml-1" type='button'>Back to List Program Studi</button>
+                                                        </a>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </form>
@@ -234,8 +244,12 @@
     let imgPreview  =   false;
     let imgData     =   false;
 
+    let _isPenetapanProdiDone   =   `<?=($penetapanProdi !== false)? 'true' : 'false'?>` === 'true';
+    let _readOnly               =   _isPenetapanProdiDone;    
+
     $('#periode, #subStandart').select2({
-        theme    : "bootstrap4", 
+        theme       :   "bootstrap4",
+        disabled    :   _readOnly
     });
 
     $('#formPenetapan').on('submit', function(e){
