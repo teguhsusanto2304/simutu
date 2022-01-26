@@ -94,7 +94,7 @@
                                                                    <div class="col-lg-3">
                                                                         <div class='row'>
                                                                             <input type='checkbox' value='<?=$auditor['userid']?>' id='<?=$auditor['userid']?>' name='auditor[]'
-                                                                                class='auditor' style='margin-top:5px;' />
+                                                                                class='auditor' style='margin-top:5px;' <?=($isAuditorSet)? 'checked disabled' : '' ?>/>
                                                                             <div class='col mt-0 pl-3'>
                                                                                 <label for='<?=$auditor['userid']?>' class='cp'>
                                                                                     <h5 class='mb-1'><?=$auditor['fullName']?></h5>
@@ -110,11 +110,13 @@
                                                     ?>
                                                 </div>
                                             </div>
-                                            <hr />
-                                            <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
-                                            <a href="<?=site_url(adminControllers('penetapan'))?>">
-                                                <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
-                                            </a>
+                                            <?php if(!$isAuditorSet){ ?>
+                                                <hr />
+                                                <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
+                                                <a href="<?=site_url(adminControllers('penetapan'))?>">
+                                                    <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
+                                                </a>
+                                            <?php } ?>
                                         </form>
                                     </div>
                                 </div>

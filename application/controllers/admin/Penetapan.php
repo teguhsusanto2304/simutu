@@ -205,10 +205,25 @@ class Penetapan extends CI_Controller {
                 $this->load->library('Path');
                 $this->load->library('Tabel');
                 $this->load->model('PenetapanModel', 'penetapan');
+                $this->load->model('AuditModel', 'audit');
                 $this->load->model('ProgramStudiModel', 'prodi');
 
                 $tabel          =   $this->tabel;
                 $tabelProdi     =   $tabel->programStudi;
+
+                $auditOptions                   =   [
+                    'select'    =>  'auditor',
+                    'where'     =>  [
+                        'idPenetapan'   =>  $idPenetapan
+                    ]
+                ];
+                $listAuditorInThisPenetapan     =   $this->audit->getAudit(null, $auditOptions);
+
+                function idAuditorGenerator($auditor){
+                    return $auditor['auditor'];
+                }
+                $listIDAuditorInThisPenetapan   =   array_map('idAuditorGenerator', $listAuditorInThisPenetapan);
+                $isAuditorSet   =   count($listIDAuditorInThisPenetapan) >= 1;
 
                 $detailUserOptions  =   [
                     'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
@@ -231,14 +246,23 @@ class Penetapan extends CI_Controller {
                         'role'  =>  3
                     ]
                 ];
+                if($isAuditorSet){
+                    $userOptions['where_in']    =   [
+                        'column'    =>  'pT.userid',
+                        'values'    =>  $listIDAuditorInThisPenetapan
+                    ];
+                }
                 $listAuditor        =   $this->user->getUser(null, $userOptions);
 
                 $dataPage   =   [
-                    'pageTitle'         =>  'Penetapan Auditor (Pilih Auditor)',
-                    'detailUser'        =>  $detailUser,
-                    'detailPenetapan'   =>  $detailPenetapan,
-                    'listAuditor'       =>  $listAuditor,
-                    'detailProdi'       =>  $detailProdi
+                    'pageTitle'                     =>  'Penetapan Auditor (Pilih Auditor)',
+                    'detailUser'                    =>  $detailUser,
+                    'detailPenetapan'               =>  $detailPenetapan,
+                    'listAuditorInThisPenetapan'    =>  $listAuditorInThisPenetapan,
+                    'listIDAuditorInThisPenetapan'  =>  $listIDAuditorInThisPenetapan,
+                    'isAuditorSet'                  =>  $isAuditorSet,
+                    'listAuditor'                   =>  $listAuditor,
+                    'detailProdi'                   =>  $detailProdi
                 ];
                 $this->load->view(adminViews('penetapan/setAuditor'), $dataPage);
            }
