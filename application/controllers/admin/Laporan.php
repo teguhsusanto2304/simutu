@@ -120,14 +120,31 @@ class Laporan extends CI_Controller {
             echo json_encode($response);
         }
     } 
+    public function listProdiDocument($id){
+        if($this->isUserLoggedIn){
+            $this->db->select('indikatordokumen.namaIndikatorDokumen,penetapandetailspmi.status,penetapandetailspmi.penilaian,penetapandetailspmi.catatan');
+            $this->db->where('penetapanId',$id);
+            $this->db->join('indikatordokumen','penetapandetailspmi.indikatorDokumen=indikatordokumen.indikatorDokumenId','INNER');
+            $response = [];
+            foreach( $this->db->get('penetapandetailspmi')->result() as $row){
+                array_push($response,
+                array('doc'=>$row->namaIndikatorDokumen,
+                      'status'=>$row->status,
+                      'penilaian'=>$row->penilaian,
+                      'catatan'=>$row->catatan));
+            }
+            header('Content-Type:application/json');
+            echo json_encode($response);
+        }
+    }
     public function listProdi(){
         if($this->isUserLoggedIn){
             $this->load->model('PenetapanModel', 'penetapan');
 
             $draw       =   $this->input->get('draw');
 
-            $select     =   'p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName, iD.namaIndikatorDokumen, pStudy.namaProgramStudi, pStudy.programStudiCode';
-            
+            //$select     =   'sS.kodeStandar,sS.namaStandar,p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName, iD.namaIndikatorDokumen, pStudy.namaProgramStudi, pStudy.programStudiCode';
+            $select     =   'pT.penetapanId,sS.kodeStandar,sS.namaStandar,p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName,  pStudy.namaProgramStudi, pStudy.programStudiCode';
             $selectQS   =   $this->input->get('select');
             if(!is_null($selectQS) && !empty($selectQS)){
                 $select     =   trim($selectQS);
@@ -151,7 +168,8 @@ class Laporan extends CI_Controller {
                 if(is_array($search)){
                     $searchValue        =   $search['value'];
                     $options['like']    =   [
-                        'column'    =>  ['p.namaPeriode', 'p.tahunPeriode', 'iD.namaIndikatorDokumen'],
+                        //'column'    =>  ['p.namaPeriode', 'p.tahunPeriode', 'iD.namaIndikatorDokumen'],
+                        'column'    =>  ['p.namaPeriode', 'p.tahunPeriode'],
                         'value'     =>  $searchValue
                     ];
                 }
@@ -168,9 +186,10 @@ class Laporan extends CI_Controller {
             $options['join']    =   [
                 ['table' => 'periode p', 'condition' => 'p.idPeriode=pT.periode'],
                 ['table' => 'user u', 'condition' => 'u.userid=pT.idAuditor'],
-                ['table' => 'penetapandetailspmi pD', 'condition' => 'pD.penetapanId=pT.penetapanid'],
-                ['table' => 'indikatordokumen iD', 'condition' => 'iD.indikatorDokumenId=pD.indikatorDokumen'],
-                ['table' => 'programstudi pStudy', 'condition' => 'pStudy.idprogramstudi=pT.idprogramstudi']
+                //['table' => 'penetapandetailspmi pD', 'condition' => 'pD.penetapanId=pT.penetapanid'],
+                //['table' => 'indikatordokumen iD', 'condition' => 'iD.indikatorDokumenId=pD.indikatorDokumen'],
+                ['table' => 'programstudi pStudy', 'condition' => 'pStudy.idprogramstudi=pT.idprogramstudi'],
+                ['table' => 'standarspmi sS', 'condition' => 'sS.standarId=pT.standartspmiid']
             ];
 
             $listProdi    =   $this->penetapan->getPenetapan(null, $options);

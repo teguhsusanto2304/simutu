@@ -75,10 +75,36 @@
     </body>
 </html>
 <script language='Javascript'>
+    async function getDocs(id) {
+    //let url = '<?=base_url()?>assets/doc.json';
+    let url   = '<?=base_url(adminControllers('laporan/listProdiDocument'))?>/'+id
+    try {
+        let res = await fetch(url);
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function renderDocs(id) {
+    let users = await getDocs(id);
+    let html = '<table>';
+        html += '<tr><th>Dokumen</th><th>Status</th><th>Bobot</th><th>Catatan</th></tr>';
+    users.forEach(user => {
+        let htmlSegment = `<tr><td><h6 class='mb-0'>
+                            ${user.doc}
+                        </h6></td><td>${user.status}</td><td>${user.penilaian}</td><td>${user.catatan}</td></tr>`;
+
+        html += htmlSegment;
+    });
+    html += '</ol>';
+    let container = document.querySelector('.doc'+id);
+    container.innerHTML = html;
+    return html;
+}
     let _baseURL                    =   `<?=base_url()?>`;
     let _siteURL                    =   `<?=site_url()?>`;
     let _adminControllers           =   `<?=adminControllers()?>`;
-
     let _dataTableOptions   =  {
         processing  :   true,
         serverSide  :   true,
@@ -111,9 +137,8 @@
                         <span class='text-muted text-sm'>${data.tahunPeriode}</span>`;
             }},
             {data : null, render : function(data, type, row, metaData){
-                return  `<h6 class='text-bold mb-0'>
-                            ${data.namaIndikatorDokumen}
-                        </h6>`;
+                renderDocs(data.penetapanId);
+                return  `<div class='doc${data.penetapanId}'></div>`;
             }}
         ]
     };
