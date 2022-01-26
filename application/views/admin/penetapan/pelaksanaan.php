@@ -1,3 +1,6 @@
+<?php 
+    $isSudahPelaksanaan     =   !is_null($detailPenetapan['pelaksana']) && !is_null($detailPenetapan['waktuPelaksanaan']);
+?>
 <!DOCTYPE html>
 <html lang="en">
     <?php 
@@ -88,11 +91,14 @@
                                                                         <input type="hidden" name="idPenetapanDetail[]" class='idPenetapanDetail form-control'
                                                                             value='<?=$penetapan['penetapanDetailId']?>' />
                                                                         <input type="text" name="linkProdi[]" class='linkProdi form-control'
-                                                                            placeholder='Link Prodi' />
+                                                                            placeholder='Link Prodi' value='<?=($isSudahPelaksanaan)? $penetapan['linkProdi'] : ''?>'
+                                                                             <?=($isSudahPelaksanaan)? 'disabled' : ''?> />
                                                                     </td>
                                                                     <td class='vam'>
                                                                         <textarea name="catatan[]" class='catatan form-control'
-                                                                            placeholder='Catatan (Opsional)'></textarea>
+                                                                            placeholder='Catatan (Opsional)' 
+                                                                            <?=($isSudahPelaksanaan)? 'disabled' : ''?>><?=($isSudahPelaksanaan)? $penetapan['catatan'] : ''?>
+                                                                        </textarea>
                                                                     </td>
                                                                 </tr>
                                                             <?php
@@ -104,11 +110,13 @@
                                             <?php
                                                 }
                                             ?>
-                                            <hr />
-                                            <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
-                                            <a href="<?=site_url(adminControllers('penetapan'))?>">
-                                                <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
-                                            </a>
+                                            <?php if(!$isSudahPelaksanaan){ ?>
+                                                <hr />
+                                                <button class="btn btn-success" type='submit' id='btnSubmit'>Simpan</button>
+                                                <a href="<?=site_url(adminControllers('penetapan'))?>">
+                                                    <button class="ml-2 btn btn-default" type='button'>List Penetapan</button>
+                                                </a>
+                                            <?php } ?>
                                         </form>
                                     </div>
                                 </div>
