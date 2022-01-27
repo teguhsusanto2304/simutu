@@ -16,7 +16,7 @@ class Admin extends CI_Controller {
         if($this->isAdminLoggedIn){
             $draw       =   $this->input->get('draw');
 
-            $select     =   'id, foto, nama, alamat, email, telepon, username, createdAt, createdBy, updatedBy, updatedAt, isActive';
+            $select     =   'nip,userid, imageProfile, firstName, lastName,alamat, email, telepon, username, createdAt, createdBy, updatedBy, updatedAt, isActive';
             
             $selectQS   =   $this->input->get('select');
             if(!is_null($selectQS) && !empty($selectQS)){
@@ -41,7 +41,7 @@ class Admin extends CI_Controller {
                 if(is_array($search)){
                     $searchValue        =   $search['value'];
                     $options['like']    =   [
-                        'column'    =>  ['nama', 'alamat', 'email', 'telepon', 'username'],
+                        'column'    =>  ['firstName', 'alamat', 'email', 'telepon', 'username'],
                         'value'     =>  $searchValue
                     ];
                 }
@@ -70,7 +70,7 @@ class Admin extends CI_Controller {
                     if(array_key_exists('createdBy', $admin)){
                         if(!is_null($admin['createdBy'])){
                             $creatorOptions =   [
-                                'select'    =>  'nama, foto'
+                                'select'    =>  'firstName, imageProfile'
                             ];
                             $detailCreator  =   $this->admin->getAdmin($admin['createdBy'], $creatorOptions);
 
@@ -80,7 +80,7 @@ class Admin extends CI_Controller {
                     if(array_key_exists('updatedBy', $admin)){
                         if(!is_null($admin['updatedBy'])){
                             $updaterOptions =   [
-                                'select'    =>  'nama, foto'
+                                'select'    =>  'firstName, imageProfile'
                             ];
                             $detailUpdater  =   $this->admin->getAdmin($admin['updatedBy'], $updaterOptions);
 
@@ -105,14 +105,21 @@ class Admin extends CI_Controller {
     }
     public function index(){
         if($this->isAdminLoggedIn){            
-            $detailAdminOptions	=	['select' => 'nama, foto'];
+            $detailAdminOptions	=	['select' => 'firstName, imageProfile'];
             $detailAdmin 	=	$this->admin->getAdmin($this->isAdminLoggedIn, $detailAdminOptions);
-
+            $detailUserOptions  =   [
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
+                'join'      =>  [
+                    ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                ]
+            ];
+            $detailUser     =   $this->user->getUser($this->isAdminLoggedIn, $detailUserOptions);
             $dataPage   =   [
                 'pageTitle'     =>  'Administrator',
                 'admin'         =>  $this->admin,
                 'path'          =>  $this->path,
-                'detailAdmin'   =>  $detailAdmin
+                'detailAdmin'   =>  $detailAdmin,
+                'detailUser'    =>  $detailUser
             ];
             $this->load->view(adminControllers('admin/index'), $dataPage);
         }else{
@@ -165,8 +172,15 @@ class Admin extends CI_Controller {
         if($this->isAdminLoggedIn){
             $this->load->library('CustomForm', null, 'cF');
             
-            $detailAdminOptions =   ['select' => 'nama, foto'];
+            $detailAdminOptions =   ['select' => 'firstName, imageProfile'];
             $detailAdmin    =   $this->admin->getAdmin($this->isAdminLoggedIn, $detailAdminOptions);
+            $detailUserOptions  =   [
+                'select'    =>  'pT.lastName, pT.firstName, pT.imageProfile, r.roleName, pT.role',
+                'join'      =>  [
+                    ['table' => 'role r', 'condition' => 'r.roleid=pT.role']
+                ]
+            ];
+            $detailUser     =   $this->user->getUser($this->isAdminLoggedIn, $detailUserOptions);
 
             $detailAdminUser    =   false;
             $pageTitle      =   'Add New Administrator';
@@ -180,6 +194,7 @@ class Admin extends CI_Controller {
                 'detailAdmin'       =>  $detailAdmin,
                 'pageTitle'         =>  $pageTitle,
                 'detailAdmin'       =>  $detailAdmin,
+                'detailUser'       =>  $detailUser,
                 'detailAdminUser'   =>  $detailAdminUser,
                 'path'              =>  $this->path
             ];

@@ -1,6 +1,6 @@
 <?php
     class Tabel{
-        var $admin          =   'admin';
+        var $admin          =   'user';
         var $hero           =   'hero';
         var $konten         =   'konten';
         var $kontenItem     =   'konten_item';

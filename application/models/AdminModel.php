@@ -6,7 +6,7 @@
         public function getNumberOfData(){
             $tabelAdmin        =   $this->tabel->admin;
 
-            $this->db->select('id');
+            $this->db->select('userid');
             $allData    =   $this->db->get($tabelAdmin);
 
             return $allData->num_rows();
@@ -123,11 +123,11 @@
                 }
             }
             if(!is_null($idAdmin)){
-                $this->db->where('id', $idAdmin);
+                $this->db->where('userid', $idAdmin);
             }
 
             if($orderByOptions === false){
-                $this->db->order_by('id', 'desc');
+                $this->db->order_by('userid', 'desc');
             }
             $getAdmin    =    $this->db->get($tabelAdmin);
 
@@ -182,7 +182,7 @@
                 $idAdmin    =   $this->db->insert_id();
                 $isUpdate   =   false;
             }else{
-                $this->db->where('id', $idAdmin);
+                $this->db->where('userid', $idAdmin);
                 $saveAdmin  =   $this->db->update($tabelAdmin, $dataAdmin);
                 $isUpdate   =   true;
             }
@@ -224,7 +224,7 @@
                     $this->load->library('upload', $config);
                     if($this->upload->do_upload('img')){
                         
-                        $this->db->where('id', $idAdmin);
+                        $this->db->where('userid', $idAdmin);
                         $ubahGambarAdmin   =   $this->db->update($tabelAdmin, ['foto' => $fileName]);
 
                         $sourceImage    =   $uploadGambarAdmin.'/'.$fileName;
@@ -244,7 +244,7 @@
             $tabelAdmin     =   $this->tabel->admin;
 
             if(!is_null($idAdmin)){
-                $this->db->where('id', $idAdmin);
+                $this->db->where('userid', $idAdmin);
                 $deleteAdmin  =   $this->db->delete($tabelAdmin);
 
                 $statusDelete   =   ($deleteAdmin)? true : false;
@@ -257,7 +257,7 @@
 
             if(!is_null($entity)){
                 if(is_array($entity)){
-                    $this->db->where('id !=', $idAdmin);
+                    $this->db->where('userid !=', $idAdmin);
                     $this->db->where($entity);
                     $get    =   $this->db->get($tabelAdmin);
 

@@ -5,8 +5,8 @@
 
     $titleParams    =   [
         'id'    =>  'nama',
-        'name'  =>  'nama',
-        'placeholder'   =>  'Tempe Harga Rakyat Rasa Bintang 5'
+        'name'  =>  'firstName',
+        'placeholder'   =>  'Nama administrator'
     ];
 
     $teleponParams    =   [

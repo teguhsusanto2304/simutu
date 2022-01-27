@@ -110,13 +110,13 @@
                 }
 
                 return  `<div class='row'>
-                            <img src='${_baseURL}/${_uploadGambarAdmin}/compress/${data.foto}' alt='${data.title}'
+                            <img src='${_baseURL}/${_uploadGambarAdmin}/compress/${data.foto}' alt='${data.firstName}'
                                 class='img-circle w-50-50' />
                             <div class='col'>
                                 <h6 class='text-primary text-bold mb-0'>
-                                    ${data.nama}
+                                    ${data.firstName} ${data.lastName}
                                 </h6>
-                                <span class='text-muted' style='font-size:.80rem;'>Username <b>${data.username}</b></span>
+                                <span class='text-muted' style='font-size:.80rem;'>NIP <b>${data.nip}</b></span>
                                 ${_isActiveHTML}
                                 <p class='text-sm text-muted mb-0 mt-1'>${data.alamat}</span>
                             </div>
@@ -186,8 +186,8 @@
                 return _updaterHTML;
             }},
             {data : null, render : function(data, type, row, metaData){
-                let _idAdministrator        =   data.id;
-                let _namaAdministratorUC    =   data.nama.toUpperCase();
+                let _idAdministrator        =   data.userid;
+                let _namaAdministratorUC    =   data.nama;
 
                 let _isActive   =   data.isActive;
                 _isActive       =   (_isActive == 1);
