@@ -11,6 +11,41 @@ MySQL - 10.4.11-MariaDB : Database - simutu
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `user` */
+
+CREATE TABLE `user` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `nip` varchar(16) DEFAULT NULL,
+  `nidn` varchar(30) NOT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) NOT NULL,
+  `frontTitle` varchar(20) NOT NULL,
+  `endTitle` varchar(20) NOT NULL,
+  `gender` tinyint(1) NOT NULL,
+  `tanggalLahir` date NOT NULL,
+  `pascasarjana` varchar(40) NOT NULL,
+  `jabatan` varchar(30) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `token` text NOT NULL,
+  `imageProfile` varchar(100) NOT NULL DEFAULT 'user-default.png',
+  `role` int(11) NOT NULL,
+  `idprogramstudi` int(11) NOT NULL,
+  `createdDate` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `alamat` varchar(100) DEFAULT NULL,
+  `telepon` varchar(20) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `updatedBy` int(11) DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
+  PRIMARY KEY (`userid`),
+  UNIQUE KEY `nip` (`nip`),
+  KEY `idprogramstudi` (`idprogramstudi`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+
 /*Data for the table `user` */
 
 insert  into `user`(`userid`,`nip`,`nidn`,`firstName`,`lastName`,`frontTitle`,`endTitle`,`gender`,`tanggalLahir`,`pascasarjana`,`jabatan`,`email`,`password`,`token`,`imageProfile`,`role`,`idprogramstudi`,`createdDate`,`status`,`alamat`,`telepon`,`username`,`createdAt`,`createdBy`,`updatedBy`,`updatedAt`,`isActive`) values (1,'343434343','7878','Super','User','Mr','Sp.PD',1,'2011-11-10','Sastra','d','simutu@hexcod.com','e10adc3949ba59abbe56e057f20f883e','','e41bd346fbbdd0c25f1e71e1275b9557.jpg',1,10051,'2021-11-12 02:09:09',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);

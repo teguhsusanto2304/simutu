@@ -143,8 +143,7 @@ class Laporan extends CI_Controller {
 
             $draw       =   $this->input->get('draw');
 
-            //$select     =   'sS.kodeStandar,sS.namaStandar,p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName, iD.namaIndikatorDokumen, pStudy.namaProgramStudi, pStudy.programStudiCode';
-            $select     =   'pT.penetapanId,sS.kodeStandar,sS.namaStandar,p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName,  pStudy.namaProgramStudi, pStudy.programStudiCode';
+            $select     =   'pT.penetapanId,p.namaPeriode, p.tahunPeriode, concat_ws(" ", u.firstName, u.lastName) as auditorName,  pStudy.namaProgramStudi, pStudy.programStudiCode';
             $selectQS   =   $this->input->get('select');
             if(!is_null($selectQS) && !empty($selectQS)){
                 $select     =   trim($selectQS);
@@ -189,7 +188,6 @@ class Laporan extends CI_Controller {
                 //['table' => 'penetapandetailspmi pD', 'condition' => 'pD.penetapanId=pT.penetapanid'],
                 //['table' => 'indikatordokumen iD', 'condition' => 'iD.indikatorDokumenId=pD.indikatorDokumen'],
                 ['table' => 'programstudi pStudy', 'condition' => 'pStudy.idprogramstudi=pT.idprogramstudi'],
-                ['table' => 'standarspmi sS', 'condition' => 'sS.standarId=pT.standartspmiid']
             ];
 
             $listProdi    =   $this->penetapan->getPenetapan(null, $options);

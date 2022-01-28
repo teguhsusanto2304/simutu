@@ -187,7 +187,7 @@ class Admin extends CI_Controller {
             
             if(!is_null($idAdministrator)){      
                 $detailAdminUser    =   $this->admin->getAdmin($idAdministrator);
-                $pageTitle          =   'Edit Data Administrator | '.strtoupper($detailAdmin['nama']);
+                $pageTitle          =   'Edit Data Administrator | '.strtoupper($detailAdmin['firstName']);
             }
 
             $dataPage   =   [

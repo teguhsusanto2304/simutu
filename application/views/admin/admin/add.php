@@ -3,10 +3,36 @@
 
     $dAS    =   ($detailAdminUser !== false);
 
-    $titleParams    =   [
-        'id'    =>  'nama',
+    $firstNameParams    =   [
+        'id'    =>  'firstName',
         'name'  =>  'firstName',
-        'placeholder'   =>  'Nama administrator'
+        'placeholder'   =>  'Nama depan'
+    ];
+    $lastNameParams    =   [
+        'id'    =>  'lastNama',
+        'name'  =>  'lastName',
+        'placeholder'   =>  'Nama belakang'
+    ];
+    $frontTitleParams    =   [
+        'id'    =>  'frontTitle',
+        'name'  =>  'frontTitle',
+        'placeholder'   =>  'gelar depan'
+    ];
+    $endTitleParams    =   [
+        'id'    =>  'endTitle',
+        'name'  =>  'endTitle',
+        'placeholder'   =>  'gelar belakang'
+    ];
+
+    $genderParams    =   [
+        'id'    =>  'gender',
+        'name'  =>  'gender',
+        'placeholder'   =>  'gender'
+    ];
+    $tanggalLahirParams    =   [
+        'id'    =>  'tanggalLahir',
+        'name'  =>  'tanggalLahir',
+        'placeholder'   =>  'tanggal Lahir'
     ];
 
     $teleponParams    =   [
@@ -44,7 +70,8 @@
 
 
     if($detailAdminUser !== false){
-        $titleParams['value']   =   $detailAdminUser['nama'];
+        $firstNameParams['value']   =   $detailAdminUser['firstName'];
+        $lastNameParams['value']   =   $detailAdminUser['lastName'];
         $teleponParams['value'] =   $detailAdminUser['telepon'];
         $emailParams['value']   =   $detailAdminUser['email'];
         $usernameParams['value']      =   $detailAdminUser['username'];
@@ -118,7 +145,7 @@
                                             <div class="row">
                                                 <div class="col-lg-4 text-center">
                                                     <label for='adminImage'>
-                                                        <img src="<?=base_url(($detailAdminUser !== false)? $path->uploadGambarAdmin.'/'.$detailAdminUser['foto'] : 'assets/img/upload-icon.png')?>" alt="Gambar Admin" 
+                                                        <img src="<?=base_url(($detailAdminUser !== false)? $path->uploadGambarAdmin.'/'.$detailAdminUser['imageProfile'] : 'assets/img/upload-icon.png')?>" alt="Gambar Admin" 
                                                             class='w-100 cp <?=($detailAdminUser !== false)? 'img-thumbnail' : ''?> ' data-toggle='tooltip'
                                                             data-placement='left' title='Klik Gambar untuk Memilih Gambar' id='imgPreview' />
                                                         <input type="file" id='adminImage' onChange='imgChanged(this)'
@@ -127,8 +154,38 @@
                                                     <span class="badge badge-warning">Ukuran yang disarankan 1920px x 1080px</span>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <div class="form-group">
-                                                        <?=$cF->textField($titleParams, 'Nama Administrator')?>
+                                                    
+                                                    <div class="row">
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($firstNameParams, 'Nama Depan')?>
+                                                        </div>
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($lastNameParams, 'Nama Belakang')?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($frontTitleParams, 'gelar Depan')?>
+                                                        </div>
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($endTitleParams, 'gelar Belakang')?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($genderParams, 'Gender')?>
+                                                        </div>
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($tanggalLahirParams, 'Tanggal Lahir')?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($frontTitleParams, 'gelar Depan')?>
+                                                        </div>
+                                                        <div class='col-lg-6 form-group'>
+                                                        <?=$cF->textField($endTitleParams, 'gelar Belakang')?>
+                                                        </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class='col-lg-6 form-group'>

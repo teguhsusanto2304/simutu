@@ -202,7 +202,7 @@
                 }
 
                 return `<div class='text-center'>
-                            <a href='${_siteURL}${_adminControllers}/admin/edit/${_idAdministrator}'>
+                            <a href='${_siteURL}${_adminControllers}/admin/add/${_idAdministrator}'>
                                 <span class='fa fa-edit text-warning cp mr-2' data-toggle='tooltip' data-placement='top'
                                     title='Edit Data Administrator ${_namaAdministratorUC}'></span>
                             </a>

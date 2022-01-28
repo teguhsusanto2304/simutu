@@ -35,6 +35,9 @@
                                             <div class="col-lg-4">
                                                 <h5><?=$pageTitle?></h5>
                                             </div>
+                                            <div class="col-lg-8 text-right">
+                                                <a href="<?=site_url(adminControllers('laporan/formCetak/prodi'))?>">Cetak PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
